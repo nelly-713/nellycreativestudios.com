@@ -1,0 +1,8 @@
+{
+  "name": "nelly-creative-studios",
+  "version": "1.0.0",
+  "description": "Nelly Creative Studios fine jewelry website",
+  "dependencies": {
+    "stripe": "^14.0.0"
+  }
+}
