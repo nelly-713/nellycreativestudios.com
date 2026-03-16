@@ -70,7 +70,9 @@
         </div>
       </div>
       <div>
-        <form action="mailto:nelly@jewelrybynelly.com" method="post" enctype="text/plain">
+        <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="contact-form">
+          <input type="hidden" name="form-name" value="contact">
+          <input type="hidden" name="bot-field" style="display:none">
           <div class="form-row">
             <div class="form-group"><label>First Name</label><input type="text" placeholder="Your first name" required></div>
             <div class="form-group"><label>Last Name</label><input type="text" placeholder="Your last name" required></div>
@@ -87,7 +89,8 @@
             </select>
           </div>
           <div class="form-group"><label>Message</label><textarea placeholder="Tell us about what you have in mind…" required></textarea></div>
-          <button type="submit" class="cta cta--dark" style="width:100%;margin-top:0.5rem">Send Message</button>
+          <button type="submit" class="cta cta--dark" style="width:100%;margin-top:0.5rem" id="contact-submit">Send Message</button>
+        <div id="contact-success" style="display:none;text-align:center;padding:1.5rem 0;font-size:0.8rem;letter-spacing:0.1em;color:var(--gold)">Thank you — Nelly will be in touch shortly.</div>
         </form>
       </div>
     </div>
@@ -153,5 +156,46 @@
     --borderRadius-lg: 0;
   }
 </style>
+<script>
+// Handle contact form submission
+var contactForm = document.getElementById('contact-form');
+if (contactForm) {
+  contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var btn = document.getElementById('contact-submit');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(new FormData(contactForm)).toString()
+    }).then(function() {
+      contactForm.style.display = 'none';
+      document.getElementById('contact-success').style.display = 'block';
+    }).catch(function() {
+      btn.disabled = false;
+      btn.textContent = 'Send Message';
+      alert('Something went wrong. Please email nelly@jewelrybynelly.com directly.');
+    });
+  });
+}
+
+// Handle newsletter form
+var newsletterForm = document.getElementById('newsletter-form');
+if (newsletterForm) {
+  newsletterForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(new FormData(newsletterForm)).toString()
+    }).then(function() {
+      newsletterForm.style.display = 'none';
+      document.getElementById('newsletter-success').style.display = 'block';
+    });
+  });
+}
+</script>
 </body>
 </html>

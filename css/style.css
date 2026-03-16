@@ -399,9 +399,13 @@ button,input,textarea,select{font-family:'Jost',sans-serif}
 }
 .product-img img{
   width:100%;height:100%;object-fit:contain;
-  padding:1rem;
+  padding:0.75rem;
   filter:grayscale(12%);
   transition:transform 0.75s cubic-bezier(.16,1,.3,1),filter 0.4s;
+}
+@media(max-width:700px){
+  .product-img{aspect-ratio:1/1}
+  .product-img img{padding:0.5rem}
 }
 .product-card:hover .product-img img{transform:scale(1.07);filter:grayscale(0%)}
 .product-tag{

@@ -253,8 +253,9 @@
   </div>
   <h2 class="headline h2" style="color:var(--gold);margin:0.8rem 0 0.6rem">Receive <em>Special Updates</em></h2>
   <p class="newsletter-note">New collections, private events, and stories from the studio.</p>
-  <form class="newsletter-form" onsubmit="return false">
-    <input type="email" placeholder="Your email address">
+  <form class="newsletter-form" name="newsletter" method="POST" data-netlify="true">
+    <input type="hidden" name="form-name" value="newsletter">
+    <input type="email" name="email" placeholder="Your email address" required>
     <button type="submit">Subscribe</button>
   </form>
 </div>

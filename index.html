@@ -385,10 +385,12 @@
   </div>
   <h2 class="headline h2" style="color:var(--gold);margin:0.8rem 0 0.6rem">Receive <em>Special Updates</em></h2>
   <p class="newsletter-note">New collections, private events, and stories from the studio.</p>
-  <form class="newsletter-form" onsubmit="return false">
-    <input type="email" placeholder="Your email address">
+  <form class="newsletter-form" name="newsletter" method="POST" data-netlify="true" id="newsletter-form">
+    <input type="hidden" name="form-name" value="newsletter">
+    <input type="email" name="email" placeholder="Your email address" required>
     <button type="submit">Subscribe</button>
   </form>
+  <div id="newsletter-success" style="display:none;font-size:0.75rem;letter-spacing:0.15em;color:var(--gold);margin-top:1rem">Thank you for subscribing.</div>
 </div>
 
 <!-- FOOTER -->
@@ -494,6 +496,22 @@
   slides[0].classList.add('active');
   resetTimer();
 })();
+</script>
+<script>
+var nf = document.getElementById('newsletter-form');
+if (nf) {
+  nf.addEventListener('submit', function(e) {
+    e.preventDefault();
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(new FormData(nf)).toString()
+    }).then(function() {
+      nf.style.display = 'none';
+      document.getElementById('newsletter-success').style.display = 'block';
+    });
+  });
+}
 </script>
 </body>
 </html>
