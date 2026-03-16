@@ -135,31 +135,18 @@
 
 // ── STRIPE CHECKOUT ──
 async function stripeCheckout(btn) {
-  var productId  = btn.getAttribute('data-item-id');
+  var productId   = btn.getAttribute('data-item-id');
   var productName = btn.getAttribute('data-item-name');
-  var price      = parseFloat(btn.getAttribute('data-item-price'));
-  var image      = btn.getAttribute('data-item-image');
+  var price       = btn.getAttribute('data-item-price');
+  var image       = btn.getAttribute('data-item-image') || '';
 
-  btn.disabled = true;
-  btn.textContent = 'Loading…';
+  // Redirect to custom checkout page with product details as URL params
+  var params = new URLSearchParams({
+    id: productId,
+    name: productName,
+    price: price,
+    img: encodeURIComponent(image)
+  });
 
-  try {
-    var res = await fetch('/.netlify/functions/create-checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ productId, productName, price, image })
-    });
-    var data = await res.json();
-    if (data.url) {
-      window.location.href = data.url;
-    } else {
-      alert('Something went wrong. Please try again or email nelly@jewelrybynelly.com');
-      btn.disabled = false;
-      btn.textContent = 'Buy Now';
-    }
-  } catch(e) {
-    alert('Something went wrong. Please try again or email nelly@jewelrybynelly.com');
-    btn.disabled = false;
-    btn.textContent = 'Buy Now';
-  }
+  window.location.href = '/pages/checkout.html?' + params.toString();
 }

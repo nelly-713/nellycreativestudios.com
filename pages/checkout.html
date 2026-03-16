@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — Nelly Creative Studios</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0A0A0A;
+      --ink: #141414;
+      --white: #FFFFFF;
+      --fog: #E8E8E8;
+      --gold: #B8962E;
+      --gold-l: #D4AF5A;
+      --gold-d: #8A6E1C;
+      --navy: #1B2A4A;
+      --ash: #555555;
+    }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    .checkout-nav {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3rem;
+      border-bottom: 1px solid var(--fog);
+    }
+    .checkout-nav-logo {
+      font-family: 'Bodoni Moda', serif;
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--black);
+      text-decoration: none;
+    }
+    .checkout-nav-back {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ash);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s;
+    }
+    .checkout-nav-back:hover { color: var(--gold); }
+    .checkout-nav-secure {
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ash);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* ── LAYOUT ── */
+    .checkout-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 64px);
+    }
+
+    /* ── LEFT: ORDER SUMMARY ── */
+    .checkout-summary {
+      background: var(--ink);
+      padding: 4rem 3.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .summary-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2.5rem;
+    }
+    .summary-product {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 2rem;
+    }
+    .summary-img {
+      width: 80px;
+      height: 80px;
+      background: rgba(255,255,255,0.05);
+      flex-shrink: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .summary-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 0.5rem;
+    }
+    .summary-product-name {
+      font-family: 'Bodoni Moda', serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.4;
+      margin-bottom: 0.4rem;
+    }
+    .summary-product-note {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.06em;
+      line-height: 1.6;
+    }
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+    .summary-line-label {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.06em;
+    }
+    .summary-line-value {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.7);
+    }
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .summary-total-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+    .summary-total-value {
+      font-family: 'Bodoni Moda', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: var(--gold-l);
+    }
+    .summary-promise {
+      margin-top: auto;
+      padding-top: 3rem;
+    }
+    .summary-promise p {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.25);
+      line-height: 1.8;
+      letter-spacing: 0.04em;
+    }
+    .summary-promise strong {
+      color: rgba(255,255,255,0.45);
+      font-weight: 400;
+    }
+
+    /* ── RIGHT: FORM ── */
+    .checkout-form-wrap {
+      padding: 4rem 3.5rem;
+      overflow-y: auto;
+    }
+    .form-section-title {
+      font-size: 0.62rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--navy);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .form-section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--fog);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .form-row.single { grid-template-columns: 1fr; }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ash);
+    }
+    .form-group input,
+    .form-group select {
+      height: 48px;
+      border: 1px solid var(--fog);
+      background: var(--white);
+      padding: 0 1rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.9rem;
+      color: var(--black);
+      outline: none;
+      transition: border-color 0.2s;
+      border-radius: 0;
+      -webkit-appearance: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--gold);
+    }
+    .stripe-element-wrap {
+      border: 1px solid var(--fog);
+      padding: 14px 1rem;
+      transition: border-color 0.2s;
+      min-height: 48px;
+    }
+    .stripe-element-wrap.focused { border-color: var(--gold); }
+
+    /* Payment method tabs */
+    .payment-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--fog);
+    }
+    .payment-tab {
+      flex: 1;
+      padding: 0.7rem;
+      border: none;
+      background: transparent;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ash);
+      cursor: pointer;
+      border-right: 1px solid var(--fog);
+      transition: background 0.2s, color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+    .payment-tab:last-child { border-right: none; }
+    .payment-tab.active {
+      background: var(--black);
+      color: var(--white);
+    }
+    .payment-tab svg { width: 16px; height: 16px; }
+
+    #express-checkout { margin-bottom: 1.5rem; }
+    #express-checkout-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    #express-checkout-divider span {
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ash);
+      white-space: nowrap;
+    }
+    #express-checkout-divider::before,
+    #express-checkout-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--fog);
+    }
+
+    .submit-btn {
+      width: 100%;
+      height: 56px;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+    .submit-btn:hover { background: var(--gold-d); }
+    .submit-btn:disabled { background: var(--ash); cursor: not-allowed; }
+
+    .form-note {
+      font-size: 0.68rem;
+      color: var(--ash);
+      line-height: 1.7;
+      margin-top: 1rem;
+      text-align: center;
+      letter-spacing: 0.04em;
+    }
+
+    #payment-message {
+      color: #df1b41;
+      font-size: 0.8rem;
+      margin-top: 1rem;
+      text-align: center;
+      min-height: 1.2rem;
+    }
+
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(255,255,255,0.9);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .loading-overlay.active { display: flex; }
+    .loading-spinner {
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--fog);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--ash);
+    }
+
+    @media (max-width: 768px) {
+      .checkout-layout { grid-template-columns: 1fr; }
+      .checkout-summary { padding: 2rem 1.5rem; }
+      .checkout-form-wrap { padding: 2rem 1.5rem; }
+      .checkout-nav { padding: 0 1.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .summary-promise { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="checkout-nav">
+  <a href="../index.html" class="checkout-nav-logo">Nelly Creative Studios</a>
+  <a href="boutique.html" class="checkout-nav-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Boutique
+  </a>
+  <div class="checkout-nav-secure">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+    Secure Checkout
+  </div>
+</nav>
+
+<!-- LAYOUT -->
+<div class="checkout-layout">
+
+  <!-- LEFT: ORDER SUMMARY -->
+  <div class="checkout-summary">
+    <div class="summary-label">Your Order</div>
+
+    <div class="summary-product">
+      <div class="summary-img">
+        <img id="summary-img" src="" alt="">
+      </div>
+      <div>
+        <div class="summary-product-name" id="summary-name">Loading...</div>
+        <div class="summary-product-note">Handcrafted in New York City<br>Allow 2–4 weeks for delivery</div>
+      </div>
+    </div>
+
+    <div class="summary-line">
+      <span class="summary-line-label">Subtotal</span>
+      <span class="summary-line-value" id="summary-subtotal">—</span>
+    </div>
+    <div class="summary-line">
+      <span class="summary-line-label">Shipping</span>
+      <span class="summary-line-value">Calculated at next step</span>
+    </div>
+    <div class="summary-line">
+      <span class="summary-line-label">Tax</span>
+      <span class="summary-line-value">Calculated at next step</span>
+    </div>
+
+    <div class="summary-total">
+      <span class="summary-total-label">Total</span>
+      <span class="summary-total-value" id="summary-total">—</span>
+    </div>
+
+    <div class="summary-promise">
+      <p><strong>Our promise to you.</strong> Every piece is made by hand in New York City using the finest ethically sourced materials. If you're not completely satisfied, we'll make it right.</p>
+    </div>
+  </div>
+
+  <!-- RIGHT: FORM -->
+  <div class="checkout-form-wrap">
+    <form id="checkout-form">
+
+      <!-- Contact -->
+      <div class="form-section-title">Contact</div>
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="first-name">First name</label>
+          <input type="text" id="first-name" name="first-name" required>
+        </div>
+        <div class="form-group">
+          <label for="last-name">Last name</label>
+          <input type="text" id="last-name" name="last-name" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone number</label>
+        <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000">
+      </div>
+
+      <!-- Shipping -->
+      <div class="form-section-title" style="margin-top:2rem">Shipping Address</div>
+      <div class="form-group">
+        <label for="address">Address</label>
+        <input type="text" id="address" name="address" required>
+      </div>
+      <div class="form-group">
+        <label for="address2">Apartment, suite, etc. (optional)</label>
+        <input type="text" id="address2" name="address2">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="city">City</label>
+          <input type="text" id="city" name="city" required>
+        </div>
+        <div class="form-group">
+          <label for="state">State / Province</label>
+          <input type="text" id="state" name="state" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="zip">ZIP / Postal code</label>
+          <input type="text" id="zip" name="zip" required>
+        </div>
+        <div class="form-group">
+          <label for="country">Country</label>
+          <select id="country" name="country" required>
+            <option value="US">United States</option>
+            <option value="CA">Canada</option>
+            <option value="GB">United Kingdom</option>
+            <option value="AU">Australia</option>
+            <option value="FR">France</option>
+            <option value="DE">Germany</option>
+            <option value="IT">Italy</option>
+            <option value="ES">Spain</option>
+            <option value="NL">Netherlands</option>
+            <option value="CH">Switzerland</option>
+            <option value="SE">Sweden</option>
+            <option value="JP">Japan</option>
+            <option value="SG">Singapore</option>
+            <option value="HK">Hong Kong</option>
+            <option value="AE">UAE</option>
+            <option value="MX">Mexico</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Payment -->
+      <div class="form-section-title" style="margin-top:2rem">Payment</div>
+
+      <!-- Express checkout (Apple Pay / Google Pay) -->
+      <div id="express-checkout"></div>
+      <div id="express-checkout-divider"><span>Or pay with card</span></div>
+
+      <!-- Card element -->
+      <div class="form-group">
+        <label>Card details</label>
+        <div class="stripe-element-wrap" id="card-element"></div>
+      </div>
+
+      <div id="payment-message"></div>
+
+      <button type="submit" class="submit-btn" id="submit-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Complete Order
+      </button>
+
+      <p class="form-note">
+        Your payment is encrypted and secured by Stripe.<br>
+        By completing your order you agree to our <a href="#" style="color:var(--navy);border-bottom:1px solid rgba(27,42,74,0.3)">terms of service</a>.
+      </p>
+
+    </form>
+  </div>
+</div>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Processing your order</div>
+</div>
+
+<script>
+(async function() {
+  // Get product details from URL params
+  const params = new URLSearchParams(window.location.search);
+  const productId   = params.get('id') || '';
+  const productName = params.get('name') || 'Fine Jewelry';
+  const price       = params.get('price') || '0';
+  const image       = params.get('img') || '';
+
+  // Populate order summary
+  document.getElementById('summary-name').textContent = productName;
+  document.getElementById('summary-subtotal').textContent = '$' + parseFloat(price).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+  document.getElementById('summary-total').textContent = '$' + parseFloat(price).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+  if (image) {
+    document.getElementById('summary-img').src = decodeURIComponent(image);
+    document.getElementById('summary-img').alt = productName;
+  }
+
+  // Create payment intent
+  let stripe, elements, cardElement;
+  try {
+    const res = await fetch('/.netlify/functions/create-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ productId, productName, price })
+    });
+    const data = await res.json();
+    if (!data.clientSecret) throw new Error('No client secret');
+
+    stripe = Stripe(data.publishableKey);
+
+    elements = stripe.elements({
+      clientSecret: data.clientSecret,
+      appearance: {
+        theme: 'flat',
+        variables: {
+          colorPrimary: '#B8962E',
+          colorBackground: '#FFFFFF',
+          colorText: '#0A0A0A',
+          colorDanger: '#df1b41',
+          fontFamily: 'Jost, sans-serif',
+          borderRadius: '0px',
+          fontSizeBase: '14px',
+        },
+        rules: {
+          '.Input': { border: '1px solid #E8E8E8', padding: '12px 16px' },
+          '.Input:focus': { border: '1px solid #B8962E', boxShadow: 'none' },
+          '.Label': { fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#555555' },
+        }
+      }
+    });
+
+    // Card element
+    cardElement = elements.create('card', {
+      style: {
+        base: {
+          fontFamily: 'Jost, sans-serif',
+          fontSize: '14px',
+          color: '#0A0A0A',
+          '::placeholder': { color: '#AAAAAA' }
+        }
+      }
+    });
+    cardElement.mount('#card-element');
+    cardElement.on('focus', () => document.getElementById('card-element').classList.add('focused'));
+    cardElement.on('blur', () => document.getElementById('card-element').classList.remove('focused'));
+
+    // Express checkout (Apple Pay / Google Pay)
+    try {
+      const expressElements = stripe.elements({ mode: 'payment', amount: Math.round(parseFloat(price)*100), currency: 'usd' });
+      const expressCheckout = expressElements.create('expressCheckout', {
+        buttonType: { applePay: 'buy', googlePay: 'buy' }
+      });
+      expressCheckout.mount('#express-checkout');
+      expressCheckout.on('confirm', async (event) => {
+        await stripe.confirmPayment({
+          elements: expressElements,
+          clientSecret: data.clientSecret,
+          confirmParams: { return_url: window.location.origin + '/pages/checkout-success.html' }
+        });
+      });
+    } catch(e) {
+      document.getElementById('express-checkout').style.display = 'none';
+      document.getElementById('express-checkout-divider').style.display = 'none';
+    }
+
+  } catch(err) {
+    document.getElementById('payment-message').textContent = 'Unable to load checkout. Please try again or contact nelly@jewelrybynelly.com';
+    document.getElementById('submit-btn').disabled = true;
+    return;
+  }
+
+  // Form submission
+  document.getElementById('checkout-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    const overlay = document.getElementById('loading-overlay');
+    const msg = document.getElementById('payment-message');
+
+    btn.disabled = true;
+    overlay.classList.add('active');
+    msg.textContent = '';
+
+    const email = document.getElementById('email').value;
+    const firstName = document.getElementById('first-name').value;
+    const lastName = document.getElementById('last-name').value;
+
+    const { error } = await stripe.confirmCardPayment(
+      elements._commonOptions.clientSecret,
+      {
+        payment_method: {
+          card: cardElement,
+          billing_details: {
+            name: firstName + ' ' + lastName,
+            email: email,
+            address: {
+              line1: document.getElementById('address').value,
+              line2: document.getElementById('address2').value,
+              city: document.getElementById('city').value,
+              state: document.getElementById('state').value,
+              postal_code: document.getElementById('zip').value,
+              country: document.getElementById('country').value,
+            }
+          }
+        },
+        receipt_email: email,
+        shipping: {
+          name: firstName + ' ' + lastName,
+          phone: document.getElementById('phone').value,
+          address: {
+            line1: document.getElementById('address').value,
+            line2: document.getElementById('address2').value,
+            city: document.getElementById('city').value,
+            state: document.getElementById('state').value,
+            postal_code: document.getElementById('zip').value,
+            country: document.getElementById('country').value,
+          }
+        }
+      }
+    );
+
+    overlay.classList.remove('active');
+
+    if (error) {
+      msg.textContent = error.message;
+      btn.disabled = false;
+    } else {
+      window.location.href = '/pages/checkout-success.html';
+    }
+  });
+})();
+</script>
+</body>
+</html>
