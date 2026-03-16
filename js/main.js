@@ -145,7 +145,7 @@ async function stripeCheckout(btn) {
     id: productId,
     name: productName,
     price: price,
-    img: encodeURIComponent(image)
+    img: image
   });
 
   window.location.href = '/pages/checkout.html?' + params.toString();

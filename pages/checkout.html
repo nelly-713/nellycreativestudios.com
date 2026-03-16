@@ -564,7 +564,8 @@
       body: JSON.stringify({ productId, productName, price })
     });
     const data = await res.json();
-    if (!data.clientSecret) throw new Error('No client secret');
+    console.log('Payment intent response:', data);
+    if (!data.clientSecret) throw new Error(data.error || 'No client secret returned');
 
     stripe = Stripe(data.publishableKey);
 
@@ -624,7 +625,8 @@
     }
 
   } catch(err) {
-    document.getElementById('payment-message').textContent = 'Unable to load checkout. Please try again or contact nelly@jewelrybynelly.com';
+    console.error('Checkout error:', err);
+    document.getElementById('payment-message').textContent = 'Error: ' + err.message + '. Please email nelly@jewelrybynelly.com';
     document.getElementById('submit-btn').disabled = true;
     return;
   }
