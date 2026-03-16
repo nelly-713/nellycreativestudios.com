@@ -976,9 +976,3 @@ button,input,textarea,select{font-family:'Jost',sans-serif}
   .slideshow__arrow{display:none}
 }
 
-
-/* ─── BOUTIQUE: always visible ─── */
-.product-card, .product-item {
-  opacity: 1 !important;
-  transform: none !important;
-}
