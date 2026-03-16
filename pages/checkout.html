@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="robots" content="noindex, nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkout — Nelly Creative Studios</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -244,7 +245,38 @@
     }
     .stripe-element-wrap.focused { border-color: var(--gold); }
 
-    /* Payment method tabs */
+    /* ── QUANTITY SELECTOR ── */
+    .qty-selector {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-top: 0.8rem;
+      border: 1px solid rgba(255,255,255,0.12);
+      width: fit-content;
+    }
+    .qty-btn {
+      width: 32px;
+      height: 32px;
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.5);
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s, background 0.2s;
+    }
+    .qty-btn:hover { color: var(--gold); background: rgba(184,150,46,0.1); }
+    .qty-value {
+      width: 36px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--white);
+      border-left: 1px solid rgba(255,255,255,0.12);
+      border-right: 1px solid rgba(255,255,255,0.12);
+      padding: 0.4rem 0;
+    }
     .payment-tabs {
       display: flex;
       gap: 0;
@@ -400,9 +432,14 @@
       <div class="summary-img">
         <img id="summary-img" src="" alt="">
       </div>
-      <div>
+      <div style="flex:1">
         <div class="summary-product-name" id="summary-name">Loading...</div>
         <div class="summary-product-note">Handcrafted in New York City<br>Allow 2–4 weeks for delivery</div>
+        <div class="qty-selector">
+          <button class="qty-btn" onclick="updateQty(-1)" type="button">−</button>
+          <div class="qty-value" id="qty-display">1</div>
+          <button class="qty-btn" onclick="updateQty(1)" type="button">+</button>
+        </div>
       </div>
     </div>
 
@@ -539,83 +576,147 @@
 
 <script>
 (async function() {
-  // Get product details from URL params
-  const params = new URLSearchParams(window.location.search);
-  const productId   = params.get('id') || '';
-  const productName = params.get('name') || 'Fine Jewelry';
-  const price       = params.get('price') || '0';
-  const image       = params.get('img') || '';
+  const params      = new URLSearchParams(window.location.search);
+  const cartParam   = params.get('cart');
+  const isCart      = !!cartParam;
 
-  // Populate order summary
-  document.getElementById('summary-name').textContent = productName;
-  document.getElementById('summary-subtotal').textContent = '$' + parseFloat(price).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
-  document.getElementById('summary-total').textContent = '$' + parseFloat(price).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
-  if (image) {
-    document.getElementById('summary-img').src = decodeURIComponent(image);
-    document.getElementById('summary-img').alt = productName;
+  // Cart mode vs single item mode
+  let cartItems = [];
+  let productId, productName, basePrice, image;
+
+  if (isCart) {
+    try {
+      cartItems = JSON.parse(cartParam);
+    } catch(e) { cartItems = []; }
+  } else {
+    productId   = params.get('id') || '';
+    productName = params.get('name') || 'Fine Jewelry';
+    basePrice   = parseFloat(params.get('price') || '0');
+    image       = params.get('img') || '';
+    cartItems   = [{ id: productId, name: productName, price: basePrice, image, qty: 1 }];
   }
 
-  // Create payment intent
-  let stripe, elements, cardElement;
-  try {
-    const res = await fetch('/.netlify/functions/create-payment-intent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ productId, productName, price })
-    });
-    const data = await res.json();
-    console.log('Payment intent response:', data);
-    if (!data.clientSecret) throw new Error(data.error || 'No client secret returned');
+  let qty = 1;
+  let clientSecret = '';
+  let stripeInstance, cardElement;
 
-    stripe = Stripe(data.publishableKey);
+  const fmt = (n) => '$' + n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
 
-    elements = stripe.elements({
-      clientSecret: data.clientSecret,
-      appearance: {
-        theme: 'flat',
-        variables: {
-          colorPrimary: '#B8962E',
-          colorBackground: '#FFFFFF',
-          colorText: '#0A0A0A',
-          colorDanger: '#df1b41',
-          fontFamily: 'Jost, sans-serif',
-          borderRadius: '0px',
-          fontSizeBase: '14px',
-        },
-        rules: {
-          '.Input': { border: '1px solid #E8E8E8', padding: '12px 16px' },
-          '.Input:focus': { border: '1px solid #B8962E', boxShadow: 'none' },
-          '.Label': { fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#555555' },
-        }
+  function cartTotal() {
+    if (isCart) return cartItems.reduce(function(s,i){ return s + i.price * i.qty; }, 0);
+    return (cartItems[0]?.price || 0) * qty;
+  }
+
+  function updateTotals() {
+    document.getElementById('summary-subtotal').textContent = fmt(cartTotal());
+    document.getElementById('summary-total').textContent = fmt(cartTotal());
+    if (!isCart) {
+      document.getElementById('qty-display').textContent = qty;
+    }
+  }
+
+  window.updateQty = async function(delta) {
+    if (isCart) return;
+    qty = Math.max(1, Math.min(10, qty + delta));
+    updateTotals();
+    await initPaymentIntent();
+  };
+
+  // Populate summary
+  if (isCart && cartItems.length > 0) {
+    // Multi-item: show first item image and item count in summary
+    document.getElementById('summary-name').textContent = cartItems.length + ' item' + (cartItems.length > 1 ? 's' : '');
+    document.getElementById('summary-img').src = cartItems[0].image || '';
+    document.getElementById('summary-img').alt = cartItems[0].name || '';
+    // Hide qty selector for cart mode
+    var qtySel = document.querySelector('.qty-selector');
+    if (qtySel) qtySel.style.display = 'none';
+    // Show item list in summary
+    var summaryProduct = document.querySelector('.summary-product');
+    if (summaryProduct && cartItems.length > 1) {
+      var itemList = cartItems.map(function(i) {
+        return '<div style="display:flex;justify-content:space-between;margin-bottom:0.4rem"><span style="font-size:0.75rem;color:rgba(255,255,255,0.5);max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + i.name + ' ×' + i.qty + '</span><span style="font-size:0.75rem;color:rgba(255,255,255,0.7)">' + fmt(i.price * i.qty) + '</span></div>';
+      }).join('');
+      summaryProduct.insertAdjacentHTML('afterend', '<div style="margin-bottom:1.5rem">' + itemList + '</div>');
+    }
+  } else {
+    document.getElementById('summary-name').textContent = cartItems[0]?.name || 'Fine Jewelry';
+    if (cartItems[0]?.image) {
+      document.getElementById('summary-img').src = cartItems[0].image;
+      document.getElementById('summary-img').alt = cartItems[0].name;
+    }
+  }
+  updateTotals();
+
+  async function initPaymentIntent() {
+    try {
+      const total = cartTotal().toFixed(2);
+      const name = isCart
+        ? cartItems.map(function(i){ return i.name + ' x' + i.qty; }).join(', ')
+        : (cartItems[0]?.name || 'Fine Jewelry');
+
+      const res = await fetch('/.netlify/functions/create-payment-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          productId: isCart ? 'cart' : (cartItems[0]?.id || ''),
+          productName: name,
+          price: total
+        })
+      });
+      const data = await res.json();
+      if (!data.clientSecret) throw new Error(data.error || 'No client secret');
+
+      clientSecret = data.clientSecret;
+
+      if (!stripeInstance) {
+        stripeInstance = Stripe(data.publishableKey || 'pk_live_ucH6dOk31p48GWrbuoXc5DPP00zEeuRwvD');
+        await mountCardElement();
+        await mountExpressCheckout(data);
       }
-    });
+    } catch(err) {
+      console.error('Payment init error:', err);
+      document.getElementById('payment-message').textContent = 'Error: ' + err.message + '. Please email nelly@jewelrybynelly.com';
+      document.getElementById('submit-btn').disabled = true;
+    }
+  }
 
-    // Card element
+  async function mountCardElement() {
+    const appearance = {
+      theme: 'flat',
+      variables: {
+        colorPrimary: '#B8962E', colorBackground: '#FFFFFF',
+        colorText: '#0A0A0A', colorDanger: '#df1b41',
+        fontFamily: 'Jost, sans-serif', borderRadius: '0px', fontSizeBase: '14px',
+      },
+      rules: {
+        '.Input': { border: '1px solid #E8E8E8', padding: '12px 16px' },
+        '.Input:focus': { border: '1px solid #B8962E', boxShadow: 'none' },
+        '.Label': { fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#555555' },
+      }
+    };
+
+    const elements = stripeInstance.elements({ clientSecret, appearance });
     cardElement = elements.create('card', {
-      style: {
-        base: {
-          fontFamily: 'Jost, sans-serif',
-          fontSize: '14px',
-          color: '#0A0A0A',
-          '::placeholder': { color: '#AAAAAA' }
-        }
-      }
+      style: { base: { fontFamily: 'Jost, sans-serif', fontSize: '14px', color: '#0A0A0A', '::placeholder': { color: '#AAAAAA' } } }
     });
     cardElement.mount('#card-element');
     cardElement.on('focus', () => document.getElementById('card-element').classList.add('focused'));
     cardElement.on('blur', () => document.getElementById('card-element').classList.remove('focused'));
+  }
 
-    // Express checkout (Apple Pay / Google Pay)
+  async function mountExpressCheckout(data) {
     try {
-      const expressElements = stripe.elements({ mode: 'payment', amount: Math.round(parseFloat(price)*100), currency: 'usd' });
+      const expressElements = stripeInstance.elements({
+        mode: 'payment', amount: Math.round(cartTotal() * 100), currency: 'usd'
+      });
       const expressCheckout = expressElements.create('expressCheckout', {
         buttonType: { applePay: 'buy', googlePay: 'buy' }
       });
       expressCheckout.mount('#express-checkout');
-      expressCheckout.on('confirm', async (event) => {
-        await stripe.confirmPayment({
-          elements: expressElements,
-          clientSecret: data.clientSecret,
+      expressCheckout.on('confirm', async () => {
+        await stripeInstance.confirmPayment({
+          elements: expressElements, clientSecret,
           confirmParams: { return_url: window.location.origin + '/pages/checkout-success.html' }
         });
       });
@@ -623,13 +724,10 @@
       document.getElementById('express-checkout').style.display = 'none';
       document.getElementById('express-checkout-divider').style.display = 'none';
     }
-
-  } catch(err) {
-    console.error('Checkout error:', err);
-    document.getElementById('payment-message').textContent = 'Error: ' + err.message + '. Please email nelly@jewelrybynelly.com';
-    document.getElementById('submit-btn').disabled = true;
-    return;
   }
+
+  // Initialize
+  await initPaymentIntent();
 
   // Form submission
   document.getElementById('checkout-form').addEventListener('submit', async (e) => {
@@ -645,40 +743,27 @@
     const email = document.getElementById('email').value;
     const firstName = document.getElementById('first-name').value;
     const lastName = document.getElementById('last-name').value;
+    const addr = {
+      line1: document.getElementById('address').value,
+      line2: document.getElementById('address2').value,
+      city: document.getElementById('city').value,
+      state: document.getElementById('state').value,
+      postal_code: document.getElementById('zip').value,
+      country: document.getElementById('country').value,
+    };
 
-    const { error } = await stripe.confirmCardPayment(
-      elements._commonOptions.clientSecret,
-      {
-        payment_method: {
-          card: cardElement,
-          billing_details: {
-            name: firstName + ' ' + lastName,
-            email: email,
-            address: {
-              line1: document.getElementById('address').value,
-              line2: document.getElementById('address2').value,
-              city: document.getElementById('city').value,
-              state: document.getElementById('state').value,
-              postal_code: document.getElementById('zip').value,
-              country: document.getElementById('country').value,
-            }
-          }
-        },
-        receipt_email: email,
-        shipping: {
-          name: firstName + ' ' + lastName,
-          phone: document.getElementById('phone').value,
-          address: {
-            line1: document.getElementById('address').value,
-            line2: document.getElementById('address2').value,
-            city: document.getElementById('city').value,
-            state: document.getElementById('state').value,
-            postal_code: document.getElementById('zip').value,
-            country: document.getElementById('country').value,
-          }
-        }
+    const { error } = await stripeInstance.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: cardElement,
+        billing_details: { name: firstName + ' ' + lastName, email, address: addr }
+      },
+      receipt_email: email,
+      shipping: {
+        name: firstName + ' ' + lastName,
+        phone: document.getElementById('phone').value,
+        address: addr
       }
-    );
+    });
 
     overlay.classList.remove('active');
 

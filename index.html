@@ -79,6 +79,35 @@
 }
 </script>
   <!-- Snipcart -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Nelly Creative Studios",
+    "url": "https://nellycreativestudios.com",
+    "logo": "https://nellycreativestudios.com/logo.png",
+    "description": "Fine jewelry designed and handcrafted in New York City by Nelly Mendoza-Mendoza. GIA Gemology Graduate, Tiffany & Co. alumna.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "New York",
+      "addressRegion": "NY",
+      "addressCountry": "US"
+    },
+    "sameAs": [
+      "https://www.instagram.com/nellycreativestudios",
+      "https://www.pinterest.com/nellycreativestudios"
+    ],
+    "founder": {
+      "@type": "Person",
+      "name": "Nelly Mendoza-Mendoza",
+      "jobTitle": "Fine Jewelry Designer",
+      "alumniOf": [
+        {"@type": "CollegeOrUniversity", "name": "Dartmouth College"},
+        {"@type": "EducationalOrganization", "name": "Gemological Institute of America"}
+      ]
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -265,7 +294,7 @@
           <div class="product-name">22k Gold and Ruby Water to Wine Cross Necklace</div>
           <div class="product-price">$3,270.00</div>
           <div class="product-actions">
-            <button class="product-btn buy" onclick="stripeCheckout(this)" data-item-id="22k-gold-ruby-water-to-wine-cross-necklace" data-item-name="22k Gold and Ruby Water to Wine Cross Necklace" data-item-price="3270.00" data-item-url="https://nellycreativestudios.com/boutique" data-item-image="https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/bf623664-0898-4f00-9648-a83f02269613/show+pieces.jpg" data-item-description="Handcrafted fine jewelry by Nelly Creative Studios, New York City">Buy Now</button>
+            <button class="product-btn buy" onclick="addToCart(this)" data-item-id="22k-gold-ruby-water-to-wine-cross-necklace" data-item-name="22k Gold and Ruby Water to Wine Cross Necklace" data-item-price="3270.00" data-item-url="https://nellycreativestudios.com/boutique" data-item-image="https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/bf623664-0898-4f00-9648-a83f02269613/show+pieces.jpg" data-item-description="Handcrafted fine jewelry by Nelly Creative Studios, New York City">Add to Cart</button>
           </div>
         </div>
         </a>
@@ -281,7 +310,7 @@
           <div class="product-name">Natural Brazilian Aquamarine &amp; Diamond Platinum Huggies</div>
           <div class="product-price">$1,745.00</div>
           <div class="product-actions">
-            <button class="product-btn buy" onclick="stripeCheckout(this)" data-item-id="natural-brazilian-aquamarine-diamond-platinum-huggies" data-item-name="Natural Brazilian Aquamarine & Diamond Platinum Huggies" data-item-price="1745.00" data-item-url="https://nellycreativestudios.com/boutique" data-item-image="https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/fe5a12a3-aab9-4a46-a572-dede819f57d5/IMG_4106-Edit.png" data-item-description="Handcrafted fine jewelry by Nelly Creative Studios, New York City">Buy Now</button>
+            <button class="product-btn buy" onclick="addToCart(this)" data-item-id="natural-brazilian-aquamarine-diamond-platinum-huggies" data-item-name="Natural Brazilian Aquamarine & Diamond Platinum Huggies" data-item-price="1745.00" data-item-url="https://nellycreativestudios.com/boutique" data-item-image="https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/fe5a12a3-aab9-4a46-a572-dede819f57d5/IMG_4106-Edit.png" data-item-description="Handcrafted fine jewelry by Nelly Creative Studios, New York City">Add to Cart</button>
           </div>
         </div>
         </a>
@@ -297,7 +326,7 @@
           <div class="product-name">Small Gold and Diamond Links Bracelet</div>
           <div class="product-price">$11,375.00</div>
           <div class="product-actions">
-            <button class="product-btn buy" onclick="stripeCheckout(this)" data-item-id="small-gold-diamond-links-bracelet" data-item-name="Small Gold and Diamond Links Bracelet" data-item-price="11375.00" data-item-url="https://nellycreativestudios.com/boutique" data-item-image="https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/3b0414a6-b9be-49fc-8799-442b11f1a8f1/WEBSITE+PRODUCT+IMAGES-3.jpg" data-item-description="Handcrafted fine jewelry by Nelly Creative Studios, New York City">Buy Now</button>
+            <button class="product-btn buy" onclick="addToCart(this)" data-item-id="small-gold-diamond-links-bracelet" data-item-name="Small Gold and Diamond Links Bracelet" data-item-price="11375.00" data-item-url="https://nellycreativestudios.com/boutique" data-item-image="https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/3b0414a6-b9be-49fc-8799-442b11f1a8f1/WEBSITE+PRODUCT+IMAGES-3.jpg" data-item-description="Handcrafted fine jewelry by Nelly Creative Studios, New York City">Add to Cart</button>
           </div>
         </div>
         </a>
@@ -390,7 +419,7 @@
     <input type="email" name="email" placeholder="Your email address" required>
     <button type="submit">Subscribe</button>
   </form>
-  <div id="newsletter-success" style="display:none;font-size:0.75rem;letter-spacing:0.15em;color:var(--gold);margin-top:1rem">Thank you for subscribing.</div>
+  <div id="newsletter-success" style="display:none;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-top:1rem;text-align:center">Thank you — you're on the list.</div>
 </div>
 
 <!-- FOOTER -->
@@ -513,5 +542,6 @@ if (nf) {
   });
 }
 </script>
+<script src="js/cart.js"></script>
 </body>
 </html>

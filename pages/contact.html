@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="description" content="Get in touch with Nelly Creative Studios for bespoke jewelry commissions, boutique enquiries, or general questions. Based in New York City.">
+  <title>Contact — Get in Touch | Nelly Creative Studios</title>
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -10,9 +12,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400;1,6..96,500;1,6..96,600;1,6..96,700&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <!-- Snipcart -->
+  <meta property="og:image" content="https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/1619453936776-8X2T1RLHWTERP8QDPIRH/EDITED+ENLARGED+SIDES+Nelly+Mendoza-Mendoza-22k+gold+bee+granulation+pendant.jpg">
+  <meta property="og:site_name" content="Nelly Creative Studios">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"ContactPage","name":"Contact Nelly Creative Studios","url":"https://nellycreativestudios.com/contact"}
+  </script>
 </head>
 <body>
-<nav class="nav nav--light">
+<nav class="nav nav--dark">
   <a href="../index.html" class="nav-logo"><img src="../logo.png" alt="Nelly Creative Studios" class="nav-logo-img default"><img src="../logo-white.png" alt="Nelly Creative Studios" class="nav-logo-img white"></a>
   <ul class="nav-list">
     <li><a href="../index.html">Home</a></li><li><a href="boutique.html">The Boutique</a></li>
@@ -90,7 +97,11 @@
           </div>
           <div class="form-group"><label>Message</label><textarea placeholder="Tell us about what you have in mind…" required></textarea></div>
           <button type="submit" class="cta cta--dark" style="width:100%;margin-top:0.5rem" id="contact-submit">Send Message</button>
-        <div id="contact-success" style="display:none;text-align:center;padding:1.5rem 0;font-size:0.8rem;letter-spacing:0.1em;color:var(--gold)">Thank you — Nelly will be in touch shortly.</div>
+        <div id="contact-success" style="display:none;text-align:center;padding:3rem 0">
+          <div style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:1.8rem;color:var(--gold);margin-bottom:1rem">Thank you</div>
+          <div style="font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--navy);margin-bottom:0.8rem">Message Received</div>
+          <p style="font-size:0.9rem;line-height:1.9;color:var(--navy);max-width:380px;margin:0 auto">We will review your message and be in contact with you shortly. We look forward to speaking with you.</p>
+        </div>
         </form>
       </div>
     </div>
@@ -197,5 +208,6 @@ if (newsletterForm) {
   });
 }
 </script>
+<script src="../js/cart.js"></script>
 </body>
 </html>
