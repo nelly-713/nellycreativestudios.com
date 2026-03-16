@@ -27,7 +27,7 @@ exports.handler = async (event) => {
       headers: CORS,
       body: JSON.stringify({
         clientSecret: paymentIntent.client_secret,
-        publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+        publishableKey: process.env.STRIPE_PUBLISHABLE_KEY || 'pk_live_ucH6dOk31p48GWrbuoXc5DPP00zEeuRwvD',
       }),
     };
   } catch (err) {
