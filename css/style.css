@@ -416,34 +416,30 @@ button,input,textarea,select{font-family:'Jost',sans-serif}
   background:var(--black);color:var(--white);padding:0.32rem 0.8rem;
 }
 .product-info{
-  padding:1.6rem 1.8rem 0;
+  padding:1.2rem 1.4rem 1.4rem;
   border-top:1px solid var(--fog);
-  flex:1;display:flex;flex-direction:column;
+  flex:1;display:flex;flex-direction:column;gap:0.3rem;
 }
 .product-name{
   font-family:'Bodoni Moda',serif;
-  font-size:1rem;font-weight:400;color:var(--gold);line-height:1.35;
-  margin-bottom:0.35rem;
+  font-size:0.95rem;font-weight:400;color:var(--gold);line-height:1.35;
+  margin-bottom:0.2rem;
 }
-.product-price{font-size:0.9rem;letter-spacing:0.1em;color:var(--silver)}
+.product-price{font-size:0.82rem;letter-spacing:0.08em;color:var(--navy)}
 .product-avail{
-  font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;
-  color:var(--black);border-left:2px solid var(--black);
-  padding-left:0.5rem;margin-top:0.5rem;
+  font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--ash);margin-top:0.2rem;
 }
 .product-actions{
-  display:flex;margin-top:auto;
-  border-top:1px solid var(--fog);
-  margin-left:-1.8rem;margin-right:-1.8rem;
+  margin-top:0.8rem;
 }
 .product-btn{
-  flex:1;padding:0.8rem;border:none;background:transparent;cursor:pointer;
-  font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;
-  color:var(--silver);transition:background 0.2s,color 0.2s;
+  padding:0.45rem 1.1rem;border:1px solid var(--fog);background:transparent;cursor:pointer;
+  font-size:0.58rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--navy);transition:all 0.2s;display:inline-block;
 }
-.product-btn.buy{background:var(--black);color:var(--white)}
-.product-btn.buy:hover{background:var(--ink)}
-.product-btn.inquire{border-left:1px solid var(--fog)}
+.product-btn.buy:hover{background:var(--black);color:var(--white);border-color:var(--black)}
+.product-btn.inquire{border-color:var(--fog)}
 .product-btn.inquire:hover{background:var(--cloud);color:var(--black)}
 
 /* ─── SPLIT ─── */
@@ -501,7 +497,7 @@ button,input,textarea,select{font-family:'Jost',sans-serif}
   font-size:0.9rem;letter-spacing:0.14em;text-transform:uppercase;
   color:var(--black);font-weight:400;margin-bottom:0.3rem;
 }
-.cred__sub{font-size:1rem;color:var(--silver)}
+.cred__sub{font-size:1rem;color:var(--ash)}
 
 /* ─── FAQ ─── */
 .faq-item{border-bottom:1px solid var(--fog)}
@@ -553,7 +549,7 @@ button,input,textarea,select{font-family:'Jost',sans-serif}
   display:block;font-family:'Bodoni Moda',serif;
   font-size:1rem;font-weight:400;color:var(--black);margin-bottom:0.3rem;
 }
-.gallery-caption span{font-size:0.9rem;color:var(--silver)}
+.gallery-caption span{font-size:0.9rem;color:var(--ash)}
 
 /* ─── NEWSLETTER ─── */
 .newsletter{
@@ -610,23 +606,22 @@ button,input,textarea,select{font-family:'Jost',sans-serif}
 }
 .filter-btn{
   flex-shrink:0;
-  font-size:0.7rem;letter-spacing:0.24em;text-transform:uppercase;
-  padding:1.05rem 2rem;background:transparent;border:none;
-  border-bottom:2px solid transparent;
-  color:var(--silver);cursor:pointer;transition:all 0.2s;
-  margin-bottom:-1px;white-space:nowrap;
+  font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;
+  padding:0.6rem 1rem;background:transparent;border:1px solid #F2A7B8;
+  color:var(--navy);cursor:pointer;transition:all 0.2s;
+  white-space:nowrap;
 }
-.filter-btn:hover{color:var(--black)}
-.filter-btn.active{color:var(--black);border-bottom-color:var(--black)}
+.filter-btn:hover{color:var(--gold);border-color:var(--gold)}
+.filter-btn.active{color:var(--white);background:var(--navy);border-color:var(--navy)}
 
 /* ─── CONTACT ─── */
 .contact-grid{display:grid;grid-template-columns:1fr 1.7fr;gap:7rem;align-items:start}
-.contact-detail{display:flex;gap:0.8rem;margin-bottom:1rem;font-size:1rem;color:var(--silver)}
+.contact-detail{display:flex;gap:0.8rem;margin-bottom:1rem;font-size:1rem;color:var(--navy)}
 .contact-detail strong{color:var(--black);font-weight:400;min-width:60px}
 .form-group{margin-bottom:1.5rem}
 .form-group label{
   display:block;font-size:0.7rem;letter-spacing:0.26em;text-transform:uppercase;
-  color:var(--silver);margin-bottom:0.6rem;
+  color:var(--ash);margin-bottom:0.6rem;
 }
 .form-group input,.form-group textarea,.form-group select{
   width:100%;border:none;border-bottom:1px solid var(--fog);
@@ -767,10 +762,6 @@ button,input,textarea,select{font-family:'Jost',sans-serif}
 
 /* Product avail stripe → gold */
 .product-avail { color: var(--gold); border-left-color: var(--gold); }
-
-/* Acquire button → gold */
-.product-btn.buy { background: var(--gold); color: var(--white); }
-.product-btn.buy:hover { background: var(--gold-d); }
 
 /* Discover arrow links → gold on hover */
 .discover:hover { color: var(--gold); border-color: var(--gold); }

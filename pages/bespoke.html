@@ -192,7 +192,64 @@
 
   <div class="bespoke-cta">
     <div class="bespoke-cta-text">Begin a conversation →</div>
-    <a href="contact.html" class="cta cta--dark">Enquire Now</a>
+    <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+      <a href="contact.html" class="cta cta--dark">Enquire Now</a>
+      <button onclick="document.getElementById('bespoke-hint-modal').style.display='flex'" style="background:var(--gold);border:1px solid var(--gold);cursor:pointer;padding:0.75rem 1.8rem;font-family:'Jost',sans-serif;font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--black);transition:all 0.2s;display:inline-flex;align-items:center;gap:0.5rem" onmouseover="this.style.background='var(--gold-d)';this.style.borderColor='var(--gold-d)'" onmouseout="this.style.background='var(--gold)';this.style.borderColor='var(--gold)'">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        Gift This Experience
+      </button>
+    </div>
+  </div>
+
+  <!-- BESPOKE HINT MODAL -->
+  <div id="bespoke-hint-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:2000;align-items:center;justify-content:center;padding:1rem">
+    <div style="background:var(--white);max-width:500px;width:100%;padding:2.5rem;position:relative;max-height:90vh;overflow-y:auto">
+      <button onclick="document.getElementById('bespoke-hint-modal').style.display='none'" style="position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--ash);font-size:1.4rem;line-height:1;padding:0.2rem 0.5rem">×</button>
+      <div style="font-size:0.62rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--navy);margin-bottom:0.4rem">Gift a Bespoke Commission</div>
+      <h3 style="font-family:'Bodoni Moda',serif;font-style:italic;font-weight:400;font-size:1.4rem;color:var(--gold);margin-bottom:0.5rem">Let someone know</h3>
+      <p style="font-size:0.78rem;color:var(--ash);margin-bottom:2rem;line-height:1.6">Share the idea of a bespoke Nelly Creative Studios commission — the most personal gift imaginable.</p>
+
+      <div style="margin-bottom:1.5rem">
+        <label style="font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash);display:block;margin-bottom:0.4rem">Your message (optional)</label>
+        <textarea id="bespoke-hint-note" placeholder="I'd love for us to commission a piece together..." style="width:100%;height:72px;border:1px solid var(--fog);padding:0.8rem 1rem;font-family:'Jost',sans-serif;font-size:0.85rem;color:var(--navy);outline:none;resize:none;box-sizing:border-box" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--fog)'"></textarea>
+      </div>
+
+      <div style="font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash);margin-bottom:1rem">Send via</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;margin-bottom:1.5rem">
+        <button onclick="bespokeHintWhatsApp()" style="border:1px solid var(--fog);background:transparent;cursor:pointer;padding:1rem 0.5rem;display:flex;flex-direction:column;align-items:center;gap:0.5rem;transition:all 0.2s" onmouseover="this.style.borderColor='#25D366';this.style.background='rgba(37,211,102,0.05)'" onmouseout="this.style.borderColor='var(--fog)';this.style.background='transparent'">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          <span style="font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--navy);font-family:'Jost',sans-serif">WhatsApp</span>
+        </button>
+        <button onclick="bespokeHintEmail()" style="border:1px solid var(--fog);background:transparent;cursor:pointer;padding:1rem 0.5rem;display:flex;flex-direction:column;align-items:center;gap:0.5rem;transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)';this.style.background='rgba(184,150,46,0.05)'" onmouseout="this.style.borderColor='var(--fog)';this.style.background='transparent'">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B8962E" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span style="font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--navy);font-family:'Jost',sans-serif">Email</span>
+        </button>
+        <button onclick="bespokeHintCopy(this)" style="border:1px solid var(--fog);background:transparent;cursor:pointer;padding:1rem 0.5rem;display:flex;flex-direction:column;align-items:center;gap:0.5rem;transition:all 0.2s" onmouseover="this.style.borderColor='var(--navy)';this.style.background='rgba(27,42,74,0.05)'" onmouseout="this.style.borderColor='var(--fog)';this.style.background='transparent'">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1B2A4A" stroke-width="1.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          <span id="bespoke-copy-label" style="font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--navy);font-family:'Jost',sans-serif">Copy Link</span>
+        </button>
+      </div>
+
+      <div style="border-top:1px solid var(--fog);padding-top:1.5rem">
+        <div style="font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash);margin-bottom:1rem">Or send through us</div>
+        <form id="bespoke-hint-form" name="bespoke-hint" method="POST" data-netlify="true">
+          <input type="hidden" name="form-name" value="bespoke-hint">
+          <input type="hidden" name="page-url" value="https://nellycreativestudios.com/pages/bespoke.html">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem">
+            <div>
+              <label style="font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ash);display:block;margin-bottom:0.3rem">Recipient name</label>
+              <input name="recipient-name" type="text" placeholder="Alex" style="width:100%;height:40px;border:1px solid var(--fog);padding:0 0.8rem;font-family:'Jost',sans-serif;font-size:0.85rem;color:var(--navy);outline:none;box-sizing:border-box" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--fog)'">
+            </div>
+            <div>
+              <label style="font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ash);display:block;margin-bottom:0.3rem">Recipient email</label>
+              <input name="recipient-email" type="email" placeholder="their@email.com" required style="width:100%;height:40px;border:1px solid var(--fog);padding:0 0.8rem;font-family:'Jost',sans-serif;font-size:0.85rem;color:var(--navy);outline:none;box-sizing:border-box" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--fog)'">
+            </div>
+          </div>
+          <button type="submit" style="width:100%;height:44px;background:var(--black);color:var(--white);border:none;font-family:'Jost',sans-serif;font-size:0.68rem;letter-spacing:0.28em;text-transform:uppercase;cursor:pointer;transition:background 0.2s" onmouseover="this.style.background='var(--gold)';this.style.color='var(--black)'" onmouseout="this.style.background='var(--black)';this.style.color='var(--white)'">Send via Nelly Creative Studios</button>
+          <div id="bespoke-hint-sent" style="display:none;text-align:center;padding:0.8rem;color:var(--gold);font-size:0.75rem;letter-spacing:0.1em">Hint sent! ✓</div>
+        </form>
+      </div>
+    </div>
   </div>
 
 </div>
@@ -238,5 +295,44 @@
   :root { --color-default:#B8962E; --color-badge:#B8962E; --color-button-default:#B8962E; --borderRadius-sm:0; --borderRadius-md:0; --borderRadius-lg:0; }
 </style>
 <script src="../js/cart.js"></script>
+<script>
+function getBespokeMsg() {
+  var note = document.getElementById('bespoke-hint-note').value;
+  var url = 'https://nellycreativestudios.com/pages/bespoke.html';
+  return (note ? note + '\n\n' : 'I\'d love a bespoke piece from Nelly Creative Studios in New York City — a completely custom fine jewelry commission, made just for me.\n\n') + url;
+}
+function bespokeHintWhatsApp() {
+  window.open('https://wa.me/?text=' + encodeURIComponent(getBespokeMsg()), '_blank');
+}
+function bespokeHintEmail() {
+  window.location.href = 'mailto:?subject=' + encodeURIComponent('A gift idea I have in mind') + '&body=' + encodeURIComponent(getBespokeMsg());
+}
+function bespokeHintCopy(btn) {
+  navigator.clipboard.writeText(getBespokeMsg()).then(function() {
+    var label = document.getElementById('bespoke-copy-label');
+    if (label) { label.textContent = 'Copied ✓'; setTimeout(function(){ label.textContent = 'Copy Link'; }, 2000); }
+  });
+}
+var bForm = document.getElementById('bespoke-hint-form');
+if (bForm) {
+  bForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(new FormData(bForm)).toString()
+    }).then(function() {
+      document.getElementById('bespoke-hint-sent').style.display = 'block';
+      setTimeout(function() {
+        document.getElementById('bespoke-hint-modal').style.display = 'none';
+        document.getElementById('bespoke-hint-sent').style.display = 'none';
+      }, 2500);
+    });
+  });
+}
+document.getElementById('bespoke-hint-modal').addEventListener('click', function(e) {
+  if (e.target === this) this.style.display = 'none';
+});
+</script>
 </body>
 </html>
