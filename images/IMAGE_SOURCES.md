@@ -1,0 +1,79 @@
+# Image Sources
+
+Download each image from the URL and save it with the filename shown.
+Then upload the `images/` folder to GitHub.
+
+| File | Source URL |
+|------|------------|
+| `webiste-images-1-4.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/03dfb902-11c5-4289-8fbe-ef6c5165ad5b/webiste+images+1-4.jpg |
+| `website-product-images-16.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/09848214-06cf-48c6-9b98-335b427ed65c/WEBSITE+PRODUCT+IMAGES-16.jpg |
+| `1.7-catat-cushions.png` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/0ca450e0-6d9a-43a9-b9e9-1d9781b8da29/1.7+catat+cushions.png |
+| `tempimageleoeww.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/0eb12535-938f-41d5-9a02-a3248fd6f89b/tempImageLeoEww.jpg |
+| `webiste-images-1-8.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/10c34cb7-bb29-4b26-b113-f014cbd5a7f2/webiste+images+1-8.jpg |
+| `old-mine-cut-earrings-copy.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/11f6eae2-c7f9-463f-985a-acf30902e25f/old+mine+cut+earrings++copy.jpg |
+| `d8ac797e-e137-4e8d-a47e-717b69ca37ec.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/1609015308081-B500ISYTDVD9ESCKPUZJ/D8AC797E-E137-4E8D-A47E-717B69CA37EC.jpg |
+| `131411228_678573302770385_4404242376943482743_n.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/1616013174592-38E13ZYWJL8X67H6KY9B/131411228_678573302770385_4404242376943482743_n.jpg |
+| `gold-angel-necklace-with-granulation.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/1616481125403-QJ5T2UUE7YZK13QMZ2ZD/Gold%2BAngel%2BNecklace%2Bwith%2BGranulation |
+| `edited-enlarged-sides-nelly-mendoza-mendoza-22k-gold-bee-granulation-pendant.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/1619453936776-8X2T1RLHWTERP8QDPIRH/EDITED+ENLARGED+SIDES+Nelly+Mendoza-Mendoza-22k+gold+bee+granulation+pendant.jpg |
+| `bracelet-2-131.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/1623711075911-ICPTCJHFXX288448FYA0/BRACELET+2+-131.jpg |
+| `bracelet-2-193.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/1627321842971-SOF6BE909ORQNU6XYZIA/BRACELET+2+-193.jpg |
+| `mendoza-mendoza-nelly.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/1627365326578-AM1OTU9XIN74E72UB5AC/Mendoza-Mendoza%2C+Nelly.jpg |
+| `bracelet-2b2-2b-206.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/1631846887689-FK15JU34AU8FP1MIZ6UQ/BRACELET%252B2%252B-206.jpg |
+| `img_0462.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/1631847002038-FN53WDNI17FKGCA6J28V/IMG_0462.jpg |
+| `bracelet-2-212.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/1633200593170-4TQABN1R3LMDECVIE1U6/BRACELET+2+-212.jpg |
+| `love-gold-link-1.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/1698291997977-UH6BLGX7HJG57CNULZ07/love%2Bgold%2Blink%2B-1.jpg |
+| `webiste-images-1-9.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/1d6a3512-524e-43e4-ab0f-26797d7e7b97/webiste+images+1-9.jpg |
+| `18-karat-yellow-gold-link-and-diamond-necklace-by-nelly.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/1dcbc161-f35f-4fbb-87a0-9c1d32901652/18+karat+yellow+gold+link+and+diamond+necklace+by+nelly.jpg |
+| `nelly-portrait-2-13.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/36f1e587-910f-4b99-a789-9f50f2da4e30/nelly+portrait+2-13.jpg |
+| `show-pieces-8.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/39e510e7-e166-40c5-9813-d88b5395b81b/show+pieces-8.jpg |
+| `img_1486.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/3a3f1fdb-9f77-4cf0-9355-efc5bea73ade/IMG_1486.jpg |
+| `website-product-images-3.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/3b0414a6-b9be-49fc-8799-442b11f1a8f1/WEBSITE+PRODUCT+IMAGES-3.jpg |
+| `website-product-images-6.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/4285f0da-3cd8-4cf8-9c86-2600c2905d36/WEBSITE+PRODUCT+IMAGES-6.jpg |
+| `cushion-earrings-1.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/42a2f894-287f-4c9e-9c2c-2444768301ba/cushion+earrings-1.jpg |
+| `screenshot-2025-08-30-at-10.31.41-pm.png` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/42cfed01-46db-4ebe-9397-7953de794cd3/Screenshot+2025-08-30+at+10.31.41+PM.png |
+| `show-pieces-82.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/457afd75-569e-41e0-a413-e49cf2794c0f/show+pieces-82.jpg |
+| `show-pieces-71.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/50677185-f15c-46c3-beee-f5d801fd5373/show+pieces-71.jpg |
+| `1.7-catat-cushions.png` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/5a60ce4b-f5dc-49af-b746-db0c7ab6c3d0/1.7%2Bcatat%2Bcushions.png |
+| `show-pieces-3.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/5b026f11-9be4-4b98-a496-7ca20a2f23f4/show+pieces-3.jpg |
+| `show-pieces-38.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/5d19e954-19e7-4786-8bd8-dfbb8649b2f9/show+pieces-38.jpg |
+| `chatgpt-image-feb-14-2026-at-01_13_39-am.png` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/70db99fc-af6d-4c8d-a8ea-16f34df67ccc/ChatGPT+Image+Feb+14%2C+2026+at+01_13_39+AM.png |
+| `webiste-images-1-6.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/71b6f3a9-ee8d-4f28-bb73-2f5e0aa8f9b5/webiste+images+1-6.jpg |
+| `play-of-color.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/740db8ad-c472-466a-abf1-805b67454086/play+of+color.jpg |
+| `webiste-images-1.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/7b09db5f-b1ac-4062-aedf-f942feec1f71/webiste+images+1.jpg |
+| `img_3102.png` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/7dba60fd-5f39-4b24-b06c-62c8106857a9/IMG_3102.png |
+| `show-pieces-65.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/8592a0a4-772b-4f03-b9b8-a3ad7ce833ce/show+pieces-65.jpg |
+| `website-product-images-1.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/873324ce-bb91-4a81-9d92-39869ff88f8d/WEBSITE+PRODUCT+IMAGES-1.jpg |
+| `show-pieces-61.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/8bff8c58-2f33-4403-8742-9df58b7be8d6/show%2Bpieces-61.jpg |
+| `ring-image-edit-2-w-border.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/8d4bce5b-92be-44f4-a79d-33aece870997/ring+image-Edit-2+w+border.jpg |
+| `red-for-the-peave-pf-mind-1.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/8e70e2c5-e987-44b2-b5e1-a848d0dcc9e3/red+for+the+peave+pf+mind+1.jpg |
+| `jadeite-earrings.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/92c9dc68-07f1-41f5-ae58-abe0b0baeb3f/Jadeite+Earrings.jpg |
+| `img_8215.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/93f9a7fc-5a6b-4044-a5a8-45d74796acde/IMG_8215.jpg |
+| `turquoise-1.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/95fbfba8-10bc-481d-9474-d4665394a54f/turquoise-1.jpg |
+| `leopard-opal.png` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/9ab00985-6f3c-46af-af03-d88e6744dde9/leopard+opal.png |
+| `show-pieces-62.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/9b7d6b63-0aca-463f-979b-e246326d1f34/show+pieces-62.jpg |
+| `logo-1.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/9bc268dd-531f-4b03-869a-8d8d9b08103a/logo+1.jpg |
+| `cushion-earrings-1.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/a69686c3-964c-48cc-be53-bff0a12edbc5/cushion+earrings+1.jpg |
+| `jadeite-earrings-2.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/a7645068-44eb-4a22-8bef-17638255d709/Jadeite+Earrings-2.jpg |
+| `img_4079-edit.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/ac2ea4cc-c3fd-481b-a8df-22e69d0c32a5/IMG_4079-Edit.jpg |
+| `public.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/ade6a08a-ff36-4d5b-b08b-3c90de6c988c/public.jpg |
+| `bracelet-2-112.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/b07fd577-7cf7-42df-9541-5bcc6e2ec230/BRACELET+2+-112.jpg |
+| `img_3966-edit-w-ruby.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/b714d5bd-2951-47c5-bdee-39cf208d30a3/IMG_3966-Edit+w+ruby.jpg |
+| `img_1354.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/ba16c90a-02d6-477d-909c-18d224067ec7/IMG_1354.JPG |
+| `grand-central-station-new-york-new-york.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/bd078c3a-ed2e-4ac0-8f32-775850ccc887/Grand+Central+Station+New+York%2C+New+York |
+| `show-pieces.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/bf623664-0898-4f00-9648-a83f02269613/show+pieces.jpg |
+| `img_2788.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/c0a22ace-e1e3-4704-9108-f07a0e0d0e01/IMG_2788.jpg |
+| `website-product-images-5.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/c142c56a-00bb-47b9-ab54-e364f3c11698/WEBSITE+PRODUCT+IMAGES-5.jpg |
+| `show-pieces-57.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/c1643fa8-cdac-4118-a17a-d7cca42b1f58/show+pieces-57.jpg |
+| `show-pieces-85.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/c236386a-e168-43db-a198-c952099210b4/show+pieces-85.jpg |
+| `jadeite-earrings-1.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/c330efe1-159e-444c-a1c7-d457e74cc6bf/Jadeite+Earrings-1.jpg |
+| `show-pieces-4.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/ce30f6d6-f80f-4328-8240-254e7191134b/show+pieces-4.jpg |
+| `show-pieces-76.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/d4491d9b-bda6-49bb-8a39-a4f04b5d9a87/show+pieces-76.jpg |
+| `show-pieces-5.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/d65d4c2e-5bc7-49f2-9124-919b92cde22a/show+pieces-5.jpg |
+| `show-pieces-63.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/df941a05-72a7-41c6-a19e-207a0306cdef/show+pieces-63.jpg |
+| `play-of-color-1.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/e010046e-4de1-4179-9caf-96d30f85dfa9/play+of+color-1.jpg |
+| `show-pieces-54.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/e3972850-eaa6-4ede-98f7-b59e6bb42e71/show+pieces-54.jpg |
+| `webiste-images-1-7.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/e7789b39-12de-4d5b-b87e-72aaca229fdb/webiste+images+1-7.jpg |
+| `nelly-shoot-cropped.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/ed6c6c49-f7bb-46a0-931b-ef77bf39ca96/NELLY%2BSHOOT%2Bcropped.jpg |
+| `show-pieces-1.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/f17ae5d0-12a0-4fea-a21e-a38444a34565/show+pieces-1.jpg |
+| `webiste-images-1-10.jpg` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/f503b432-abd9-4094-bfc5-49d0f9d6e7f4/webiste+images+1-10.jpg |
+| `img_4106-edit.png` | https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/fe5a12a3-aab9-4a46-a572-dede819f57d5/IMG_4106-Edit.png |
