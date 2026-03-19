@@ -239,28 +239,32 @@
       <div class="filter-bar wrap">
         <div class="filter-group">
           <span class="filter-group-label">Type</span>
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="earrings">Earrings</button>
-          <button class="filter-btn" data-filter="necklaces">Necklaces</button>
-          <button class="filter-btn" data-filter="bracelets">Bracelets</button>
-          <button class="filter-btn" data-filter="rings">Rings</button>
-          <button class="filter-btn" data-filter="brooches">Brooches</button>
+          <button class="filter-btn active" data-filter-type="all">All</button>
+          <button class="filter-btn" data-filter-type="earrings">Earrings</button>
+          <button class="filter-btn" data-filter-type="necklaces">Necklaces</button>
+          <button class="filter-btn" data-filter-type="bracelets">Bracelets</button>
+          <button class="filter-btn" data-filter-type="rings">Rings</button>
+          <button class="filter-btn" data-filter-type="brooches">Brooches</button>
         </div>
-        <div class="filter-group">
-          <span class="filter-group-label">Metal</span>
-          <button class="filter-btn" data-filter="gold">Gold</button>
-          <button class="filter-btn" data-filter="platinum">Platinum</button>
-          <button class="filter-btn" data-filter="silver">Silver</button>
-        </div>
-        <div class="filter-group">
-          <span class="filter-group-label">Stone</span>
-          <button class="filter-btn" data-filter="diamonds">Diamonds</button>
-          <button class="filter-btn" data-filter="turquoise">Turquoise</button>
-          <button class="filter-btn" data-filter="ruby">Ruby</button>
-          <button class="filter-btn" data-filter="opal">Opal</button>
-          <button class="filter-btn" data-filter="aquamarine">Aquamarine</button>
-          <button class="filter-btn" data-filter="jade">Jade</button>
-          <button class="filter-btn" data-filter="pearl">Pearl</button>
+        <div class="filter-group" id="subfilter-group" style="display:none">
+          <span class="filter-group-label">Refine</span>
+          <select id="filter-metal" class="filter-select">
+            <option value="all">Any Metal</option>
+            <option value="gold">Gold</option>
+            <option value="platinum">Platinum</option>
+            <option value="silver">Silver</option>
+          </select>
+          <select id="filter-stone" class="filter-select">
+            <option value="all">Any Stone</option>
+            <option value="diamonds">Diamonds</option>
+            <option value="turquoise">Turquoise</option>
+            <option value="ruby">Ruby</option>
+            <option value="opal">Opal</option>
+            <option value="aquamarine">Aquamarine</option>
+            <option value="jade">Jade</option>
+            <option value="pearl">Pearl</option>
+          </select>
+          <button onclick="clearSubFilters()" style="font-family:'Jost',sans-serif;font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash);background:none;border:none;cursor:pointer;padding:0;transition:color 0.2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--ash)'">Clear</button>
         </div>
       </div>
 
@@ -516,7 +520,7 @@
     </div>
     <div class="footer-bottom">
       <div class="footer-copy">© 2026 Nelly Creative Studios USA</div>
-      <div class="footer-social"><a href="#">Instagram</a><a href="#">Pinterest</a></div>
+      <div class="footer-social"><a href="https://www.instagram.com/nellycreativestudios" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/nellycreativestudios" target="_blank" rel="noopener">Facebook</a></div>
     </div>
   </div>
 </footer>
@@ -574,93 +578,92 @@
   }
 })();
 </script>
-<script src="../js/cart.js"><script>
+<script src="../js/cart.js"></script>
+<script>
 (function() {
   var searchInput = document.getElementById('boutique-search');
-  var sortSelect = document.getElementById('boutique-sort');
-  var clearBtn = document.getElementById('search-clear');
-  var grid = document.getElementById('productGrid');
+  var sortSelect  = document.getElementById('boutique-sort');
+  var clearBtn    = document.getElementById('search-clear');
+  var filterMetal = document.getElementById('filter-metal');
+  var filterStone = document.getElementById('filter-stone');
+  var subgroup    = document.getElementById('subfilter-group');
   var resultsCount = document.getElementById('results-count');
-  var activeFilter = 'all';
+  var grid = document.getElementById('productGrid');
 
-  // Store original order
-  var allCards = Array.from(grid.querySelectorAll('.product-item'));
-  var originalOrder = allCards.slice();
+  var originalOrder = Array.from(grid.querySelectorAll('.product-item'));
+  var activeType = 'all';
 
-  function getPrice(card) {
-    var priceEl = card.querySelector('.product-price');
-    if (!priceEl) return 0;
-    return parseFloat(priceEl.textContent.replace(/[^0-9.]/g, '')) || 0;
+  function getPrice(c) {
+    var el = c.querySelector('.product-price');
+    return el ? parseFloat(el.textContent.replace(/[^0-9.]/g,'')) || 0 : 0;
   }
-
-  function getName(card) {
-    var nameEl = card.querySelector('.product-name');
-    return nameEl ? nameEl.textContent.trim().toLowerCase() : '';
+  function getName(c) {
+    var el = c.querySelector('.product-name');
+    return el ? el.textContent.trim().toLowerCase() : '';
   }
 
   function applyAll() {
     var query = searchInput.value.toLowerCase().trim();
-    var sort = sortSelect.value;
+    var sort  = sortSelect.value;
+    var metal = filterMetal ? filterMetal.value : 'all';
+    var stone = filterStone ? filterStone.value : 'all';
 
-    // Show/hide clear button
     clearBtn.style.display = query ? 'block' : 'none';
 
-    // Get cards to work with
-    var cards = originalOrder.slice();
-
     // Sort
-    if (sort === 'price-asc') cards.sort(function(a,b){ return getPrice(a) - getPrice(b); });
-    else if (sort === 'price-desc') cards.sort(function(a,b){ return getPrice(b) - getPrice(a); });
-    else if (sort === 'name-asc') cards.sort(function(a,b){ return getName(a).localeCompare(getName(b)); });
-    else if (sort === 'name-desc') cards.sort(function(a,b){ return getName(b).localeCompare(getName(a)); });
+    var cards = originalOrder.slice();
+    if (sort === 'price-asc')  cards.sort(function(a,b){ return getPrice(a)-getPrice(b); });
+    if (sort === 'price-desc') cards.sort(function(a,b){ return getPrice(b)-getPrice(a); });
+    if (sort === 'name-asc')   cards.sort(function(a,b){ return getName(a).localeCompare(getName(b)); });
+    if (sort === 'name-desc')  cards.sort(function(a,b){ return getName(b).localeCompare(getName(a)); });
+    cards.forEach(function(c){ grid.appendChild(c); });
 
-    // Reorder DOM
-    cards.forEach(function(card) { grid.appendChild(card); });
-
-    // Filter by category + search
+    // Filter
     var visible = 0;
     cards.forEach(function(card) {
       var cat = ' ' + (card.getAttribute('data-cat') || '') + ' ';
       var name = getName(card);
-      var matchesCat = activeFilter === 'all' || cat.indexOf(' ' + activeFilter + ' ') !== -1;
-      var matchesSearch = !query || name.indexOf(query) !== -1 || cat.indexOf(query) !== -1;
-
-      if (matchesCat && matchesSearch) {
-        card.classList.remove('hidden');
-        visible++;
+      var okType   = activeType === 'all' || cat.indexOf(' '+activeType+' ') !== -1;
+      var okMetal  = metal === 'all' || cat.indexOf(' '+metal+' ') !== -1;
+      var okStone  = stone === 'all' || cat.indexOf(' '+stone+' ') !== -1;
+      var okSearch = !query || name.indexOf(query) !== -1 || cat.indexOf(query) !== -1;
+      if (okType && okMetal && okStone && okSearch) {
+        card.classList.remove('hidden'); visible++;
       } else {
         card.classList.add('hidden');
       }
     });
 
-    // Results count
     resultsCount.textContent = visible + ' piece' + (visible !== 1 ? 's' : '');
   }
 
-  // Search input
-  searchInput.addEventListener('input', applyAll);
-
-  // Sort change
-  sortSelect.addEventListener('change', applyAll);
-
-  // Filter buttons
-  document.querySelectorAll('.filter-btn').forEach(function(btn) {
+  // Type buttons
+  document.querySelectorAll('[data-filter-type]').forEach(function(btn) {
     btn.addEventListener('click', function() {
-      document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+      document.querySelectorAll('[data-filter-type]').forEach(function(b){ b.classList.remove('active'); });
       btn.classList.add('active');
-      activeFilter = btn.getAttribute('data-filter');
+      activeType = btn.getAttribute('data-filter-type');
+      // Show/hide sub-filters
+      if (subgroup) subgroup.style.display = activeType !== 'all' ? 'flex' : 'none';
+      // Reset sub-filters on type change
+      if (filterMetal) filterMetal.value = 'all';
+      if (filterStone) filterStone.value = 'all';
       applyAll();
     });
   });
 
-  // Clear search
-  window.clearSearch = function() {
-    searchInput.value = '';
+  if (filterMetal) filterMetal.addEventListener('change', applyAll);
+  if (filterStone) filterStone.addEventListener('change', applyAll);
+  sortSelect.addEventListener('change', applyAll);
+  searchInput.addEventListener('input', applyAll);
+
+  window.clearSearch = function() { searchInput.value = ''; applyAll(); searchInput.focus(); };
+  window.clearSubFilters = function() {
+    if (filterMetal) filterMetal.value = 'all';
+    if (filterStone) filterStone.value = 'all';
     applyAll();
-    searchInput.focus();
   };
 
-  // Init count
   applyAll();
 })();
 </script>

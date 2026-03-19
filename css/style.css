@@ -382,29 +382,31 @@ button,input,textarea,select{font-family:'Jost',sans-serif}
 
 /* ─── PRODUCT GRID ─── */
 .product-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:1px;background:var(--fog);
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:2rem;background:transparent;
 }
 .product-grid--3{
   grid-template-columns:repeat(3,1fr);
-  gap:2px;
+  gap:2rem;
 }
 .product-card{
   background:var(--white);
   display:flex;flex-direction:column;
   overflow:hidden;cursor:pointer;
   transition:background 0.2s;
+  border:1px solid var(--fog);
 }
 .product-card:hover{background:var(--cloud)}
 .product-img{
-  aspect-ratio:3/4;overflow:hidden;background:var(--cloud);
+  aspect-ratio:1/1;overflow:hidden;background:var(--white);
   position:relative;
 }
 .product-img img{
-  width:100%;height:100%;object-fit:cover;
-  padding:0;
+  width:100%;height:100%;object-fit:contain;
+  padding:1.2rem;
   filter:grayscale(12%);
   transition:transform 0.75s cubic-bezier(.16,1,.3,1),filter 0.4s;
+  box-sizing:border-box;
 }
 @media(max-width:700px){
   .product-img{aspect-ratio:1/1}
@@ -680,7 +682,7 @@ button,input,textarea,select{font-family:'Jost',sans-serif}
 
 /* ─── RESPONSIVE ─── */
 @media(max-width:1100px){
-  .product-grid{grid-template-columns:repeat(3,1fr)}
+  .product-grid{grid-template-columns:repeat(3,1fr);gap:1.5rem}
   .steps{grid-template-columns:1fr 1fr}
   .footer-grid{grid-template-columns:1fr 1fr;gap:3rem}
 }
@@ -983,12 +985,13 @@ button,input,textarea,select{font-family:'Jost',sans-serif}
 
 /* ─── FILTER BAR GROUPS ─── */
 .filter-bar{
-  display:flex;flex-wrap:wrap;gap:1.5rem;
+  display:flex;flex-wrap:nowrap;gap:1rem;
   padding:1.5rem 0;border-bottom:1px solid var(--fog);
-  margin-bottom:2.5rem;align-items:flex-start;
+  margin-bottom:2.5rem;align-items:center;
+  overflow-x:auto;-webkit-overflow-scrolling:touch;
 }
 .filter-group{
-  display:flex;align-items:center;flex-wrap:wrap;gap:0.4rem;
+  display:flex;align-items:center;flex-shrink:0;gap:0.4rem;flex-wrap:nowrap;
 }
 .filter-group-label{
   font-size:0.58rem;letter-spacing:0.28em;text-transform:uppercase;
@@ -1334,4 +1337,45 @@ button,input,textarea,select{font-family:'Jost',sans-serif}
   border-color: var(--navy) !important;
   color: var(--navy) !important;
   background: rgba(27,42,74,0.06) !important;
+}
+
+/* ─── FILTER SELECTS ─── */
+.filter-select {
+  height: 42px;
+  border: 1px solid var(--fog);
+  background: transparent;
+  padding: 0 2rem 0 0.9rem;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--navy);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%231B2A4A' stroke-width='1.2' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  transition: border-color 0.2s;
+}
+.filter-select:focus,
+.filter-select:hover { border-color: var(--gold); }
+.filter-select.active { border-color: var(--navy); color: var(--navy); font-weight: 500; }
+
+/* ─── REMOVE FOCUS OUTLINES ─── */
+.filter-btn:focus,
+.filter-select:focus,
+.product-btn:focus,
+.cta:focus,
+button:focus,
+select:focus,
+input:focus {
+  outline: none;
+}
+
+/* ─── NUCLEAR OUTLINE REMOVAL ─── */
+*, *:focus, *:active, *:focus-visible, *:focus-within {
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent !important;
 }

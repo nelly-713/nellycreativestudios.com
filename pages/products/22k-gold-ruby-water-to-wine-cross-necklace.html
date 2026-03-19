@@ -81,7 +81,7 @@
 
       <!-- LEFT: IMAGES -->
       <div>
-        <div style="width:100%;aspect-ratio:1/1;overflow:hidden;background:var(--cloud);margin-bottom:1rem">
+        <div style="width:100%;aspect-ratio:1/1;overflow:hidden;background:var(--cloud);margin-bottom:1rem;cursor:zoom-in;position:relative" onclick="openLightbox(document.getElementById('pdp-main').src,document.getElementById('pdp-main').alt)" title="Click to zoom">
           <img referrerpolicy="no-referrer" id="pdp-main" src="https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/bf623664-0898-4f00-9648-a83f02269613/show+pieces.jpg" alt="22k Gold and Ruby Water to Wine Cross Necklace" style="width:100%;height:100%;object-fit:cover;transition:opacity 0.25s">
         </div>
         <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
@@ -128,6 +128,25 @@
           data-item-image="https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/bf623664-0898-4f00-9648-a83f02269613/show+pieces.jpg"
           data-item-description="A powerful and deeply personal design from Nelly's signature collection. The cross — one of the most enduring symbols in">Add to Cart</button>
         <p style="font-size:0.8rem;color:var(--ash);margin-top:0.8rem;line-height:1.6"><em>Every piece is made just for you. Allow a week for completion.<br>Includes Sales Tax &amp; Complimentary Shipping.</em></p>
+        <!-- TRUST BADGES -->
+        <div style="display:flex;flex-wrap:wrap;gap:0;margin-top:1.5rem;border:1px solid var(--fog)">
+          <div style="flex:1;min-width:140px;padding:0.8rem 1rem;display:flex;align-items:center;gap:0.6rem;border-right:1px solid var(--fog)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M5 12l5 5L20 7"/></svg>
+            <span style="font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--navy)">Complimentary Shipping</span>
+          </div>
+          <div style="flex:1;min-width:140px;padding:0.8rem 1rem;display:flex;align-items:center;gap:0.6rem;border-right:1px solid var(--fog)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span style="font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--navy)">Secure Checkout</span>
+          </div>
+          <div style="flex:1;min-width:140px;padding:0.8rem 1rem;display:flex;align-items:center;gap:0.6rem">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            <span style="font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--navy)">Made to Order · 2–4 Weeks</span>
+          </div>
+          <div style="flex:1;min-width:140px;padding:0.8rem 1rem;display:flex;align-items:center;gap:0.6rem;border-left:1px solid var(--fog)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            <span style="font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--navy)">Handcrafted in NYC</span>
+          </div>
+        </div>
         <!-- DROP A HINT -->
         <div style="margin-top:1rem">
           <button onclick="document.getElementById('hint-modal').style.display='flex'" style="background:var(--gold);border:1px solid var(--gold);cursor:pointer;padding:0.6rem 1.2rem;font-family:'Jost',sans-serif;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--black);transition:all 0.2s;display:inline-flex;align-items:center;gap:0.5rem" onmouseover="this.style.background='var(--gold-d)'" onmouseout="this.style.background='var(--gold)'">
@@ -256,6 +275,11 @@
       </div>
     </div>
   </section>
+        <!-- LIGHTBOX -->
+        <div id="img-lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:3000;align-items:center;justify-content:center;cursor:zoom-out" onclick="closeLightbox()">
+          <button onclick="closeLightbox()" style="position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:rgba(255,255,255,0.6);font-size:2rem;cursor:pointer;line-height:1;z-index:1">×</button>
+          <img id="lightbox-img" src="" alt="" style="max-width:90vw;max-height:90vh;object-fit:contain;transition:opacity 0.2s">
+        </div>
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-grid">
@@ -266,7 +290,7 @@
     </div>
     <div class="footer-bottom">
       <div class="footer-copy">© 2026 Nelly Creative Studios USA</div>
-      <div class="footer-social"><a href="#">Instagram</a><a href="#">Pinterest</a></div>
+      <div class="footer-social"><a href="https://www.instagram.com/nellycreativestudios" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/nellycreativestudios" target="_blank" rel="noopener">Facebook</a></div>
     </div>
   </div>
 </footer>
