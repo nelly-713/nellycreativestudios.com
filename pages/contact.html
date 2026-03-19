@@ -13,19 +13,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400;1,6..96,500;1,6..96,600;1,6..96,700&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <!-- Snipcart -->
-  <meta property="og:image" content="../images/22k-gold-bee-granulation-pendant.jpg">
+  <meta property="og:image" content="https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/1619453936776-8X2T1RLHWTERP8QDPIRH/EDITED+ENLARGED+SIDES+Nelly+Mendoza-Mendoza-22k+gold+bee+granulation+pendant.jpg">
   <meta property="og:site_name" content="Nelly Creative Studios">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"ContactPage","name":"Contact Nelly Creative Studios","url":"https://nellycreativestudios.com/contact"}
   </script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-024K8H0KNK"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-024K8H0KNK');
-</script>
 </head>
 <body>
 <nav class="nav nav--dark">
@@ -90,13 +82,13 @@
           <input type="hidden" name="form-name" value="contact">
           <input type="hidden" name="bot-field" style="display:none">
           <div class="form-row">
-            <div class="form-group"><label>First Name</label><input type="text" name="first-name" placeholder="Your first name" required></div>
-            <div class="form-group"><label>Last Name</label><input type="text" name="last-name" placeholder="Your last name" required></div>
+            <div class="form-group"><label>First Name</label><input type="text" placeholder="Your first name" required></div>
+            <div class="form-group"><label>Last Name</label><input type="text" placeholder="Your last name" required></div>
           </div>
-          <div class="form-group"><label>Email Address</label><input type="email" name="email" placeholder="your@email.com" required></div>
+          <div class="form-group"><label>Email Address</label><input type="email" placeholder="your@email.com" required></div>
           <div class="form-group">
             <label>Enquiry Type</label>
-            <select name="enquiry-type">
+            <select>
               <option value="">Select a topic…</option>
               <option>Boutique Piece Enquiry</option>
               <option>Bespoke Commission</option>
@@ -104,7 +96,7 @@
               <option>Press / Media</option>
             </select>
           </div>
-          <div class="form-group"><label>Message</label><textarea name="message" placeholder="Tell us about what you have in mind…" required></textarea></div>
+          <div class="form-group"><label>Message</label><textarea placeholder="Tell us about what you have in mind…" required></textarea></div>
           <button type="submit" class="cta cta--dark" style="width:100%;margin-top:0.5rem" id="contact-submit">Send Message</button>
         <div id="contact-success" style="display:none;text-align:center;padding:3rem 0">
           <div style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:1.8rem;color:var(--gold);margin-bottom:1rem">Thank you</div>
@@ -186,19 +178,13 @@ if (contactForm) {
     btn.disabled = true;
     btn.textContent = 'Sending…';
     
-    var formData = new FormData(contactForm);
-    
-    fetch('/pages/contact.html', {
+    fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(formData).toString()
-    }).then(function(response) {
-      if (response.ok || response.status === 200) {
-        contactForm.style.display = 'none';
-        document.getElementById('contact-success').style.display = 'block';
-      } else {
-        throw new Error('Form submission failed');
-      }
+      body: new URLSearchParams(new FormData(contactForm)).toString()
+    }).then(function() {
+      contactForm.style.display = 'none';
+      document.getElementById('contact-success').style.display = 'block';
     }).catch(function() {
       btn.disabled = false;
       btn.textContent = 'Send Message';
@@ -212,7 +198,7 @@ var newsletterForm = document.getElementById('newsletter-form');
 if (newsletterForm) {
   newsletterForm.addEventListener('submit', function(e) {
     e.preventDefault();
-    fetch('/pages/contact.html', {
+    fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams(new FormData(newsletterForm)).toString()
