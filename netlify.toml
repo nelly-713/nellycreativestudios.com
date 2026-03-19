@@ -2,12 +2,16 @@
   command = "npm install"
   functions = "netlify/functions"
 
+[forms]
+  spam_filter = true
+
 [[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer-when-downgrade"
 
 [[redirects]]
   from = "/boutique"

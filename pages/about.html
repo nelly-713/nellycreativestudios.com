@@ -15,7 +15,7 @@
   <meta property="og:title" content="About Nelly Mendoza-Mendoza — Fine Jewelry Designer NYC">
   <meta property="og:description" content="GIA Graduate, former Tiffany & Co. Innovation & Design Workshop, master of ancient Greek gold granulation. Fine jewelry designer based in New York City.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/ed6c6c49-f7bb-46a0-931b-ef77bf39ca96/NELLY%2BSHOOT%2Bcropped.jpg">
+  <meta property="og:image" content="../images/nelly-shoot-cropped.jpg">
   <meta property="og:site_name" content="Nelly Creative Studios">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400;1,6..96,500;1,6..96,600;1,6..96,700&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
@@ -157,6 +157,14 @@
     }
   </style>
   <!-- Snipcart -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-024K8H0KNK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-024K8H0KNK');
+</script>
 </head>
 <body>
 
@@ -200,12 +208,12 @@
   <!-- Bee image pair -->
   <div class="about-img-grid">
     <div class="about-img-grid-item">
-      <img src="https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/1619453936776-8X2T1RLHWTERP8QDPIRH/EDITED+ENLARGED+SIDES+Nelly+Mendoza-Mendoza-22k+gold+bee+granulation+pendant.jpg"
+      <img src="../images/22k-gold-bee-granulation-pendant.jpg"
         alt="Original 22k gold granulation bee pendant by Nelly Mendoza-Mendoza">
       <div class="about-img-grid-caption">The original gold granulation bee in 22k gold</div>
     </div>
     <div class="about-img-grid-item">
-      <img src="https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/ade6a08a-ff36-4d5b-b08b-3c90de6c988c/public.jpg"
+      <img src="../images/public.jpg"
         alt="Gold Bee by Nelly in platinum gold and diamonds honeycomb pavé setting with pavé wings">
       <div class="about-img-grid-caption">The Gold Bee by Nelly in platinum, gold and diamonds — honeycomb pavé setting and pavé wings</div>
     </div>
@@ -219,7 +227,7 @@
 
   <!-- Portrait -->
   <div class="about-img-wrap">
-    <img src="https://images.squarespace-cdn.com/content/v1/5c89d09a9d41492427700157/ed6c6c49-f7bb-46a0-931b-ef77bf39ca96/NELLY%2BSHOOT%2Bcropped.jpg"
+    <img src="../images/nelly-shoot-cropped.jpg"
       alt="Fine jewelry designer Nelly Mendoza-Mendoza in Manhattan New York City photo by Kang-Chung Cheng">
     <div class="about-img-caption">Nelly in Manhattan c/o Kang-Chung Cheng</div>
   </div>
@@ -254,8 +262,9 @@
   </div>
   <h2 class="headline h2" style="color:var(--gold);margin:0.8rem 0 0.6rem">Receive <em>Special Updates</em></h2>
   <p class="newsletter-note">New collections, private events, and stories from the studio.</p>
-  <form class="newsletter-form" name="newsletter" method="POST" data-netlify="true">
-    <input type="hidden" name="form-name" value="newsletter">
+  <form class="newsletter-form" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+    <input type="hidden" name="bot-field" style="display:none!important;visibility:hidden;position:absolute">
+          <input type="hidden" name="form-name" value="newsletter">
     <input type="email" name="email" placeholder="Your email address" required>
     <button type="submit">Subscribe</button>
   </form>

@@ -536,6 +536,8 @@ button,input,textarea,select{font-family:'Jost',sans-serif}
 }
 .faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s ease}
 .faq-a__inner{padding:0 2rem 1.8rem 0;font-size:1rem;line-height:1.95;color:var(--navy)}
+.faq-a__inner p{margin:0 0 1rem}
+.faq-a__inner p:last-child{margin-bottom:0}
 
 /* ─── GALLERY ─── */
 .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--fog)}
@@ -1379,3 +1381,62 @@ input:focus {
   box-shadow: none !important;
   -webkit-tap-highlight-color: transparent !important;
 }
+
+/* ─── TOAST NOTIFICATION ─── */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(120%);
+  background: var(--black);
+  color: var(--white);
+  padding: 1rem 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  z-index: 9999;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  min-width: 280px;
+  max-width: 420px;
+  pointer-events: none;
+}
+.toast.visible {
+  transform: translateX(-50%) translateY(0);
+  pointer-events: all;
+}
+.toast-icon {
+  width: 20px;
+  height: 20px;
+  background: var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.toast-body { flex: 1; }
+.toast-title {
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 0.15rem;
+}
+.toast-msg {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.4;
+}
+.toast-close {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.3);
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0;
+  line-height: 1;
+  pointer-events: all;
+  transition: color 0.2s;
+}
+.toast-close:hover { color: var(--white); }

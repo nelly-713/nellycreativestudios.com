@@ -150,3 +150,35 @@ async function stripeCheckout(btn) {
 
   window.location.href = '/pages/checkout.html?' + params.toString();
 }
+
+// ── Toast notification ──
+window.showToast = function(title, message, duration) {
+  var existing = document.getElementById('ncs-toast');
+  if (existing) existing.remove();
+
+  var toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.id = 'ncs-toast';
+  toast.innerHTML = [
+    '<div class="toast-icon">',
+    '  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>',
+    '</div>',
+    '<div class="toast-body">',
+    '  <div class="toast-title">' + (title || 'Sent') + '</div>',
+    '  <div class="toast-msg">' + (message || '') + '</div>',
+    '</div>',
+    '<button class="toast-close" onclick="document.getElementById(\'ncs-toast\').classList.remove(\'visible\')">×</button>'
+  ].join('');
+
+  document.body.appendChild(toast);
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      toast.classList.add('visible');
+    });
+  });
+
+  setTimeout(function() {
+    toast.classList.remove('visible');
+    setTimeout(function() { toast.remove(); }, 400);
+  }, duration || 4000);
+};
