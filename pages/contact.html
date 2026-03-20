@@ -35,6 +35,8 @@
     <li><a href="bespoke.html">Bespoke</a></li><li><a href="journal.html">Journal</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="faq.html">FAQ</a></li>
+    <li><a href="gemstones.html">Gems</a>
+  <a href="gemstones.html">Gemstones</a></li>
   </ul>
   
   <button class="nav-burger" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -43,6 +45,7 @@
   <a href="../index.html">Home</a><a href="boutique.html">The Boutique</a>
   <a href="bespoke.html">Bespoke</a><a href="journal.html">Journal</a>
   <a href="about.html">About</a><a href="faq.html">FAQ</a>
+  <a href="gemstones.html">Gemstones</a>
   <a href="contact.html" class="nav-drawer-contact">Enquire →</a>
 </nav>
 
@@ -122,7 +125,9 @@
     <div class="footer-grid">
       <div><div class="footer-brand">Nelly Creative Studios</div><p class="footer-desc">Fine jewelry designed and made in New York City.</p></div>
       <div class="footer-col"><h4>Shop</h4><ul><li><a href="boutique.html">The Boutique</a></li><li><a href="bespoke.html">Bespoke</a></li></ul></div>
-      <div class="footer-col"><h4>Studio</h4><ul><li><a href="about.html">About Nelly</a></li><li><a href="journal.html">Journal</a></li><li><a href="faq.html">FAQ</a></li></ul></div>
+      <div class="footer-col"><h4>Studio</h4><ul><li><a href="about.html">About Nelly</a></li><li><a href="journal.html">Journal</a></li><li><a href="faq.html">FAQ</a></li>
+    <li><a href="gemstones.html">Gems</a>
+  <a href="gemstones.html">Gemstones</a></li></ul></div>
       <div class="footer-col"><h4>Contact</h4><ul><li><a href="mailto:nelly@jewelrybynelly.com">nelly@jewelrybynelly.com</a></li></ul></div>
     </div>
     <div class="footer-bottom">
@@ -203,7 +208,7 @@ if (contactForm) {
     btn.disabled = true;
     btn.textContent = 'Sending…';
 
-    fetch(window.location.pathname, {
+    fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams(new FormData(contactForm)).toString()
@@ -228,7 +233,7 @@ if (newsletterForm) {
     if (botField && botField.value) return;
     if (Date.now() - _formLoadTime < 2000) return;
 
-    fetch(window.location.pathname, {
+    fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams(new FormData(newsletterForm)).toString()

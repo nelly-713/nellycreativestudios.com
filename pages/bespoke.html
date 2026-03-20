@@ -120,6 +120,8 @@
     <li><a href="journal.html">Journal</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="faq.html">FAQ</a></li>
+    <li><a href="gemstones.html">Gems</a>
+  <a href="gemstones.html">Gemstones</a></li>
   </ul>
   
   <button class="nav-burger" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -131,6 +133,7 @@
   <a href="journal.html">Journal</a>
   <a href="about.html">About</a>
   <a href="faq.html">FAQ</a>
+  <a href="gemstones.html">Gemstones</a>
   <a href="contact.html" class="nav-drawer-contact">Enquire →</a>
 </nav>
 
@@ -289,7 +292,9 @@
         <p class="footer-desc">Fine jewelry designed and made in New York City. Design excellence and perfection, made for a life of love.</p>
       </div>
       <div class="footer-col"><h4>Shop</h4><ul><li><a href="boutique.html">The Boutique</a></li><li><a href="bespoke.html">Bespoke</a></li></ul></div>
-      <div class="footer-col"><h4>Studio</h4><ul><li><a href="about.html">About Nelly</a></li><li><a href="journal.html">Journal</a></li><li><a href="faq.html">FAQ</a></li></ul></div>
+      <div class="footer-col"><h4>Studio</h4><ul><li><a href="about.html">About Nelly</a></li><li><a href="journal.html">Journal</a></li><li><a href="faq.html">FAQ</a></li>
+    <li><a href="gemstones.html">Gems</a>
+  <a href="gemstones.html">Gemstones</a></li></ul></div>
       <div class="footer-col"><h4>Contact</h4><ul><li><a href="mailto:nelly@jewelrybynelly.com">nelly@jewelrybynelly.com</a></li><li><a href="contact.html">Send a Message</a></li><li><a href="https://www.instagram.com/nellycreativestudios" target="_blank" rel="noopener">Instagram</a></li></ul></div>
     </div>
     <div class="footer-bottom">
@@ -347,7 +352,7 @@ if (bForm) {
     noteInput.value = noteEl ? noteEl.value : '';
     if (!bForm.querySelector('input[name="message"]')) bForm.appendChild(noteInput);
 
-    fetch(window.location.pathname, {
+    fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams(new FormData(bForm)).toString()

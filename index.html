@@ -130,6 +130,8 @@
     <li><a href="pages/journal.html">Journal</a></li>
     <li><a href="pages/about.html">About</a></li>
     <li><a href="pages/faq.html">FAQ</a></li>
+    <li><a href="pages/gemstones.html">Gems</a>
+  <a href="pages/gemstones.html">Gemstones</a></li>
   </ul>
   
   <button class="nav-burger" aria-label="Menu">
@@ -143,6 +145,7 @@
   <a href="pages/journal.html">Journal</a>
   <a href="pages/about.html">About</a>
   <a href="pages/faq.html">FAQ</a>
+  <a href="pages/gemstones.html">Gemstones</a>
   <a href="pages/contact.html" class="nav-drawer-contact">Enquire →</a>
 </nav>
 
@@ -453,6 +456,8 @@
           <li><a href="pages/about.html">About Nelly</a></li>
           <li><a href="pages/journal.html">Journal</a></li>
           <li><a href="pages/faq.html">FAQ</a></li>
+    <li><a href="pages/gemstones.html">Gems</a>
+  <a href="pages/gemstones.html">Gemstones</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -542,7 +547,7 @@ if (nf) {
   nf.addEventListener('submit', function(e) {
     e.preventDefault();
     if (!_spamCheck(newsletterForm)) return;
-    fetch(window.location.pathname, {
+    fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams(new FormData(nf)).toString()
