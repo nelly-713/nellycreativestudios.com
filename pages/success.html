@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You — Nelly Creative Studios</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400;1,6..96,500;1,6..96,600;1,6..96,700&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    html, body { height: 100%; margin: 0; }
+    body {
+      background: var(--black);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 2rem;
+    }
+    .success-wrap {
+      max-width: 520px;
+      width: 100%;
+    }
+    .success-mark {
+      width: 56px;
+      height: 56px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2.5rem;
+    }
+    .success-eyebrow {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+    .success-title {
+      font-family: 'Bodoni Moda', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      color: var(--white);
+      line-height: 1.05;
+      margin: 0 0 1.5rem;
+    }
+    .success-body {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.9;
+      color: rgba(255,255,255,0.4);
+      margin: 0 0 3rem;
+      letter-spacing: 0.04em;
+    }
+    .success-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .success-btn-primary {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      padding: 0.9rem 2.2rem;
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+      display: inline-block;
+    }
+    .success-btn-primary:hover { background: var(--gold-l); }
+    .success-btn-ghost {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      padding: 0.9rem 2.2rem;
+      background: transparent;
+      color: rgba(255,255,255,0.4);
+      border: 1px solid rgba(255,255,255,0.12);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+    .success-btn-ghost:hover { color: var(--white); border-color: rgba(255,255,255,0.4); }
+    .success-logo {
+      position: absolute;
+      top: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .success-logo img { height: 32px; }
+  </style>
+</head>
+<body>
+  <a href="../index.html" class="success-logo">
+    <img src="../logo-white.png" alt="Nelly Creative Studios">
+  </a>
+
+  <div class="success-wrap">
+    <div class="success-mark">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="success-eyebrow">Message Received</div>
+    <h1 class="success-title">Thank <em>You</em></h1>
+    <p class="success-body">We've received your message and will be in touch with you shortly. Every enquiry is read personally by Nelly.</p>
+    <div class="success-links">
+      <a href="boutique.html" class="success-btn-primary">Explore the Boutique</a>
+      <a href="../index.html" class="success-btn-ghost">Back to Home</a>
+    </div>
+  </div>
+</body>
+</html>
