@@ -14,8 +14,7 @@ exports.handler = async function(event) {
   }
 
   try {
-    const payload = JSON.parse(event.body);
-    const data = payload.payload || payload;
+    const data = JSON.parse(event.body);
 
     const recipientName  = data['recipient-name']  || '';
     const recipientEmail = data['recipient-email']  || '';

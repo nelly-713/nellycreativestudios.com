@@ -444,17 +444,34 @@ if (hintForm) {
     if (msgEl && document.getElementById('hint-note')) {
       msgEl.value = document.getElementById('hint-note').value;
     }
+    var h1 = document.querySelector('h1');
+    var payload = {
+      'recipient-name':  hintForm.querySelector('[name="recipient-name"]') ? hintForm.querySelector('[name="recipient-name"]').value : '',
+      'recipient-email': hintForm.querySelector('[name="recipient-email"]').value,
+      'product-name':    h1 ? h1.textContent.trim() : '',
+      'product-url':     window.location.href,
+      'message':         document.getElementById('hint-note') ? document.getElementById('hint-note').value : ''
+    };
+    // Also post to Netlify Forms so Nelly gets notified
     fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams(new FormData(hintForm)).toString()
-    }).then(function() {
+    });
+    // Call SendGrid function to email the recipient
+    fetch('/.netlify/functions/send-hint', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function(r) {
       document.getElementById('hint-sent-confirm').style.display = 'block';
-        showToast('Hint Sent', 'We\'ll pass your hint along shortly.');
+      showToast('Hint Sent', 'We\'ll pass your hint along shortly.');
       setTimeout(function() {
         document.getElementById('hint-modal').style.display = 'none';
         document.getElementById('hint-sent-confirm').style.display = 'none';
       }, 2500);
+    }).catch(function() {
+      showToast('Hint Sent', 'Your hint has been received.');
     });
   });
 }
