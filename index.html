@@ -471,7 +471,7 @@
       <div class="footer-copy">© 2026 Nelly Creative Studios USA. All rights reserved.</div>
       <div class="footer-social">
         <a href="https://www.instagram.com/nellycreativestudios" target="_blank" rel="noopener">Instagram</a>
-        <a href="#">Pinterest</a>
+        <a href="https://www.pinterest.com/nellycreativestudios" target="_blank" rel="noopener">Pinterest</a>
       </div>
     </div>
   </div>
@@ -541,10 +541,14 @@
 </script>
 <script>
 var nf = document.getElementById('newsletter-form');
+var _pageLoad = Date.now();
 if (nf) {
   nf.addEventListener('submit', function(e) {
     e.preventDefault();
-    if (!_spamCheck(newsletterForm)) return;
+    // Spam guard: must wait >2s and honeypot must be empty
+    if (Date.now() - _pageLoad < 2000) return;
+    var bot = nf.querySelector('[name="bot-field"]');
+    if (bot && bot.value) return;
     fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
