@@ -67,6 +67,21 @@
         <p style="font-size:1.1rem;color:var(--navy);line-height:1.85;margin:1rem 0 0">This piece is a gorgeous original creation by Nelly, guaranteed to keep the compliments coming. This gold bracelet is for the one who is bold and fearless. Each link is handcrafted and is characterized for having a rough and bold feel yet an elegant and inspiring presence. The toggle clasp is a statement on its own — the subtle fire from the 7 diamonds is guaranteed to awe.</p><p style="font-size:1.1rem;color:var(--navy);line-height:1.85;margin:1rem 0 0">No two works are ever identical and every bracelet has a unique identification number.</p>
         <p style="font-size:1.1rem;color:var(--navy);line-height:1.85;margin:1rem 0 0">All materials and parts are of the highest absolute quality possible, made from recycled metal, responsibly sourced and all parts are custom made and designed by Nelly in New York City.</p>
         <p style="font-size:1.1rem;color:var(--navy);line-height:1.85;margin:1rem 0 2.5rem">This is an original design of Nelly and cannot be reproduced.</p>
+        <div style="margin:2rem 0 1rem">
+          <div style="font-size:0.62rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--navy);margin-bottom:1rem;display:flex;align-items:center;gap:1rem">Size<span style="flex:1;height:1px;background:var(--fog);display:inline-block"></span></div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.8rem" id="bracelet-sizes">
+            <button class="size-btn" data-size="Small — 5 in" onclick="selectSize(this)" style="font-family:Jost,sans-serif;font-size:0.68rem;letter-spacing:0.12em;padding:0.55rem 1rem;border:1px solid var(--fog);background:transparent;color:var(--navy);cursor:pointer;transition:all 0.2s">Small — 5 in</button>
+            <button class="size-btn" data-size="Medium — 7 in" onclick="selectSize(this)" style="font-family:Jost,sans-serif;font-size:0.68rem;letter-spacing:0.12em;padding:0.55rem 1rem;border:1px solid var(--fog);background:transparent;color:var(--navy);cursor:pointer;transition:all 0.2s">Medium — 7 in</button>
+            <button class="size-btn" data-size="Large — 9 in" onclick="selectSize(this)" style="font-family:Jost,sans-serif;font-size:0.68rem;letter-spacing:0.12em;padding:0.55rem 1rem;border:1px solid var(--fog);background:transparent;color:var(--navy);cursor:pointer;transition:all 0.2s">Large — 9 in</button>
+            <button class="size-btn" data-size="Custom Size" onclick="selectSize(this)" style="font-family:Jost,sans-serif;font-size:0.68rem;letter-spacing:0.12em;padding:0.55rem 1rem;border:1px solid var(--gold);background:transparent;color:var(--gold);cursor:pointer;transition:all 0.2s">Custom Size</button>
+          </div>
+          <p style="font-size:0.68rem;color:var(--ash);margin-bottom:0.8rem;letter-spacing:0.06em">Sizes refer to wrist circumference.</p>
+          <div id="custom-size-wrap" style="display:none;margin-top:0.8rem">
+            <input id="custom-size-input" type="text" placeholder="Enter your wrist measurement in inches (e.g. 6.5 in)" style="width:100%;max-width:380px;height:44px;border:1px solid var(--fog);padding:0 1rem;font-family:Jost,sans-serif;font-size:0.85rem;color:var(--navy);outline:none;transition:border-color 0.2s">
+            <p style="font-size:0.68rem;color:var(--ash);margin-top:0.5rem;letter-spacing:0.06em">Measure your wrist snugly and add 0.5-1 inch for comfort.</p>
+          </div>
+          <p id="size-error" style="font-size:0.7rem;color:#df1b41;margin-top:0.5rem;display:none">Please select a size before adding to cart.</p>
+        </div>
         <div style="margin:2rem 0">
           <div style="font-size:0.62rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--navy);margin-bottom:1rem;display:flex;align-items:center;gap:1rem">Details<span style="flex:1;height:1px;background:var(--fog);display:inline-block"></span></div>
           <div style="display:flex;justify-content:space-between;padding:0.7rem 0;border-bottom:1px solid var(--fog)"><span style="font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash)">Metal</span><span style="font-size:0.78rem;color:var(--navy);text-align:right;max-width:60%">18 Karat Palladium White Gold (Nickel Free)</span></div><div style="display:flex;justify-content:space-between;padding:0.7rem 0;border-bottom:1px solid var(--fog)"><span style="font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash)">Diamonds</span><span style="font-size:0.78rem;color:var(--navy);text-align:right;max-width:60%">7 GIA Certified Natural Round Brilliant Cut Diamonds · Toggle Clasp</span></div><div style="display:flex;justify-content:space-between;padding:0.7rem 0;border-bottom:1px solid var(--fog)"><span style="font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash)">Type</span><span style="font-size:0.78rem;color:var(--navy);text-align:right;max-width:60%">Bracelet</span></div>
@@ -236,6 +251,38 @@ function hintCopy(btn){var d=getHintMsg();navigator.clipboard.writeText(d.msg).t
   if(modal){modal.addEventListener('click',function(e){if(e.target===modal)modal.style.display='none';});}
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal)modal.style.display='none';});
 })();
+</script>
+<script>
+var selectedSize = null;
+function selectSize(btn) {
+  var container = btn.parentElement;
+  container.querySelectorAll(".size-btn").forEach(function(b) {
+    b.style.background = "transparent";
+    b.style.borderColor = b.dataset.size === "Custom Size" ? "var(--gold)" : "var(--fog)";
+    b.style.color = b.dataset.size === "Custom Size" ? "var(--gold)" : "var(--navy)";
+  });
+  btn.style.background = "var(--navy)";
+  btn.style.color = "var(--white)";
+  btn.style.borderColor = "var(--navy)";
+  selectedSize = btn.dataset.size;
+  var cw = document.getElementById("custom-size-wrap");
+  if (cw) cw.style.display = selectedSize === "Custom Size" ? "block" : "none";
+  var err = document.getElementById("size-error");
+  if (err) err.style.display = "none";
+  document.querySelectorAll("[data-item-id]").forEach(function(el) {
+    var sz = selectedSize === "Custom Size" ? (document.getElementById("custom-size-input") ? document.getElementById("custom-size-input").value || "Custom" : "Custom") : selectedSize;
+    el.setAttribute("data-item-name", el.getAttribute("data-item-name").replace(/ — Size:.*$/, "") + " — Size: " + sz);
+  });
+}
+var _origATC = window.addToCart;
+window.addToCart = function(btn) {
+  if (document.getElementById("bracelet-sizes") && !selectedSize) {
+    var err = document.getElementById("size-error");
+    if (err) err.style.display = "block";
+    return;
+  }
+  if (_origATC) _origATC(btn);
+};
 </script>
 </body>
 </html>
