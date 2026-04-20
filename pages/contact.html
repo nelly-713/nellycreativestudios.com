@@ -29,7 +29,7 @@
 </head>
 <body>
 <nav class="nav nav--dark">
-  <a href="../index.html" class="nav-logo"><img src="../logo.png" alt="Nelly Creative Studios" class="nav-logo-img default"><img src="../logo-white.png" alt="Nelly Creative Studios" class="nav-logo-img white"></a>
+  <a href="../index.html" class="nav-logo"><img src="../logo.png" alt="Nelly Creative Studios" class="nav-logo-img default" fetchpriority="high" decoding="async"><img src="../logo-white.png" alt="Nelly Creative Studios" class="nav-logo-img white" loading="lazy" decoding="async"></a>
   <ul class="nav-list">
     <li><a href="../index.html">Home</a></li><li><a href="boutique.html">The Boutique</a></li>
     <li><a href="bespoke.html">Bespoke</a></li><li><a href="journal.html">Journal</a></li>
@@ -134,7 +134,7 @@
     </div>
   </div>
 </footer>
-<script src="../js/main.js"></script>
+<script src="../js/main.js" defer></script>
 <script>
 (function(){
   var params = new URLSearchParams(window.location.search);
@@ -243,6 +243,6 @@ if (newsletterForm) {
   });
 }
 </script>
-<script src="../js/cart.js"></script>
+<script src="../js/cart.js" defer></script>
 </body>
 </html>

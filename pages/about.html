@@ -170,7 +170,7 @@
 
 <!-- NAV -->
 <nav class="nav nav--light">
-  <a href="../index.html" class="nav-logo"><img src="../logo.png" alt="Nelly Creative Studios" class="nav-logo-img default"><img src="../logo-white.png" alt="Nelly Creative Studios" class="nav-logo-img white"></a>
+  <a href="../index.html" class="nav-logo"><img src="../logo.png" alt="Nelly Creative Studios" class="nav-logo-img default" fetchpriority="high" decoding="async"><img src="../logo-white.png" alt="Nelly Creative Studios" class="nav-logo-img white" loading="lazy" decoding="async"></a>
   <ul class="nav-list">
     <li><a href="../index.html">Home</a></li>
     <li><a href="boutique.html">The Boutique</a></li>
@@ -211,12 +211,12 @@
   <div class="about-img-grid">
     <div class="about-img-grid-item">
       <img referrerpolicy="no-referrer" src="../images/22k-gold-bee-granulation-pendant.jpg"
-        alt="Original 22k gold granulation bee pendant by Nelly Mendoza-Mendoza">
+        alt="Original 22k gold granulation bee pendant by Nelly Mendoza-Mendoza" loading="lazy" decoding="async">
       <div class="about-img-grid-caption">The original gold granulation bee in 22k gold</div>
     </div>
     <div class="about-img-grid-item">
-      <img referrerpolicy="no-referrer" src="../images/public.jpg"
-        alt="Gold Bee by Nelly in platinum gold and diamonds honeycomb pavé setting with pavé wings">
+      <img referrerpolicy="no-referrer" src="../images/gold-bee-platinum-diamonds-pave-about.jpg"
+        alt="Gold Bee by Nelly in platinum gold and diamonds honeycomb pavé setting with pavé wings" loading="lazy" decoding="async">
       <div class="about-img-grid-caption">The Gold Bee by Nelly in platinum, gold and diamonds — honeycomb pavé setting and pavé wings</div>
     </div>
   </div>
@@ -230,7 +230,7 @@
   <!-- Portrait -->
   <div class="about-img-wrap">
     <img referrerpolicy="no-referrer" src="../images/nelly-shoot-cropped.jpg"
-      alt="Fine jewelry designer Nelly Mendoza-Mendoza in Manhattan New York City photo by Kang-Chung Cheng">
+      alt="Fine jewelry designer Nelly Mendoza-Mendoza in Manhattan New York City photo by Kang-Chung Cheng" loading="lazy" decoding="async">
     <div class="about-img-caption">Nelly in Manhattan c/o Kang-Chung Cheng</div>
   </div>
 
@@ -292,7 +292,7 @@
   </div>
 </footer>
 
-<script src="../js/main.js"></script>
+<script src="../js/main.js" defer></script>
 <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/91c8bb1feabd5c541a82358c0/6eaf81cb5dffdfbf3a71064f3.js");</script>
 <!-- Snipcart container — replace YOUR_PUBLIC_API_KEY with your Snipcart public API key -->
 <style>
@@ -309,6 +309,6 @@
     --borderRadius-lg: 0;
   }
 </style>
-<script src="../js/cart.js"></script>
+<script src="../js/cart.js" defer></script>
 </body>
 </html>
