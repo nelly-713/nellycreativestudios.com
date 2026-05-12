@@ -696,7 +696,7 @@
 </script>
 <script src="../js/cart.js" defer></script>
 <script>
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
   var searchInput = document.getElementById('boutique-search');
   var sortSelect  = document.getElementById('boutique-sort');
   var clearBtn    = document.getElementById('search-clear');
@@ -705,8 +705,9 @@
   var subgroup    = document.getElementById('subfilter-group');
   var resultsCount = document.getElementById('results-count');
   var grid = document.getElementById('productGrid');
+  if (!grid) return;
 
-  var originalOrder = Array.from(grid.querySelectorAll('.product-item'));
+  var allCards = Array.from(grid.querySelectorAll('.product-item'));
   var activeType = 'all';
 
   function getPrice(c) {
@@ -718,39 +719,42 @@
     return el ? el.textContent.trim().toLowerCase() : '';
   }
 
-  function applyAll() {
-    var query = searchInput.value.toLowerCase().trim();
-    var sort  = sortSelect.value;
+  function runFilter() {
+    var query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    var sort  = sortSelect ? sortSelect.value : 'default';
     var metal = (filterMetal && filterMetal.value) ? filterMetal.value : 'all';
     var stone = (filterStone && filterStone.value) ? filterStone.value : 'all';
 
-    clearBtn.style.display = query ? 'block' : 'none';
+    if (clearBtn) clearBtn.style.display = query ? 'block' : 'none';
 
     // Sort
-    var cards = originalOrder.slice();
+    var cards = allCards.slice();
     if (sort === 'price-asc')  cards.sort(function(a,b){ return getPrice(a)-getPrice(b); });
     if (sort === 'price-desc') cards.sort(function(a,b){ return getPrice(b)-getPrice(a); });
     if (sort === 'name-asc')   cards.sort(function(a,b){ return getName(a).localeCompare(getName(b)); });
     if (sort === 'name-desc')  cards.sort(function(a,b){ return getName(b).localeCompare(getName(a)); });
     cards.forEach(function(c){ grid.appendChild(c); });
 
-    // Filter
+    // Filter — use BOTH classList AND inline style for maximum reliability
     var visible = 0;
     cards.forEach(function(card) {
       var cat = ' ' + (card.getAttribute('data-cat') || '') + ' ';
       var name = getName(card);
-      var okType   = activeType === 'all' || cat.indexOf(' '+activeType+' ') !== -1;
-      var okMetal  = metal === 'all' || cat.indexOf(' '+metal+' ') !== -1;
-      var okStone  = stone === 'all' || cat.indexOf(' '+stone+' ') !== -1;
+      var okType   = activeType === 'all' || cat.indexOf(' ' + activeType + ' ') !== -1;
+      var okMetal  = metal === 'all' || cat.indexOf(' ' + metal + ' ') !== -1;
+      var okStone  = stone === 'all' || cat.indexOf(' ' + stone + ' ') !== -1;
       var okSearch = !query || name.indexOf(query) !== -1 || cat.indexOf(query) !== -1;
       if (okType && okMetal && okStone && okSearch) {
-        card.classList.remove('hidden'); visible++;
+        card.style.display = '';
+        card.classList.remove('hidden');
+        visible++;
       } else {
+        card.style.display = 'none';
         card.classList.add('hidden');
       }
     });
 
-    resultsCount.textContent = visible + ' piece' + (visible !== 1 ? 's' : '');
+    if (resultsCount) resultsCount.textContent = visible + ' piece' + (visible !== 1 ? 's' : '');
   }
 
   // Type buttons
@@ -759,29 +763,28 @@
       document.querySelectorAll('[data-filter-type]').forEach(function(b){ b.classList.remove('active'); });
       btn.classList.add('active');
       activeType = btn.getAttribute('data-filter-type');
-      // Reset sub-filters BEFORE showing them so they're guaranteed to be 'all'
       if (filterMetal) filterMetal.value = 'all';
       if (filterStone) filterStone.value = 'all';
-      // Show/hide sub-filters
       if (subgroup) subgroup.style.display = activeType !== 'all' ? 'flex' : 'none';
-      applyAll();
+      runFilter();
     });
   });
 
-  if (filterMetal) filterMetal.addEventListener('change', applyAll);
-  if (filterStone) filterStone.addEventListener('change', applyAll);
-  sortSelect.addEventListener('change', applyAll);
-  searchInput.addEventListener('input', applyAll);
+  if (filterMetal) filterMetal.addEventListener('change', runFilter);
+  if (filterStone) filterStone.addEventListener('change', runFilter);
+  if (sortSelect) sortSelect.addEventListener('change', runFilter);
+  if (searchInput) searchInput.addEventListener('input', runFilter);
 
-  window.clearSearch = function() { searchInput.value = ''; applyAll(); searchInput.focus(); };
+  window.clearSearch = function() { if (searchInput) { searchInput.value = ''; runFilter(); searchInput.focus(); } };
   window.clearSubFilters = function() {
     if (filterMetal) filterMetal.value = 'all';
     if (filterStone) filterStone.value = 'all';
-    applyAll();
+    runFilter();
   };
 
-  applyAll();
-})();
+  // Run on load
+  runFilter();
+});
 </script>
 </body>
 </html>
