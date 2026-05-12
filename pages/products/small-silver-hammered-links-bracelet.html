@@ -23,6 +23,7 @@
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Small Silver Hammered Links Bracelet",
+  "sku": "SSHL-BRACEL",
   "description": "Sterling silver hammered links bracelet with toggle clasp. Nelly's iconic texture in silver — bold yet elegant. Custom fit. Made in New York City. Limited availability.",
   "image": "https://nellycreativestudios.com/images/new-small-silver-hammered-links-bracelet.jpg",
   "brand": {"@type": "Brand", "name": "Nelly Creative Studios"},
@@ -33,6 +34,21 @@
     "price": "630.00",
     "availability": "https://schema.org/InStock",
     "url": "https://nellycreativestudios.com/pages/products/small-silver-hammered-links-bracelet.html",
+    "shippingDetails": {
+      "@type": "OfferShippingDetails",
+      "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currencyCode": "USD"},
+      "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "WORLDWIDE"},
+      "deliveryTime": {
+        "@type": "ShippingDeliveryTime",
+        "handlingTime": {"@type": "QuantitativeValue", "minValue": 14, "maxValue": 28, "unitCode": "DAY"},
+        "transitTime": {"@type": "QuantitativeValue", "minValue": 3, "maxValue": 10, "unitCode": "DAY"}
+      }
+    },
+    "hasMerchantReturnPolicy": {
+      "@type": "MerchantReturnPolicy",
+      "applicableCountry": "US",
+      "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+    },
     "areaServed": "Worldwide",
     "seller": {"@type": "Organization", "name": "Nelly Creative Studios"}
   },

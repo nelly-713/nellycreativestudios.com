@@ -23,6 +23,7 @@
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "The Solitaire Diamond Ring",
+  "sku": "SD-RING",
   "description": "Natural diamond solitaire ring in 18 karat yellow gold. A 1/10 carat round brilliant cut diamond in a tube setting. Perfect for everyday wear and layering.",
   "image": "https://nellycreativestudios.com/images/new-solitaire-diamond-ring.jpg",
   "brand": {"@type": "Brand", "name": "Nelly Creative Studios"},
@@ -33,6 +34,21 @@
     "price": "1325.00",
     "availability": "https://schema.org/InStock",
     "url": "https://nellycreativestudios.com/pages/products/solitaire-diamond-ring.html",
+    "shippingDetails": {
+      "@type": "OfferShippingDetails",
+      "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currencyCode": "USD"},
+      "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "WORLDWIDE"},
+      "deliveryTime": {
+        "@type": "ShippingDeliveryTime",
+        "handlingTime": {"@type": "QuantitativeValue", "minValue": 14, "maxValue": 28, "unitCode": "DAY"},
+        "transitTime": {"@type": "QuantitativeValue", "minValue": 3, "maxValue": 10, "unitCode": "DAY"}
+      }
+    },
+    "hasMerchantReturnPolicy": {
+      "@type": "MerchantReturnPolicy",
+      "applicableCountry": "US",
+      "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+    },
     "areaServed": "Worldwide",
     "seller": {"@type": "Organization", "name": "Nelly Creative Studios"}
   },

@@ -23,6 +23,7 @@
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Lapis Lazuli Diamond Gold Huggies",
+  "sku": "LLDG-HUGGIE",
   "description": "Lapis lazuli and diamond huggie earrings in 18 karat yellow gold. Deep blue Lapis with gold-toned copper hints, set with 4 natural diamonds per huggie. Made in NYC.",
   "image": "https://nellycreativestudios.com/images/new-lapis-lazuli-diamond-gold-huggies.jpg",
   "brand": {"@type": "Brand", "name": "Nelly Creative Studios"},
@@ -33,6 +34,21 @@
     "price": "1220.00",
     "availability": "https://schema.org/InStock",
     "url": "https://nellycreativestudios.com/pages/products/lapis-lazuli-diamond-gold-huggies.html",
+    "shippingDetails": {
+      "@type": "OfferShippingDetails",
+      "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currencyCode": "USD"},
+      "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "WORLDWIDE"},
+      "deliveryTime": {
+        "@type": "ShippingDeliveryTime",
+        "handlingTime": {"@type": "QuantitativeValue", "minValue": 14, "maxValue": 28, "unitCode": "DAY"},
+        "transitTime": {"@type": "QuantitativeValue", "minValue": 3, "maxValue": 10, "unitCode": "DAY"}
+      }
+    },
+    "hasMerchantReturnPolicy": {
+      "@type": "MerchantReturnPolicy",
+      "applicableCountry": "US",
+      "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+    },
     "areaServed": "Worldwide",
     "seller": {"@type": "Organization", "name": "Nelly Creative Studios"}
   },

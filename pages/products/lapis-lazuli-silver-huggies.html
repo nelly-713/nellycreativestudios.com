@@ -23,6 +23,7 @@
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Lapis Lazuli Silver Huggies",
+  "sku": "LLS-HUGGIE",
   "description": "Natural Lapis Lazuli huggie earrings in sterling silver. Deep blue stone with gold-toned copper hints. An elegant everyday earring handcrafted in New York City.",
   "image": "https://nellycreativestudios.com/images/new-lapis-lazuli-silver-huggies.jpg",
   "brand": {"@type": "Brand", "name": "Nelly Creative Studios"},
@@ -33,6 +34,21 @@
     "price": "585.00",
     "availability": "https://schema.org/InStock",
     "url": "https://nellycreativestudios.com/pages/products/lapis-lazuli-silver-huggies.html",
+    "shippingDetails": {
+      "@type": "OfferShippingDetails",
+      "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currencyCode": "USD"},
+      "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "WORLDWIDE"},
+      "deliveryTime": {
+        "@type": "ShippingDeliveryTime",
+        "handlingTime": {"@type": "QuantitativeValue", "minValue": 14, "maxValue": 28, "unitCode": "DAY"},
+        "transitTime": {"@type": "QuantitativeValue", "minValue": 3, "maxValue": 10, "unitCode": "DAY"}
+      }
+    },
+    "hasMerchantReturnPolicy": {
+      "@type": "MerchantReturnPolicy",
+      "applicableCountry": "US",
+      "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+    },
     "areaServed": "Worldwide",
     "seller": {"@type": "Organization", "name": "Nelly Creative Studios"}
   },

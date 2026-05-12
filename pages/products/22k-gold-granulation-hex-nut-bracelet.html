@@ -23,6 +23,7 @@
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "22 Karat Gold Bracelet with Granulation and Hex Nut with Custom Gemstone",
+  "sku": "2GGHN-BRACEL",
   "description": "One of the most technically demanding pieces — 22 karat gold granulation on a large curved surface. A bespoke commission by Nelly Creative Studios, New York City.",
   "image": "https://nellycreativestudios.com/images/22k-gold-granulation-hex-nut-bracelet.jpg",
   "brand": {"@type": "Brand", "name": "Nelly Creative Studios"},
@@ -31,6 +32,21 @@
     "@type": "Offer",
     "availability": "https://schema.org/PreOrder",
     "url": "https://nellycreativestudios.com/pages/products/22k-gold-granulation-hex-nut-bracelet.html",
+    "shippingDetails": {
+      "@type": "OfferShippingDetails",
+      "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currencyCode": "USD"},
+      "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "WORLDWIDE"},
+      "deliveryTime": {
+        "@type": "ShippingDeliveryTime",
+        "handlingTime": {"@type": "QuantitativeValue", "minValue": 14, "maxValue": 28, "unitCode": "DAY"},
+        "transitTime": {"@type": "QuantitativeValue", "minValue": 3, "maxValue": 10, "unitCode": "DAY"}
+      }
+    },
+    "hasMerchantReturnPolicy": {
+      "@type": "MerchantReturnPolicy",
+      "applicableCountry": "US",
+      "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+    },
     "areaServed": "Worldwide",
     "seller": {"@type": "Organization", "name": "Nelly Creative Studios"}
   },
