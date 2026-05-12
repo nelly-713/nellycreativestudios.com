@@ -94,7 +94,7 @@
           <img referrerpolicy="no-referrer" id="pdp-main" data-full="../../images/raw-platinum-diamond-bracelet-pink-diamond-hex-nut.jpg" src="../../images/raw-platinum-diamond-bracelet-pink-diamond-hex-nut.jpg" alt="Raw Platinum Diamond Bracelet with Pink Diamond Hex Nut" class="pdp-main-img" fetchpriority="high" decoding="async">
         </div>
         <div class="pdp-thumbs">
-          <div class="pdp-thumb" onclick="switchImg(this,'../../images/raw-platinum-diamond-bracelet-pink-diamond-hex-nut.jpg')" style="width:68px;height:68px;overflow:hidden;cursor:pointer;border:1px solid var(--fog);flex-shrink:0;border-color:var(--gold);transition:opacity 0.25s,border-color 0.25s" onmouseover="this.style.opacity=\'0.7\'" onmouseout="this.style.opacity=\'1\'"><img referrerpolicy="no-referrer" src="../../images/raw-platinum-diamond-bracelet-pink-diamond-hex-nut.jpg" alt="Raw Platinum Diamond Bracelet with Pink Diamond Hex Nut bespoke fine jewelry by Nelly Creative Studios NYC" class="pdp-thumb-img" loading="lazy" decoding="async"></div>
+          <div class="pdp-thumb" onclick="switchImg(this,'../../images/raw-platinum-diamond-bracelet-pink-diamond-hex-nut.jpg')" class="pdp-thumb is-active" onmouseover="this.style.opacity=\'0.7\'" onmouseout="this.style.opacity=\'1\'"><img referrerpolicy="no-referrer" src="../../images/raw-platinum-diamond-bracelet-pink-diamond-hex-nut.jpg" alt="Raw Platinum Diamond Bracelet with Pink Diamond Hex Nut bespoke fine jewelry by Nelly Creative Studios NYC" class="pdp-thumb-img" loading="lazy" decoding="async"></div>
 
         </div>
       </div>
@@ -113,8 +113,8 @@
 
         <!-- ABOUT SECTION -->
         <p class="pdp-label">ABOUT THE PIECE</p>
-        <p style="font-size:1.1rem;color:var(--navy);line-height:1.85;margin:0 0 0">One of the most technically ambitious pieces in Nelly's collection. The raw, unfinished quality of the platinum contrasts with the ethereal presence of the natural pink diamond — among the rarest gemstones on earth.</p>
-<p style="font-size:1.1rem;color:var(--navy);line-height:1.85;margin:1rem 0 2.5rem">An enquiry piece. Contact Nelly directly to discuss this commission.</p>
+        <p class="pdp-body-tight">One of the most technically ambitious pieces in Nelly's collection. The raw, unfinished quality of the platinum contrasts with the ethereal presence of the natural pink diamond — among the rarest gemstones on earth.</p>
+<p class="pdp-body">An enquiry piece. Contact Nelly directly to discuss this commission.</p>
 
         <a href="../contact.html?piece=Raw%20Platinum%20Diamond%20Bracelet%20with%20Pink%20Diamond%20Hex%20Nut&img=../../images/raw-platinum-diamond-bracelet-pink-diamond-hex-nut.jpg" class="cta cta--dark" style="display:block;text-align:center;padding:1.4rem 0;letter-spacing:0.26em;font-size:0.75rem;text-transform:uppercase;text-decoration:none;width:100%;max-width:380px;margin-top:0.5rem">Enquire About This Piece</a>
     <!-- SHARE -->
@@ -130,11 +130,11 @@
 </section>
 
   <!-- RELATED PIECES -->
-  <section style="background:var(--black);padding:5rem 0;margin-top:0">
+  <section class="pdp-related-section">
     <div class="wrap">
       <div class="pdp-related-head">
         <div>
-          <div class="label label-w" style="margin-bottom:0.5rem">You may also like</div>
+          <div class="label label-w" class="u-mb-half">You may also like</div>
           <h2 class="pdp-related-title">Related <em>Pieces</em></h2>
         </div>
         <a href="../boutique.html" class="discover discover--w">← Back to The Boutique</a>
@@ -166,9 +166,9 @@
     </div>
   </section>
         <!-- LIGHTBOX -->
-        <div id="img-lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:3000;align-items:center;justify-content:center;cursor:zoom-out" onclick="closeLightbox()">
+        <div id="img-lightbox" class="lightbox" onclick="closeLightbox()">
           <button onclick="closeLightbox()" class="lightbox-close">×</button>
-          <img id="lightbox-img" src="" alt="" style="max-width:90vw;max-height:90vh;object-fit:contain;transition:opacity 0.2s">
+          <img id="lightbox-img" src="" alt="" class="lightbox-img">
         </div>
 <footer class="footer">
   <div class="footer-inner">

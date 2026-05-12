@@ -94,7 +94,7 @@
           <img referrerpolicy="no-referrer" id="pdp-main" data-full="../../images/18k-gold-link-diamond-necklace.jpg" src="../../images/18k-gold-link-diamond-necklace.jpg" alt="Medium Yellow Gold and Diamond Links Necklace" class="pdp-main-img" fetchpriority="high" decoding="async">
         </div>
         <div class="pdp-thumbs">
-          <div class="pdp-thumb" onclick="switchImg(this,'../../images/18k-gold-link-diamond-necklace.jpg')" style="width:68px;height:68px;overflow:hidden;cursor:pointer;border:1px solid var(--fog);flex-shrink:0;border-color:var(--gold);transition:opacity 0.25s,border-color 0.25s" onmouseover="this.style.opacity=\'0.7\'" onmouseout="this.style.opacity=\'1\'"><img referrerpolicy="no-referrer" src="../../images/18k-gold-link-diamond-necklace.jpg" alt="Medium Yellow Gold Diamond Links Necklace in 18 karat yellow gold with diamond toggle clasp handcrafted in NYC" class="pdp-thumb-img" loading="lazy" decoding="async"></div>
+          <div class="pdp-thumb" onclick="switchImg(this,'../../images/18k-gold-link-diamond-necklace.jpg')" class="pdp-thumb is-active" onmouseover="this.style.opacity=\'0.7\'" onmouseout="this.style.opacity=\'1\'"><img referrerpolicy="no-referrer" src="../../images/18k-gold-link-diamond-necklace.jpg" alt="Medium Yellow Gold Diamond Links Necklace in 18 karat yellow gold with diamond toggle clasp handcrafted in NYC" class="pdp-thumb-img" loading="lazy" decoding="async"></div>
 
         </div>
       </div>
@@ -102,7 +102,7 @@
       <!-- RIGHT: DETAILS -->
       <div>
         <h1 class="pdp-title">Medium Yellow Gold and Diamond Links Necklace</h1>
-        <p style="font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash);margin:0.2rem 0 1.2rem">Limited Availability</p>
+        <p class="engrave-section-label">Limited Availability</p>
         <p style="font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash);margin:0 0 2.5rem">Price on enquiry</p>
 
         <!-- DESCRIPTION SECTION -->
@@ -113,9 +113,9 @@
 
         <!-- ABOUT SECTION -->
         <p class="pdp-label">ABOUT THE PIECE</p>
-        <p style="font-size:1.1rem;color:var(--navy);line-height:1.85;margin:0 0 0">The crown jewel of Nelly's link collection. Each link handcrafted in 18 karat yellow gold with the same hammered texture as the bracelet collection, unified by a single pavé diamond link of exceptional brilliance.</p>
+        <p class="pdp-body-tight">The crown jewel of Nelly's link collection. Each link handcrafted in 18 karat yellow gold with the same hammered texture as the bracelet collection, unified by a single pavé diamond link of exceptional brilliance.</p>
 <p class="pdp-desc">No two works are ever identical. All materials made from recycled metal, responsibly sourced. An original design of Nelly and cannot be reproduced.</p>
-<p style="font-size:1.1rem;color:var(--navy);line-height:1.85;margin:1rem 0 2.5rem">To enquire about availability please contact us directly.</p>
+<p class="pdp-body">To enquire about availability please contact us directly.</p>
 
         <a href="../contact.html?piece=Medium%20Yellow%20Gold%20and%20Diamond%20Links%20Necklace&img=../../images/18k-gold-link-diamond-necklace.jpg" class="cta cta--dark" style="display:block;text-align:center;padding:1.4rem 0;letter-spacing:0.26em;font-size:0.75rem;text-transform:uppercase;text-decoration:none;width:100%;max-width:380px;margin-top:0.5rem">Enquire About This Piece</a>
     <!-- SHARE -->
@@ -131,11 +131,11 @@
 </section>
 
   <!-- RELATED PIECES -->
-  <section style="background:var(--black);padding:5rem 0;margin-top:0">
+  <section class="pdp-related-section">
     <div class="wrap">
       <div class="pdp-related-head">
         <div>
-          <div class="label label-w" style="margin-bottom:0.5rem">You may also like</div>
+          <div class="label label-w" class="u-mb-half">You may also like</div>
           <h2 class="pdp-related-title">Related <em>Pieces</em></h2>
         </div>
         <a href="../boutique.html" class="discover discover--w">← Back to The Boutique</a>
@@ -167,9 +167,9 @@
     </div>
   </section>
         <!-- LIGHTBOX -->
-        <div id="img-lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:3000;align-items:center;justify-content:center;cursor:zoom-out" onclick="closeLightbox()">
+        <div id="img-lightbox" class="lightbox" onclick="closeLightbox()">
           <button onclick="closeLightbox()" class="lightbox-close">×</button>
-          <img id="lightbox-img" src="" alt="" style="max-width:90vw;max-height:90vh;object-fit:contain;transition:opacity 0.2s">
+          <img id="lightbox-img" src="" alt="" class="lightbox-img">
         </div>
 <footer class="footer">
   <div class="footer-inner">
