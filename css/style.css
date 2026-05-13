@@ -1792,3 +1792,7 @@ input:focus {
   display: block;
   margin-top: 0.5rem;
 }
+
+/* ─── Link helpers (boutique grid + product pages) ─── */
+.link-contents { display: contents; text-decoration: none; }
+.link-bare { text-decoration: none; }
