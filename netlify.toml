@@ -1,81 +1,41 @@
-[build]
-  command = "npm install"
-  functions = "netlify/functions"
+# ─────────────────────────────────────────────
+# Netlify configuration for williammclarnon.com
+# ─────────────────────────────────────────────
 
-[forms]
-  spam_filter = true
+# Redirect www → non-www (or flip if preferred)
+[[redirects]]
+  from = "https://www.williammclarnon.com/*"
+  to   = "https://williammclarnon.com/:splat"
+  status = 301
+  force  = true
 
+# Security headers applied to every page
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
+
+    # Prevent the site being embedded in iframes on other domains (clickjacking)
+    X-Frame-Options = "SAMEORIGIN"
+
+    # Stop browsers guessing MIME types (MIME sniffing attacks)
     X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "no-referrer-when-downgrade"
 
-# Long cache for static assets — they change rarely and have stable URLs
-[[headers]]
-  for = "/images/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    # Only send referrer info to same origin
+    Referrer-Policy = "strict-origin-when-cross-origin"
 
-[[headers]]
-  for = "/css/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000"
+    # Disable access to camera, mic, location, etc.
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
 
-[[headers]]
-  for = "/js/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000"
+    # Force HTTPS for 1 year (HSTS)
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
 
-[[headers]]
-  for = "/*.png"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/*.jpg"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/*.ico"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-# HTML should always be fresh so updates deploy immediately
-[[headers]]
-  for = "/*.html"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
-
-[[redirects]]
-  from = "/boutique"
-  to = "/pages/boutique.html"
-  status = 200
-
-[[redirects]]
-  from = "/about"
-  to = "/pages/about.html"
-  status = 200
-
-[[redirects]]
-  from = "/bespoke"
-  to = "/pages/bespoke.html"
-  status = 200
-
-[[redirects]]
-  from = "/journal"
-  to = "/pages/journal.html"
-  status = 200
-
-[[redirects]]
-  from = "/faq"
-  to = "/pages/faq.html"
-  status = 200
-
-[[redirects]]
-  from = "/contact"
-  to = "/pages/contact.html"
-  status = 200
+    # Content Security Policy — allows the site's known external resources
+    Content-Security-Policy = """
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' https://w.behold.so https://fonts.googleapis.com https://www.googletagmanager.com https://www.google-analytics.com;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com;
+      font-src 'self' https://fonts.gstatic.com;
+      img-src 'self' data: https://media-cloud.corcoranlabs.com https://mediarouting.vestahub.com https://www.google-analytics.com;
+      connect-src 'self' https://www.google-analytics.com https://analytics.google.com;
+      frame-src https://w.behold.so;
+    """
