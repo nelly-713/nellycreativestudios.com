@@ -130,7 +130,7 @@
           </div>
           <div class="pdp-trust-item">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-            <span class="pdp-trust-label">Made to Order · 2–4 Weeks</span>
+            <span class="pdp-trust-label">Select Your Size · 2–4 Weeks</span>
           </div>
           <div class="pdp-trust-item">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
@@ -215,7 +215,7 @@
         <p class="pdp-related-price">$440.00</p>
       </a><a href="natural-brazilian-blue tourmaline-diamond-platinum-huggies.html" class="pdp-related-card">
         <div class="pdp-related-imgwrap">
-          <img referrerpolicy="no-referrer" src="../../images/natural-brazilian-aquamarine-diamond-platinum-huggies.png" alt="Natural Brazilian Blue Tourmaline & Diamond Platinum Huggies" class="pdp-related-img-hover" onmouseover="this.style.transform='scale(1.04)';this.style.filter='grayscale(0%)'" onmouseout="this.style.transform='scale(1)';this.style.filter='grayscale(15%)'" loading="lazy" decoding="async">
+          <img referrerpolicy="no-referrer" src="../../images/natural-brazilian-blue tourmaline-diamond-platinum-huggies.png" alt="Natural Brazilian Blue Tourmaline & Diamond Platinum Huggies" class="pdp-related-img-hover" onmouseover="this.style.transform='scale(1.04)';this.style.filter='grayscale(0%)'" onmouseout="this.style.transform='scale(1)';this.style.filter='grayscale(15%)'" loading="lazy" decoding="async">
         </div>
         <p class="pdp-related-name">Natural Brazilian Blue Tourmaline & Diamond Platinum Huggies</p>
         <p class="pdp-related-price">$1,745.00</p>
@@ -273,6 +273,17 @@ function hintCopy(btn){var d=getHintMsg();navigator.clipboard.writeText(d.msg).t
   if(modal){modal.addEventListener('click',function(e){if(e.target===modal)modal.style.display='none';});}
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal)modal.style.display='none';});
 })();
+</script>
+
+<script>
+function updateRingSize(sel) {
+  var btn = document.querySelector('.product-btn.buy');
+  if (btn) {
+    btn.setAttribute('data-item-custom1-name', 'Ring Size');
+    btn.setAttribute('data-item-custom1-options', sel.value);
+    btn.setAttribute('data-item-custom1-value', sel.value);
+  }
+}
 </script>
 </body>
 </html>
