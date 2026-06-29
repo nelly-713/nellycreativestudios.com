@@ -1,184 +1,175 @@
-// Nelly Creative Studios — main.js
+// ── SHARED SITE JS ──
 
-// ── NAV state ──
-(function(){
-  const nav = document.querySelector('.nav');
-  if(!nav) return;
+// Nav scroll effect + active links
+const nav = document.querySelector('.site-nav');
+window.addEventListener('scroll', () => {
+  nav && nav.classList.toggle('scrolled', window.scrollY > 20);
+});
 
-  const isDark = nav.classList.contains('nav--dark');
-
-  function update(){
-    if(window.scrollY > 60){
-      nav.classList.remove('nav--dark','nav--light');
-      nav.classList.add('nav--scrolled');
+// Mobile nav toggle
+const toggle = document.querySelector('.nav-toggle');
+const navLinks = document.querySelector('.nav-links');
+if (toggle && navLinks) {
+  toggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', isOpen);
+    // Animate hamburger → X
+    const spans = toggle.querySelectorAll('span');
+    if (isOpen) {
+      spans[0].style.transform = 'translateY(6.5px) rotate(45deg)';
+      spans[1].style.opacity = '0';
+      spans[2].style.transform = 'translateY(-6.5px) rotate(-45deg)';
     } else {
-      nav.classList.remove('nav--scrolled');
-      if(isDark) nav.classList.add('nav--dark');
-      else nav.classList.add('nav--light');
+      spans[0].style.transform = '';
+      spans[1].style.opacity = '';
+      spans[2].style.transform = '';
     }
-  }
-  update();
-  window.addEventListener('scroll', update, {passive:true});
-
-  // Burger / drawer
-  const burger = document.querySelector('.nav-burger');
-  const drawer = document.querySelector('.nav-drawer');
-  if(burger && drawer){
-    burger.addEventListener('click',()=>{
-      const open = drawer.classList.toggle('open');
-      burger.classList.toggle('open', open);
-      document.body.style.overflow = open ? 'hidden' : '';
-    });
-    // close on link click
-    drawer.querySelectorAll('a').forEach(a=>{
-      a.addEventListener('click',()=>{
-        drawer.classList.remove('open');
-        burger.classList.remove('open');
-        document.body.style.overflow='';
-      });
-    });
-  }
-})();
-
-// ── Reveal on scroll ──
-(function(){
-  const els = document.querySelectorAll('.reveal');
-  if(!els.length) return;
-  if(!('IntersectionObserver' in window)){
-    els.forEach(el=>el.classList.add('in')); return;
-  }
-  const io = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-    });
-  },{threshold:0, rootMargin:'0px 0px -50px 0px'});
-  els.forEach(el=>io.observe(el));
-  // Fallback: show all after 1.5s in case observer doesn't fire
-  setTimeout(function(){ els.forEach(el=>el.classList.add('in')); }, 1500);
-})();
-
-// ── Hero image pan ──
-(function(){
-  const img = document.querySelector('.hero__bg img');
-  if(!img) return;
-  const load = ()=>img.classList.add('loaded');
-  if(img.complete) load(); else img.addEventListener('load',load);
-})();
-
-// ── FAQ accordion ──
-(function(){
-  document.querySelectorAll('.faq-q').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const item = btn.closest('.faq-item');
-      const body = item.querySelector('.faq-a');
-      const open = item.classList.contains('open');
-      // close all
-      document.querySelectorAll('.faq-item.open').forEach(o=>{
-        o.classList.remove('open');
-        o.querySelector('.faq-a').style.maxHeight='0';
-        // icon handled by CSS
-      });
-      if(!open){
-        item.classList.add('open');
-        body.style.maxHeight = body.scrollHeight+'px';
-        // icon handled by CSS
-      }
+  });
+  // Close nav when a link is tapped
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      toggle.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
     });
   });
-})();
-
-// ── Boutique filter ──
-(function(){
-  const btns = document.querySelectorAll('.filter-btn');
-  const items = document.querySelectorAll('.product-item');
-  if(!btns.length) return;
-  btns.forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      btns.forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      const f = btn.dataset.filter;
-      items.forEach(item=>{
-        if(f==='all'||(' '+item.dataset.cat+' ').indexOf(' '+f+' ')!==-1) item.classList.remove('hidden');
-        else item.classList.add('hidden');
-      });
-    });
+  // Close nav when tapping outside
+  document.addEventListener('click', (e) => {
+    if (!toggle.contains(e.target) && !navLinks.contains(e.target)) {
+      navLinks.classList.remove('open');
+      toggle.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+    }
   });
-})();
-
-// ── Logo swap on scroll ──
-(function(){
-  const nav = document.querySelector('.nav');
-  if(!nav) return;
-  // The CSS handles it via class — no extra JS needed.
-  // But we need to ensure the initial hidden state is right:
-  const whites = document.querySelectorAll('.nav-logo-img.white');
-  const defaults = document.querySelectorAll('.nav-logo-img.default');
-  // Initial state set by CSS based on nav--dark/nav--light class already applied
-})();
-
-// ── FAQ jump nav active highlight ──
-(function(){
-  var sections = ['faq-studio','faq-purchasing','faq-bespoke','faq-care'];
-  var links = document.querySelectorAll('.faq-jump');
-  if(!links.length) return;
-  window.addEventListener('scroll', function(){
-    var current = sections[0];
-    sections.forEach(function(id){
-      var el = document.getElementById(id);
-      if(el && window.scrollY >= el.getBoundingClientRect().top + window.scrollY - 160) current = id;
-    });
-    links.forEach(function(l){
-      l.classList.toggle('active', l.getAttribute('href') === '#'+current);
-    });
-  }, {passive:true});
-})();
-
-// ── STRIPE CHECKOUT ──
-async function stripeCheckout(btn) {
-  var productId   = btn.getAttribute('data-item-id');
-  var productName = btn.getAttribute('data-item-name');
-  var price       = btn.getAttribute('data-item-price');
-  var image       = btn.getAttribute('data-item-image') || '';
-
-  // Redirect to custom checkout page with product details as URL params
-  var params = new URLSearchParams({
-    id: productId,
-    name: productName,
-    price: price,
-    img: image
-  });
-
-  window.location.href = '/pages/checkout.html?' + params.toString();
 }
 
-// ── Toast notification ──
-window.showToast = function(title, message, duration) {
-  var existing = document.getElementById('ncs-toast');
-  if (existing) existing.remove();
+// Mark active nav link
+const currentPage = location.pathname.split('/').pop() || 'index.html';
+document.querySelectorAll('.nav-links a').forEach(a => {
+  if (a.getAttribute('href') === currentPage) a.classList.add('active');
+});
 
-  var toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.id = 'ncs-toast';
-  toast.innerHTML = [
-    '<div class="toast-icon">',
-    '  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>',
-    '</div>',
-    '<div class="toast-body">',
-    '  <div class="toast-title">' + (title || 'Sent') + '</div>',
-    '  <div class="toast-msg">' + (message || '') + '</div>',
-    '</div>',
-    '<button class="toast-close" onclick="document.getElementById(\'ncs-toast\').classList.remove(\'visible\')">×</button>'
-  ].join('');
-
-  document.body.appendChild(toast);
-  requestAnimationFrame(function() {
-    requestAnimationFrame(function() {
-      toast.classList.add('visible');
-    });
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      revealObserver.unobserve(entry.target);
+    }
   });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+revealEls.forEach(el => revealObserver.observe(el));
 
-  setTimeout(function() {
-    toast.classList.remove('visible');
-    setTimeout(function() { toast.remove(); }, 400);
-  }, duration || 4000);
-};
+// FAQ accordion
+document.querySelectorAll('.faq-item').forEach(item => {
+  const btn = item.querySelector('.faq-q');
+  const ans = item.querySelector('.faq-a');
+  if (!btn || !ans) return;
+  btn.addEventListener('click', () => {
+    const open = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(o => {
+      o.classList.remove('open');
+      o.querySelector('.faq-a').style.maxHeight = '0';
+    });
+    if (!open) {
+      item.classList.add('open');
+      ans.style.maxHeight = ans.scrollHeight + 'px';
+    }
+  });
+});
+
+// Newsletter form
+const newsForm = document.querySelector('.newsletter-form');
+if (newsForm) {
+  newsForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const input = newsForm.querySelector('input');
+    newsForm.innerHTML = '<p style="color:rgba(255,255,255,0.9);font-size:0.85rem;padding:0.9rem;letter-spacing:0.1em;">Thank you — you\'re on the list! ✦</p>';
+  });
+}
+
+// Contact form
+const contactForm = document.querySelector('.contact-form');
+if (contactForm) {
+  contactForm.addEventListener('submit', e => {
+    e.preventDefault();
+    contactForm.innerHTML = '<div style="text-align:center;padding:3rem 2rem"><h3 style="font-family:Cormorant Garamond,serif;font-size:2rem;color:var(--gold);margin-bottom:1rem">Thank You</h3><p style="color:var(--text-light);font-size:0.85rem">Your message has been received. Nelly will be in touch soon.</p></div>';
+  });
+}
+
+
+// ── MEGA MENU ──
+document.addEventListener('DOMContentLoaded', function() {
+  var boutiqueLink = null;
+  document.querySelectorAll('.nav-links a').forEach(function(a) {
+    if (a.textContent.trim().toUpperCase() === 'THE BOUTIQUE' || 
+        a.textContent.trim().toUpperCase() === 'BOUTIQUE' ||
+        a.getAttribute('href')?.includes('boutique')) {
+      boutiqueLink = a;
+    }
+  });
+  if (!boutiqueLink) return;
+
+  // Wrap the link's parent li for positioning
+  var li = boutiqueLink.parentElement;
+  li.style.position = 'relative';
+
+  // Create mega menu
+  var mega = document.createElement('div');
+  mega.className = 'mega-menu';
+  mega.innerHTML = '<div class="mega-inner">' +
+    '<a href="' + boutiqueLink.getAttribute('href') + '#earrings" class="mega-cat" data-filter="earrings">' +
+      '<div class="mega-img"><img src="/images/new-golden-south-sea-pearl-huggies.jpg" alt="Earrings" loading="lazy"></div>' +
+      '<span class="mega-label">Earrings</span>' +
+    '</a>' +
+    '<a href="' + boutiqueLink.getAttribute('href') + '#necklaces" class="mega-cat" data-filter="necklaces">' +
+      '<div class="mega-img"><img src="/images/22k-gold-organic-gothic-cross-necklace.jpg" alt="Necklaces" loading="lazy"></div>' +
+      '<span class="mega-label">Necklaces</span>' +
+    '</a>' +
+    '<a href="' + boutiqueLink.getAttribute('href') + '#bracelets" class="mega-cat" data-filter="bracelets">' +
+      '<div class="mega-img"><img src="/images/small-gold-diamond-links-bracelet.jpg" alt="Bracelets" loading="lazy"></div>' +
+      '<span class="mega-label">Bracelets</span>' +
+    '</a>' +
+    '<a href="' + boutiqueLink.getAttribute('href') + '#rings" class="mega-cat" data-filter="rings">' +
+      '<div class="mega-img"><img src="/images/white-gold-oval-eternity-ring.jpg" alt="Rings" loading="lazy"></div>' +
+      '<span class="mega-label">Rings</span>' +
+    '</a>' +
+    '<a href="' + boutiqueLink.getAttribute('href') + '#brooches" class="mega-cat" data-filter="brooches">' +
+      '<div class="mega-img"><img src="/images/champagne-gold-peony-flower-brooch.jpg" alt="Brooches" loading="lazy"></div>' +
+      '<span class="mega-label">Brooches</span>' +
+    '</a>' +
+    '<a href="' + boutiqueLink.getAttribute('href') + '" class="mega-view-all">View All Pieces</a>' +
+  '</div>';
+
+  document.body.appendChild(mega);
+
+  // Position and show/hide
+  var showTimer, hideTimer;
+
+  function showMega() {
+    clearTimeout(hideTimer);
+    var rect = boutiqueLink.getBoundingClientRect();
+    mega.style.top = rect.bottom + 'px';
+    mega.style.left = '0';
+    mega.style.right = '0';
+    mega.classList.add('mega-open');
+  }
+
+  function hideMega() {
+    hideTimer = setTimeout(function() {
+      mega.classList.remove('mega-open');
+    }, 200);
+  }
+
+  boutiqueLink.addEventListener('mouseenter', showMega);
+  boutiqueLink.addEventListener('mouseleave', hideMega);
+  mega.addEventListener('mouseenter', function() { clearTimeout(hideTimer); });
+  mega.addEventListener('mouseleave', hideMega);
+
+  // Don't show on mobile
+  if (window.innerWidth < 900) {
+    mega.style.display = 'none';
+  }
+  window.addEventListener('resize', function() {
+    mega.style.display = window.innerWidth < 900 ? 'none' : '';
+  });
+});
