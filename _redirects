@@ -1,0 +1,9 @@
+# Cloudflare Pages redirects
+/boutique /pages/boutique.html 200
+/pages/boutique /pages/boutique.html 200
+
+# API function routes
+/api/* /functions/api/:splat 200
+
+# 404 fallback
+/* /404.html 404

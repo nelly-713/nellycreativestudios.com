@@ -321,7 +321,7 @@ if (hintForm) {
       body: new URLSearchParams(new FormData(hintForm)).toString()
     });
     // Call SendGrid function to email the recipient
-    fetch('/.netlify/functions/send-hint', {
+    fetch('/api/send-hint', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)

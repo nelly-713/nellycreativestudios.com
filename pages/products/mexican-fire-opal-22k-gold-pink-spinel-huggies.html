@@ -229,7 +229,7 @@
             <!-- Send via Netlify -->
             <div class="hint-divider">
               <div class="pdp-eyebrow">Or send through us</div>
-              <form id="hint-form" name="hint" method="POST" data-netlify="true" action="/pages/success.html">
+              <form id="hint-form" name="hint" method="POST"  action="/pages/success.html">
                 <input type="hidden" name="form-name" value="hint">
                 <input type="hidden" name="product-url" id="hint-product-url">
                 <input type="hidden" name="product-name" id="hint-product-name">
@@ -411,7 +411,7 @@ if (hintForm) {
       body: new URLSearchParams(new FormData(hintForm)).toString()
     });
     // Call SendGrid function to email the recipient
-    fetch('/.netlify/functions/send-hint', {
+    fetch('/api/send-hint', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
