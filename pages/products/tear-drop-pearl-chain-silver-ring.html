@@ -146,7 +146,7 @@
 
         <!-- SIZE SELECTOR -->
         <div class="u-my-1-5">
-          <div class="section-eyebrow">Ring Size<span class="section-rule"></span><a href="https://www.brilliantearth.com/ring-size-chart/" target="_blank" rel="noopener" class="size-guide-link">Size Guide ↗</a></div>
+          <div class="section-eyebrow">Ring Size<span class="section-rule"></span></div>
           <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.8rem" id="ring-sizes">
             <button class="size-btn" data-size="4" onclick="selectSize(this)" class="size-btn">4</button>
             <button class="size-btn" data-size="4.5" onclick="selectSize(this)" class="size-btn">4.5</button>
@@ -254,7 +254,7 @@
             <!-- Send via Netlify -->
             <div class="hint-divider">
               <div class="pdp-eyebrow">Or send through us</div>
-              <form id="hint-form" name="hint" method="POST"  action="/pages/success.html">
+              <form id="hint-form" name="hint" method="POST" data-netlify="true" action="/pages/success.html">
                 <input type="hidden" name="form-name" value="hint">
                 <input type="hidden" name="product-url" id="hint-product-url">
                 <input type="hidden" name="product-name" id="hint-product-name">
@@ -490,7 +490,7 @@ if (hintForm) {
       body: new URLSearchParams(new FormData(hintForm)).toString()
     });
     // Call SendGrid function to email the recipient
-    fetch('/api/send-hint', {
+    fetch('/.netlify/functions/send-hint', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
