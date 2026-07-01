@@ -1,7 +1,7 @@
 export async function onRequestPost(context) {
-  const SENDGRID_API_KEY = context.env.SENDGRID_API_KEY;
+  const RESEND_API_KEY = context.env.RESEND_API_KEY;
   const FROM_EMAIL = context.env.FROM_EMAIL || 'nelly@jewelrybynelly.com';
-  if (!SENDGRID_API_KEY) return new Response('Missing SENDGRID_API_KEY', {status:500});
+  if (!RESEND_API_KEY) return new Response('Missing RESEND_API_KEY', {status:500});
 
   try {
     const data = await context.request.json();
@@ -14,22 +14,20 @@ export async function onRequestPost(context) {
     const email = (data.email || '').trim();
     if (!email) return new Response('Missing email', {status:400});
 
-    const sgRes = await fetch('https://api.sendgrid.com/v3/mail/send', {
+    const resendRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
-      headers: {'Authorization': 'Bearer ' + SENDGRID_API_KEY, 'Content-Type': 'application/json'},
+      headers: {'Authorization': 'Bearer ' + RESEND_API_KEY, 'Content-Type': 'application/json'},
       body: JSON.stringify({
-        personalizations: [{to: [{email: FROM_EMAIL, name: 'Nelly Creative Studios'}]}],
-        from: {email: FROM_EMAIL, name: 'Nelly Creative Studios Website'},
-        reply_to: {email: email},
+        from: `Nelly Creative Studios Website <${FROM_EMAIL}>`,
+        to: [FROM_EMAIL],
+        reply_to: email,
         subject: 'New newsletter signup',
-        content: [
-          {type: 'text/plain', value: `New newsletter signup from the website:\n\n${email}\n\nAdd this address to your mailing list.`}
-        ]
+        text: `New newsletter signup from the website:\n\n${email}\n\nAdd this address to your mailing list.`
       })
     });
 
-    if (sgRes.status >= 400) {
-      const err = await sgRes.text();
+    if (resendRes.status >= 400) {
+      const err = await resendRes.text();
       return new Response('Email failed: ' + err, {status:500});
     }
     return new Response(JSON.stringify({success:true}), {status:200, headers:{'Content-Type':'application/json'}});
