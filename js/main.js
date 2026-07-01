@@ -118,19 +118,21 @@ if (contactForm) {
 
 
 
+
 // ── HINT MODAL STYLING + FORM FIX ──
 (function() {
-  // Inject hint modal CSS
   var s = document.createElement('style');
   s.textContent = '.hint-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;padding:1.5rem}.hint-modal-panel{background:#fff;max-width:480px;width:100%;padding:2.5rem;position:relative;max-height:90vh;overflow-y:auto}.hint-modal-close{position:absolute;top:1rem;right:1.2rem;background:none;border:none;font-size:1.8rem;cursor:pointer;color:#555;line-height:1}.hint-modal-subtitle{font-size:0.85rem;color:#555;margin-bottom:1.5rem}.hint-textarea{width:100%;min-height:80px;border:1px solid #E8E8E8;padding:0.8rem 1rem;font-family:Jost,sans-serif;font-size:0.85rem;resize:vertical;outline:none;margin-bottom:0.5rem}.hint-textarea:focus{border-color:#B8962E}.hint-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:0.8rem;margin-bottom:1.5rem}.hint-send-btn{display:flex;flex-direction:column;align-items:center;gap:0.5rem;padding:1rem;border:1px solid #E8E8E8;background:#fff;cursor:pointer;transition:border-color .2s,background .2s}.hint-send-btn:hover{border-color:#B8962E;background:#FAFAF8}.hint-divider{border-top:1px solid #E8E8E8;padding-top:1.5rem;margin-top:0.5rem}.hint-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1rem}.hint-label{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:#555;display:block;margin-bottom:0.3rem}.hint-input{width:100%;height:44px;border:1px solid #E8E8E8;padding:0 1rem;font-family:Jost,sans-serif;font-size:0.85rem;outline:none}.hint-input:focus{border-color:#B8962E}.hint-submit{width:100%;height:48px;background:#0A0A0A;color:#fff;border:none;font-family:Jost,sans-serif;font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;transition:background .2s}.hint-submit:hover{background:#B8962E}.hint-submit:disabled{background:#999;cursor:not-allowed}.hint-modal-success{display:none;font-size:0.85rem;color:#B8962E;margin-top:0.8rem;text-align:center}.pdp-hint-btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.5rem;border:1px solid #B8962E;background:#B8962E;color:#fff;font-family:Jost,sans-serif;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:background .2s}.pdp-hint-btn:hover{background:#8A6E1C}@media(max-width:600px){.hint-grid-3{grid-template-columns:1fr}.hint-grid-2{grid-template-columns:1fr}.hint-modal-panel{padding:1.5rem}}';
   document.head.appendChild(s);
 
-  // Override hint form — use capturing + stopImmediatePropagation to block old inline handler
-  var form = document.getElementById('hint-form');
-  if (!form) return;
+  // Intercept ALL form submits at document level in capturing phase
+  // This fires BEFORE any inline handlers on the form itself
+  document.addEventListener('submit', function(e) {
+    var form = e.target;
+    if (!form || form.id !== 'hint-form') return;
 
-  form.addEventListener('submit', function(e) {
     e.preventDefault();
+    e.stopPropagation();
     e.stopImmediatePropagation();
 
     var msgEl = document.getElementById('hint-message-hidden');
