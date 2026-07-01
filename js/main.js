@@ -88,78 +88,86 @@ if (newsForm) {
 }
 
 // Contact form
-const contactForm = document.querySelector('.contact-form');
+var contactForm = document.querySelector('.contact-form') || document.getElementById('contact-form');
 if (contactForm) {
-  contactForm.addEventListener('submit', e => {
+  contactForm.addEventListener('submit', function(e) {
     e.preventDefault();
-    contactForm.innerHTML = '<div style="text-align:center;padding:3rem 2rem"><h3 style="font-family:Cormorant Garamond,serif;font-size:2rem;color:var(--gold);margin-bottom:1rem">Thank You</h3><p style="color:var(--text-light);font-size:0.85rem">Your message has been received. Nelly will be in touch soon.</p></div>';
+    var btn = contactForm.querySelector('button[type="submit"], input[type="submit"]');
+    if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
+    var formData = new FormData(contactForm);
+    var data = {};
+    formData.forEach(function(val, key) { data[key] = val; });
+    fetch('/api/send-contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    }).then(function(res) {
+      if (res.ok) {
+        contactForm.innerHTML = '<div style="text-align:center;padding:3rem 2rem"><h3 style="font-family:Cormorant Garamond,serif;font-size:2rem;color:var(--gold);margin-bottom:1rem">Thank You</h3><p style="color:var(--text-light);font-size:0.85rem">Your message has been received. Nelly will be in touch soon.</p></div>';
+      } else {
+        if (btn) { btn.textContent = 'Try Again'; btn.disabled = false; }
+      }
+    }).catch(function() {
+      if (btn) { btn.textContent = 'Try Again'; btn.disabled = false; }
+    });
   });
 }
 
 
-// ── MEGA MENU (injected via JS — no CSS file changes) ──
+
+
+
+
+// ── HINT MODAL STYLING + FORM FIX ──
 (function() {
-  if (window.innerWidth < 900) return;
+  // Inject hint modal CSS
+  var s = document.createElement('style');
+  s.textContent = '.hint-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;padding:1.5rem}.hint-modal-panel{background:#fff;max-width:480px;width:100%;padding:2.5rem;position:relative;max-height:90vh;overflow-y:auto}.hint-modal-close{position:absolute;top:1rem;right:1.2rem;background:none;border:none;font-size:1.8rem;cursor:pointer;color:#555;line-height:1}.hint-modal-subtitle{font-size:0.85rem;color:#555;margin-bottom:1.5rem}.hint-textarea{width:100%;min-height:80px;border:1px solid #E8E8E8;padding:0.8rem 1rem;font-family:Jost,sans-serif;font-size:0.85rem;resize:vertical;outline:none;margin-bottom:0.5rem}.hint-textarea:focus{border-color:#B8962E}.hint-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:0.8rem;margin-bottom:1.5rem}.hint-send-btn{display:flex;flex-direction:column;align-items:center;gap:0.5rem;padding:1rem;border:1px solid #E8E8E8;background:#fff;cursor:pointer;transition:border-color .2s,background .2s}.hint-send-btn:hover{border-color:#B8962E;background:#FAFAF8}.hint-divider{border-top:1px solid #E8E8E8;padding-top:1.5rem;margin-top:0.5rem}.hint-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1rem}.hint-label{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:#555;display:block;margin-bottom:0.3rem}.hint-input{width:100%;height:44px;border:1px solid #E8E8E8;padding:0 1rem;font-family:Jost,sans-serif;font-size:0.85rem;outline:none}.hint-input:focus{border-color:#B8962E}.hint-submit{width:100%;height:48px;background:#0A0A0A;color:#fff;border:none;font-family:Jost,sans-serif;font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;transition:background .2s}.hint-submit:hover{background:#B8962E}.hint-submit:disabled{background:#999;cursor:not-allowed}.hint-modal-success{display:none;font-size:0.85rem;color:#B8962E;margin-top:0.8rem;text-align:center}.pdp-hint-btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.5rem;border:1px solid #B8962E;background:#B8962E;color:#fff;font-family:Jost,sans-serif;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:background .2s}.pdp-hint-btn:hover{background:#8A6E1C}@media(max-width:600px){.hint-grid-3{grid-template-columns:1fr}.hint-grid-2{grid-template-columns:1fr}.hint-modal-panel{padding:1.5rem}}';
+  document.head.appendChild(s);
 
-  var boutiqueLink = null;
-  document.querySelectorAll('.nav-links a').forEach(function(a) {
-    var txt = a.textContent.trim().toUpperCase();
-    if (txt === 'THE BOUTIQUE' || txt === 'BOUTIQUE') boutiqueLink = a;
-  });
-  if (!boutiqueLink) return;
+  // Override hint form — use capturing + stopImmediatePropagation to block old inline handler
+  var form = document.getElementById('hint-form');
+  if (!form) return;
 
-  // Inject CSS
-  var css = document.createElement('style');
-  css.textContent = [
-    '.ncs-mega{position:fixed;top:0;left:0;right:0;z-index:9999;background:#FAFAF8;border-bottom:1px solid rgba(0,0,0,0.06);box-shadow:0 8px 40px rgba(0,0,0,0.08);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .3s,transform .3s,visibility .3s;pointer-events:none}',
-    '.ncs-mega.open{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}',
-    '.ncs-mega-inner{max-width:1000px;margin:0 auto;padding:2.2rem 2rem 1.8rem;display:flex;gap:1.8rem;justify-content:center;align-items:flex-start}',
-    '.ncs-mega-cat{text-decoration:none;text-align:center;flex:0 0 150px;transition:transform .3s}',
-    '.ncs-mega-cat:hover{transform:translateY(-3px)}',
-    '.ncs-mega-cat .img{width:150px;height:150px;overflow:hidden;background:#F0EDE8}',
-    '.ncs-mega-cat .img img{width:100%;height:100%;object-fit:cover;transition:transform .5s;filter:saturate(.9)}',
-    '.ncs-mega-cat:hover .img img{transform:scale(1.05);filter:saturate(1.1)}',
-    '.ncs-mega-cat .lbl{font-family:Jost,sans-serif;font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:#1B2A4A;display:block;margin-top:.6rem}',
-    '.ncs-mega-all{display:block;width:100%;text-align:center;margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(0,0,0,0.06);font-family:Jost,sans-serif;font-size:.58rem;letter-spacing:.26em;text-transform:uppercase;color:#B8962E;text-decoration:none;transition:color .3s}',
-    '.ncs-mega-all:hover{color:#1B2A4A}',
-    '@media(max-width:900px){.ncs-mega{display:none!important}}'
-  ].join('');
-  document.head.appendChild(css);
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
 
-  // Build menu
-  var href = boutiqueLink.getAttribute('href') || 'pages/boutique.html';
-  var cats = [
-    {name:'Earrings', img:'/images/new-golden-south-sea-pearl-huggies.jpg', filter:'earrings'},
-    {name:'Necklaces', img:'/images/22k-gold-organic-gothic-cross-necklace.jpg', filter:'necklaces'},
-    {name:'Bracelets', img:'/images/small-gold-diamond-links-bracelet.jpg', filter:'bracelets'},
-    {name:'Rings', img:'/images/white-gold-oval-eternity-ring.jpg', filter:'rings'},
-    {name:'Brooches', img:'/images/champagne-gold-peony-flower-brooch.jpg', filter:'brooches'}
-  ];
+    var msgEl = document.getElementById('hint-message-hidden');
+    var noteEl = document.getElementById('hint-note');
+    if (msgEl && noteEl) msgEl.value = noteEl.value;
 
-  var el = document.createElement('div');
-  el.className = 'ncs-mega';
-  var html = '<div class="ncs-mega-inner">';
-  cats.forEach(function(c) {
-    html += '<a href="' + href + '" class="ncs-mega-cat" data-filter="' + c.filter + '">' +
-      '<div class="img"><img src="' + c.img + '" alt="' + c.name + '" loading="lazy"></div>' +
-      '<span class="lbl">' + c.name + '</span></a>';
-  });
-  html += '</div><a href="' + href + '" class="ncs-mega-all">View All Pieces</a>';
-  el.innerHTML = html;
-  document.body.appendChild(el);
+    var btn = form.querySelector('[type="submit"]');
+    if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
 
-  // Show/hide
-  var timer;
-  function show() {
-    clearTimeout(timer);
-    var r = boutiqueLink.getBoundingClientRect();
-    el.style.top = r.bottom + 'px';
-    el.classList.add('open');
-  }
-  function hide() { timer = setTimeout(function() { el.classList.remove('open'); }, 180); }
+    var formData = new FormData(form);
+    var data = {};
+    formData.forEach(function(val, key) { data[key] = val; });
 
-  boutiqueLink.addEventListener('mouseenter', show);
-  boutiqueLink.addEventListener('mouseleave', hide);
-  el.addEventListener('mouseenter', function() { clearTimeout(timer); });
-  el.addEventListener('mouseleave', hide);
+    var titleEl = document.querySelector('h1') || document.querySelector('.pdp-title');
+    if (titleEl) data['product-name'] = titleEl.textContent.trim();
+    data['product-url'] = window.location.href;
+
+    fetch('/api/send-hint', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    }).then(function(res) {
+      if (res.ok) {
+        var c = document.getElementById('hint-sent-confirm');
+        if (c) c.style.display = 'block';
+        setTimeout(function() {
+          var modal = document.getElementById('hint-modal');
+          if (modal) modal.style.display = 'none';
+          if (c) c.style.display = 'none';
+          form.reset();
+          if (btn) { btn.disabled = false; btn.textContent = 'Send via Nelly Creative Studios'; }
+        }, 2500);
+      } else {
+        if (btn) { btn.disabled = false; btn.textContent = 'Try Again'; }
+      }
+    }).catch(function() {
+      if (btn) { btn.disabled = false; btn.textContent = 'Try Again'; }
+    });
+  }, true);
 })();
