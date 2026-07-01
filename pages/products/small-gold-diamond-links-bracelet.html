@@ -477,12 +477,6 @@ if (hintForm) {
       'product-url':     window.location.href,
       'message':         document.getElementById('hint-note') ? document.getElementById('hint-note').value : ''
     };
-    // Also post to Netlify Forms so Nelly gets notified
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(new FormData(hintForm)).toString()
-    });
     // Call SendGrid function to email the recipient
     fetch('/api/send-hint', {
       method: 'POST',
@@ -571,73 +565,6 @@ document.addEventListener('keydown', function(e) {
     });
   };
 
-  if (form) {
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      var urlEl       = document.getElementById('hint-product-url');
-      var nameEl      = document.getElementById('hint-product-name');
-      var msgEl       = document.getElementById('hint-message-hidden');
-      var fwdEl       = document.getElementById('hint-forward-message');
-      var noteEl      = document.getElementById('hint-note');
-      var recipName   = form.querySelector('[name="recipient-name"]');
-      var recipEmail  = form.querySelector('[name="recipient-email"]');
-      var h1          = document.querySelector('h1');
-
-      var productName = h1 ? h1.textContent.trim() : '';
-      var productUrl  = window.location.href;
-      var note        = noteEl ? noteEl.value : '';
-      var toName      = recipName ? recipName.value : '';
-      var toEmail     = recipEmail ? recipEmail.value : '';
-
-      if (urlEl)  urlEl.value  = productUrl;
-      if (nameEl) nameEl.value = productName;
-      if (msgEl)  msgEl.value  = note;
-
-      // Build the full forwarding email for Nelly
-      if (fwdEl) {
-        fwdEl.value = [
-          '─────────────────────────────',
-          'FORWARD TO: ' + (toName ? toName + ' <' + toEmail + '>' : toEmail),
-          '─────────────────────────────',
-          '',
-          'Hi ' + (toName || 'there') + ',',
-          '',
-          note ? note : 'Someone thought of you and wanted to share this piece from Nelly Creative Studios.',
-          '',
-          productName,
-          productUrl,
-          '',
-          '─────────────────────────────',
-          'Suggested subject line:',
-          'Someone has their eye on something special for you',
-          '─────────────────────────────'
-        ].join('\n');
-      }
-
-      var submitBtn = form.querySelector('[type="submit"]');
-      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
-
-      fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(new FormData(form)).toString()
-      }).then(function() {
-        var confirm = document.getElementById('hint-sent-confirm');
-        if (confirm) confirm.style.display = 'block';
-        showToast('Hint Sent', 'We\'ll pass your hint along shortly.');
-        setTimeout(function() {
-          if (modal) modal.style.display = 'none';
-          if (confirm) confirm.style.display = 'none';
-          form.reset();
-          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Send via Nelly Creative Studios'; }
-        }, 2500);
-      }).catch(function() {
-        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Send via Nelly Creative Studios'; }
-        alert('Something went wrong — please try WhatsApp or Email instead.');
-      });
-    });
-  }
 
   if (modal) {
     modal.addEventListener('click', function(e) {

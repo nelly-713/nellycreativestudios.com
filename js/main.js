@@ -1,49 +1,72 @@
 // ── SHARED SITE JS ──
 
+// Toast notifications — called across the site (hint sent, message received, etc.)
+// but was never defined anywhere, so every call threw a ReferenceError. Fixed here.
+function showToast(title, message) {
+  var existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+
+  var toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.innerHTML =
+    '<div class="toast-icon">✦</div>' +
+    '<div class="toast-body">' +
+      '<div class="toast-title"></div>' +
+      '<div class="toast-msg"></div>' +
+    '</div>' +
+    '<button class="toast-close" aria-label="Dismiss">×</button>';
+  toast.querySelector('.toast-title').textContent = title || '';
+  toast.querySelector('.toast-msg').textContent = message || '';
+  document.body.appendChild(toast);
+
+  requestAnimationFrame(function() { toast.classList.add('visible'); });
+
+  var dismissTimer = setTimeout(dismiss, 4000);
+  function dismiss() {
+    clearTimeout(dismissTimer);
+    toast.classList.remove('visible');
+    setTimeout(function() { toast.remove(); }, 400);
+  }
+  toast.querySelector('.toast-close').addEventListener('click', dismiss);
+}
+window.showToast = showToast;
+
 // Nav scroll effect + active links
-const nav = document.querySelector('.site-nav');
+const nav = document.querySelector('.nav');
 window.addEventListener('scroll', () => {
-  nav && nav.classList.toggle('scrolled', window.scrollY > 20);
+  nav && nav.classList.toggle('nav--scrolled', window.scrollY > 20);
 });
 
-// Mobile nav toggle
-const toggle = document.querySelector('.nav-toggle');
-const navLinks = document.querySelector('.nav-links');
-if (toggle && navLinks) {
+// Mobile nav toggle (hamburger → drawer)
+const toggle = document.querySelector('.nav-burger');
+const navDrawer = document.querySelector('.nav-drawer');
+if (toggle && navDrawer) {
   toggle.addEventListener('click', () => {
-    const isOpen = navLinks.classList.toggle('open');
+    const isOpen = navDrawer.classList.toggle('open');
+    toggle.classList.toggle('open', isOpen);
     toggle.setAttribute('aria-expanded', isOpen);
-    // Animate hamburger → X
-    const spans = toggle.querySelectorAll('span');
-    if (isOpen) {
-      spans[0].style.transform = 'translateY(6.5px) rotate(45deg)';
-      spans[1].style.opacity = '0';
-      spans[2].style.transform = 'translateY(-6.5px) rotate(-45deg)';
-    } else {
-      spans[0].style.transform = '';
-      spans[1].style.opacity = '';
-      spans[2].style.transform = '';
-    }
   });
-  // Close nav when a link is tapped
-  navLinks.querySelectorAll('a').forEach(a => {
+  // Close drawer when a link is tapped
+  navDrawer.querySelectorAll('a').forEach(a => {
     a.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      toggle.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+      navDrawer.classList.remove('open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
     });
   });
-  // Close nav when tapping outside
+  // Close drawer when tapping outside
   document.addEventListener('click', (e) => {
-    if (!toggle.contains(e.target) && !navLinks.contains(e.target)) {
-      navLinks.classList.remove('open');
-      toggle.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+    if (!toggle.contains(e.target) && !navDrawer.contains(e.target)) {
+      navDrawer.classList.remove('open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
     }
   });
 }
 
-// Mark active nav link
+// Mark active nav link (fallback — most pages already set this in HTML)
 const currentPage = location.pathname.split('/').pop() || 'index.html';
-document.querySelectorAll('.nav-links a').forEach(a => {
+document.querySelectorAll('.nav-list a, .nav-drawer a').forEach(a => {
   if (a.getAttribute('href') === currentPage) a.classList.add('active');
 });
 
@@ -77,99 +100,104 @@ document.querySelectorAll('.faq-item').forEach(item => {
   });
 });
 
-// Newsletter form
-const newsForm = document.querySelector('.newsletter-form');
-if (newsForm) {
-  newsForm.addEventListener('submit', e => {
+// Newsletter form — real submission via Cloudflare Function, with basic spam guards
+document.querySelectorAll('.newsletter-form').forEach(form => {
+  const loadTime = Date.now();
+  form.addEventListener('submit', e => {
     e.preventDefault();
-    const input = newsForm.querySelector('input');
-    newsForm.innerHTML = '<p style="color:rgba(255,255,255,0.9);font-size:0.85rem;padding:0.9rem;letter-spacing:0.1em;">Thank you — you\'re on the list! ✦</p>';
-  });
-}
+    // Spam guards: bots submit instantly; honeypot field should stay empty
+    if (Date.now() - loadTime < 2000) return;
+    const bot = form.querySelector('[name="bot-field"]');
+    if (bot && bot.value) return;
 
-// Contact form
-var contactForm = document.querySelector('.contact-form') || document.getElementById('contact-form');
-if (contactForm) {
-  contactForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    var btn = contactForm.querySelector('button[type="submit"], input[type="submit"]');
-    if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
-    var formData = new FormData(contactForm);
-    var data = {};
-    formData.forEach(function(val, key) { data[key] = val; });
-    fetch('/api/send-contact', {
+    const emailInput = form.querySelector('input[type="email"]');
+    const btn = form.querySelector('button[type="submit"]');
+    if (btn) btn.disabled = true;
+
+    fetch('/api/subscribe', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    }).then(function(res) {
-      if (res.ok) {
-        contactForm.innerHTML = '<div style="text-align:center;padding:3rem 2rem"><h3 style="font-family:Cormorant Garamond,serif;font-size:2rem;color:var(--gold);margin-bottom:1rem">Thank You</h3><p style="color:var(--text-light);font-size:0.85rem">Your message has been received. Nelly will be in touch soon.</p></div>';
+      body: JSON.stringify({ email: emailInput ? emailInput.value : '' })
+    }).then(res => {
+      if (!res.ok) throw new Error('Request failed');
+      const success = document.getElementById('newsletter-success');
+      if (success) {
+        form.style.display = 'none';
+        success.style.display = 'block';
       } else {
-        if (btn) { btn.textContent = 'Try Again'; btn.disabled = false; }
+        form.innerHTML = '<p style="color:rgba(255,255,255,0.9);font-size:0.85rem;padding:0.9rem;letter-spacing:0.1em;">Thank you — you\'re on the list! ✦</p>';
       }
-    }).catch(function() {
-      if (btn) { btn.textContent = 'Try Again'; btn.disabled = false; }
+    }).catch(() => {
+      if (btn) btn.disabled = false;
+      alert('Something went wrong. Please email nelly@jewelrybynelly.com directly.');
     });
   });
-}
+});
 
 
-
-
-
-
-
-// ── HINT MODAL STYLING + FORM FIX ──
+// ── MEGA MENU (injected via JS — no CSS file changes) ──
 (function() {
-  var s = document.createElement('style');
-  s.textContent = '.hint-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;padding:1.5rem}.hint-modal-panel{background:#fff;max-width:480px;width:100%;padding:2.5rem;position:relative;max-height:90vh;overflow-y:auto}.hint-modal-close{position:absolute;top:1rem;right:1.2rem;background:none;border:none;font-size:1.8rem;cursor:pointer;color:#555;line-height:1}.hint-modal-subtitle{font-size:0.85rem;color:#555;margin-bottom:1.5rem}.hint-textarea{width:100%;min-height:80px;border:1px solid #E8E8E8;padding:0.8rem 1rem;font-family:Jost,sans-serif;font-size:0.85rem;resize:vertical;outline:none;margin-bottom:0.5rem}.hint-textarea:focus{border-color:#B8962E}.hint-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:0.8rem;margin-bottom:1.5rem}.hint-send-btn{display:flex;flex-direction:column;align-items:center;gap:0.5rem;padding:1rem;border:1px solid #E8E8E8;background:#fff;cursor:pointer;transition:border-color .2s,background .2s}.hint-send-btn:hover{border-color:#B8962E;background:#FAFAF8}.hint-divider{border-top:1px solid #E8E8E8;padding-top:1.5rem;margin-top:0.5rem}.hint-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1rem}.hint-label{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:#555;display:block;margin-bottom:0.3rem}.hint-input{width:100%;height:44px;border:1px solid #E8E8E8;padding:0 1rem;font-family:Jost,sans-serif;font-size:0.85rem;outline:none}.hint-input:focus{border-color:#B8962E}.hint-submit{width:100%;height:48px;background:#0A0A0A;color:#fff;border:none;font-family:Jost,sans-serif;font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;transition:background .2s}.hint-submit:hover{background:#B8962E}.hint-submit:disabled{background:#999;cursor:not-allowed}.hint-modal-success{display:none;font-size:0.85rem;color:#B8962E;margin-top:0.8rem;text-align:center}.pdp-hint-btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.5rem;border:1px solid #B8962E;background:#B8962E;color:#fff;font-family:Jost,sans-serif;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:background .2s}.pdp-hint-btn:hover{background:#8A6E1C}@media(max-width:600px){.hint-grid-3{grid-template-columns:1fr}.hint-grid-2{grid-template-columns:1fr}.hint-modal-panel{padding:1.5rem}}';
-  document.head.appendChild(s);
+  if (window.innerWidth < 900) return;
 
-  // Intercept ALL form submits at document level in capturing phase
-  // This fires BEFORE any inline handlers on the form itself
-  document.addEventListener('submit', function(e) {
-    var form = e.target;
-    if (!form || form.id !== 'hint-form') return;
+  var boutiqueLink = null;
+  document.querySelectorAll('.nav-list a').forEach(function(a) {
+    var txt = a.textContent.trim().toUpperCase();
+    if (txt === 'THE BOUTIQUE' || txt === 'BOUTIQUE') boutiqueLink = a;
+  });
+  if (!boutiqueLink) return;
 
-    e.preventDefault();
-    e.stopPropagation();
-    e.stopImmediatePropagation();
+  // Inject CSS
+  var css = document.createElement('style');
+  css.textContent = [
+    '.ncs-mega{position:fixed;top:0;left:0;right:0;z-index:9999;background:#FAFAF8;border-bottom:1px solid rgba(0,0,0,0.06);box-shadow:0 8px 40px rgba(0,0,0,0.08);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .3s,transform .3s,visibility .3s;pointer-events:none}',
+    '.ncs-mega.open{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}',
+    '.ncs-mega-inner{max-width:1000px;margin:0 auto;padding:2.2rem 2rem 1.8rem;display:flex;gap:1.8rem;justify-content:center;align-items:flex-start}',
+    '.ncs-mega-cat{text-decoration:none;text-align:center;flex:0 0 150px;transition:transform .3s}',
+    '.ncs-mega-cat:hover{transform:translateY(-3px)}',
+    '.ncs-mega-cat .img{width:150px;height:150px;overflow:hidden;background:#F0EDE8}',
+    '.ncs-mega-cat .img img{width:100%;height:100%;object-fit:cover;transition:transform .5s;filter:saturate(.9)}',
+    '.ncs-mega-cat:hover .img img{transform:scale(1.05);filter:saturate(1.1)}',
+    '.ncs-mega-cat .lbl{font-family:Jost,sans-serif;font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:#1B2A4A;display:block;margin-top:.6rem}',
+    '.ncs-mega-all{display:block;width:100%;text-align:center;margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(0,0,0,0.06);font-family:Jost,sans-serif;font-size:.58rem;letter-spacing:.26em;text-transform:uppercase;color:#B8962E;text-decoration:none;transition:color .3s}',
+    '.ncs-mega-all:hover{color:#1B2A4A}',
+    '@media(max-width:900px){.ncs-mega{display:none!important}}'
+  ].join('');
+  document.head.appendChild(css);
 
-    var msgEl = document.getElementById('hint-message-hidden');
-    var noteEl = document.getElementById('hint-note');
-    if (msgEl && noteEl) msgEl.value = noteEl.value;
+  // Build menu
+  var href = boutiqueLink.getAttribute('href') || 'pages/boutique.html';
+  var cats = [
+    {name:'Earrings', img:'/images/new-golden-south-sea-pearl-huggies.jpg', filter:'earrings'},
+    {name:'Necklaces', img:'/images/22k-gold-organic-gothic-cross-necklace.jpg', filter:'necklaces'},
+    {name:'Bracelets', img:'/images/small-gold-diamond-links-bracelet.jpg', filter:'bracelets'},
+    {name:'Rings', img:'/images/white-gold-oval-eternity-ring.jpg', filter:'rings'},
+    {name:'Brooches', img:'/images/champagne-gold-peony-flower-brooch.jpg', filter:'brooches'}
+  ];
 
-    var btn = form.querySelector('[type="submit"]');
-    if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
+  var el = document.createElement('div');
+  el.className = 'ncs-mega';
+  var html = '<div class="ncs-mega-inner">';
+  cats.forEach(function(c) {
+    html += '<a href="' + href + '" class="ncs-mega-cat" data-filter="' + c.filter + '">' +
+      '<div class="img"><img src="' + c.img + '" alt="' + c.name + '" loading="lazy"></div>' +
+      '<span class="lbl">' + c.name + '</span></a>';
+  });
+  html += '</div><a href="' + href + '" class="ncs-mega-all">View All Pieces</a>';
+  el.innerHTML = html;
+  document.body.appendChild(el);
 
-    var formData = new FormData(form);
-    var data = {};
-    formData.forEach(function(val, key) { data[key] = val; });
+  // Show/hide
+  var timer;
+  function show() {
+    clearTimeout(timer);
+    var r = boutiqueLink.getBoundingClientRect();
+    el.style.top = r.bottom + 'px';
+    el.classList.add('open');
+  }
+  function hide() { timer = setTimeout(function() { el.classList.remove('open'); }, 180); }
 
-    var titleEl = document.querySelector('h1') || document.querySelector('.pdp-title');
-    if (titleEl) data['product-name'] = titleEl.textContent.trim();
-    data['product-url'] = window.location.href;
-
-    fetch('/api/send-hint', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    }).then(function(res) {
-      if (res.ok) {
-        var c = document.getElementById('hint-sent-confirm');
-        if (c) c.style.display = 'block';
-        setTimeout(function() {
-          var modal = document.getElementById('hint-modal');
-          if (modal) modal.style.display = 'none';
-          if (c) c.style.display = 'none';
-          form.reset();
-          if (btn) { btn.disabled = false; btn.textContent = 'Send via Nelly Creative Studios'; }
-        }, 2500);
-      } else {
-        if (btn) { btn.disabled = false; btn.textContent = 'Try Again'; }
-      }
-    }).catch(function() {
-      if (btn) { btn.disabled = false; btn.textContent = 'Try Again'; }
-    });
-  }, true);
+  boutiqueLink.addEventListener('mouseenter', show);
+  boutiqueLink.addEventListener('mouseleave', hide);
+  el.addEventListener('mouseenter', function() { clearTimeout(timer); });
+  el.addEventListener('mouseleave', hide);
 })();

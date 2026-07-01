@@ -21,7 +21,10 @@ export async function onRequestPost(context) {
       method: 'POST',
       headers: {'Authorization': 'Bearer ' + SENDGRID_API_KEY, 'Content-Type': 'application/json'},
       body: JSON.stringify({
-        personalizations: [{to: [{email, name: fullName}]}],
+        personalizations: [
+          {to: [{email, name: fullName}]},
+          {to: [{email: FROM_EMAIL, name: 'Nelly Creative Studios'}]}
+        ],
         from: {email: FROM_EMAIL, name: 'Nelly Creative Studios'},
         reply_to: {email: FROM_EMAIL, name: 'Nelly Creative Studios'},
         subject: 'We received your message — Nelly Creative Studios',
@@ -32,8 +35,23 @@ export async function onRequestPost(context) {
       })
     });
 
-    if (sgRes.status >= 400) {
-      const err = await sgRes.text();
+    // Notify Nelly separately with the actual message so it doesn't get lost in a shared template
+    const notifyRes = await fetch('https://api.sendgrid.com/v3/mail/send', {
+      method: 'POST',
+      headers: {'Authorization': 'Bearer ' + SENDGRID_API_KEY, 'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        personalizations: [{to: [{email: FROM_EMAIL, name: 'Nelly Creative Studios'}]}],
+        from: {email: FROM_EMAIL, name: 'Nelly Creative Studios Website'},
+        reply_to: {email: email, name: fullName},
+        subject: 'New contact form message from ' + fullName,
+        content: [
+          {type: 'text/plain', value: `New message from the contact form:\n\nName: ${fullName}\nEmail: ${email}\nEnquiry type: ${enquiry || 'n/a'}\n\nMessage:\n${message}`}
+        ]
+      })
+    });
+
+    if (sgRes.status >= 400 || notifyRes.status >= 400) {
+      const err = await (sgRes.status >= 400 ? sgRes : notifyRes).text();
       return new Response('Email failed: ' + err, {status:500});
     }
     return new Response(JSON.stringify({success:true}), {status:200, headers:{'Content-Type':'application/json'}});

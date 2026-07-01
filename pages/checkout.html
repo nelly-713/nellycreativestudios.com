@@ -664,8 +664,8 @@
           price: total
         })
       });
-      const data = await res.json();
-      if (!data.clientSecret) throw new Error(data.error || 'No client secret');
+      const data = await res.json().catch(function() { return {}; });
+      if (!res.ok || !data.clientSecret) throw new Error(data.error || 'Unable to start checkout. Please try again.');
 
       clientSecret = data.clientSecret;
 

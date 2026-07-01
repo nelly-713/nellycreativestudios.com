@@ -343,17 +343,19 @@ if (bForm) {
     var submitBtn = bForm.querySelector('[type="submit"]');
     if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
 
-    // Add note to form data
     var noteEl = document.getElementById('bespoke-hint-note');
-    var noteInput = bForm.querySelector('input[name="message"]') || document.createElement('input');
-    noteInput.name = 'message';
-    noteInput.value = noteEl ? noteEl.value : '';
-    if (!bForm.querySelector('input[name="message"]')) bForm.appendChild(noteInput);
+    var payload = {
+      'recipient-name':  bForm.querySelector('input[name="recipient-name"]').value,
+      'recipient-email': bForm.querySelector('input[name="recipient-email"]').value,
+      'product-name':    'A Bespoke Piece',
+      'product-url':     'https://nellycreativestudios.com/pages/bespoke.html',
+      'message':         noteEl ? noteEl.value : ''
+    };
 
-    fetch('/', {
+    fetch('/api/send-hint', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(new FormData(bForm)).toString()
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
     }).then(function() {
       document.getElementById('bespoke-hint-sent').style.display = 'block';
       showToast('Hint Sent', 'We\'ll forward your hint shortly.');

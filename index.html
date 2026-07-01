@@ -543,27 +543,6 @@
   resetTimer();
 })();
 </script>
-<script>
-var nf = document.getElementById('newsletter-form');
-var _pageLoad = Date.now();
-if (nf) {
-  nf.addEventListener('submit', function(e) {
-    e.preventDefault();
-    // Spam guard: must wait >2s and honeypot must be empty
-    if (Date.now() - _pageLoad < 2000) return;
-    var bot = nf.querySelector('[name="bot-field"]');
-    if (bot && bot.value) return;
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(new FormData(nf)).toString()
-    }).then(function() {
-      nf.style.display = 'none';
-      document.getElementById('newsletter-success').style.display = 'block';
-    });
-  });
-}
-</script>
 <script src="js/cart.js" defer></script>
 </body>
 </html>

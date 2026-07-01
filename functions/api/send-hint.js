@@ -39,6 +39,21 @@ export async function onRequestPost(context) {
       const err = await sgRes.text();
       return new Response('Email send failed: ' + err, {status:500});
     }
+
+    // Notify Nelly too — the old Netlify Forms notification path doesn't exist on Cloudflare
+    await fetch('https://api.sendgrid.com/v3/mail/send', {
+      method: 'POST',
+      headers: {'Authorization': 'Bearer ' + SENDGRID_API_KEY, 'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        personalizations: [{to: [{email: FROM_EMAIL, name: 'Nelly Creative Studios'}]}],
+        from: {email: FROM_EMAIL, name: 'Nelly Creative Studios Website'},
+        subject: 'A hint was sent — ' + productName,
+        content: [
+          {type: 'text/plain', value: `A "hint" was sent via the website.\n\nRecipient: ${recipientName || '(no name given)'} <${recipientEmail}>\nPiece: ${productName}\nLink: ${productUrl}\nNote: ${message || '(none)'}`}
+        ]
+      })
+    }).catch(function() { /* recipient email already sent; don't fail the request over the internal copy */ });
+
     return new Response(JSON.stringify({success:true}), {status:200, headers:{'Content-Type':'application/json'}});
   } catch(err) {
     return new Response(err.message, {status:500});
