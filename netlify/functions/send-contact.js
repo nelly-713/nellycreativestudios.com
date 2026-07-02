@@ -5,7 +5,7 @@ exports.handler = async function(event) {
   }
 
   const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
-  const FROM_EMAIL = process.env.FROM_EMAIL || 'nelly@jewelrybynelly.com';
+  const FROM_EMAIL = process.env.FROM_EMAIL || 'nelly@nellycreativestudios.com';
 
   if (!SENDGRID_API_KEY) return { statusCode: 500, body: 'Missing SENDGRID_API_KEY' };
 

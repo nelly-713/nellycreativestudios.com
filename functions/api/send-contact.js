@@ -1,6 +1,6 @@
 export async function onRequestPost(context) {
   const RESEND_API_KEY = context.env.RESEND_API_KEY;
-  const FROM_EMAIL = context.env.FROM_EMAIL || 'nelly@jewelrybynelly.com';
+  const FROM_EMAIL = context.env.FROM_EMAIL || 'nelly@nellycreativestudios.com';
   if (!RESEND_API_KEY) return new Response('Missing RESEND_API_KEY', {status:500});
 
   try {

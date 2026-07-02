@@ -129,7 +129,7 @@ document.querySelectorAll('.newsletter-form').forEach(form => {
       }
     }).catch(() => {
       if (btn) btn.disabled = false;
-      alert('Something went wrong. Please email nelly@jewelrybynelly.com directly.');
+      alert('Something went wrong. Please email nelly@nellycreativestudios.com directly.');
     });
   });
 });

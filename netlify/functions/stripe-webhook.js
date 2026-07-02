@@ -42,7 +42,7 @@ exports.handler = async (event) => {
     // Email to customer
     await sgMail.send({
       to: email,
-      from: 'nelly@jewelrybynelly.com',
+      from: 'nelly@nellycreativestudios.com',
       subject: `Your Nelly Creative Studios Order — ${productName}`,
       html: `
         <div style="font-family:Georgia,serif;max-width:600px;margin:0 auto;padding:2rem">
@@ -53,7 +53,7 @@ exports.handler = async (event) => {
           ${productName}<br>
           Total: $${amount}</p>
           <p>Your piece is now in Nelly's hands. Please allow 2–4 weeks for creation and delivery.</p>
-          <p>Questions? Reply to this email or write to nelly@jewelrybynelly.com</p>
+          <p>Questions? Reply to this email or write to nelly@nellycreativestudios.com</p>
           <p style="color:#888;font-size:0.8rem;margin-top:2rem">Nelly Creative Studios · New York City</p>
         </div>
       `
@@ -61,8 +61,8 @@ exports.handler = async (event) => {
 
     // Notification to Nelly
     await sgMail.send({
-      to: 'nelly@jewelrybynelly.com',
-      from: 'nelly@jewelrybynelly.com',
+      to: 'nelly@nellycreativestudios.com',
+      from: 'nelly@nellycreativestudios.com',
       subject: `New Order — ${productName} — $${amount}`,
       html: `
         <p><strong>New order received!</strong></p>
