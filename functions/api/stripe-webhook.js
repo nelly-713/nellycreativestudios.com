@@ -1,10 +1,25 @@
 export async function onRequestPost(context) {
   const RESEND_API_KEY = context.env.RESEND_API_KEY;
   const FROM_EMAIL = context.env.FROM_EMAIL || 'nelly@nellycreativestudios.com';
+  const WEBHOOK_SECRET = context.env.STRIPE_WEBHOOK_SECRET;
 
   try {
-    const body = await context.request.text();
-    const event = JSON.parse(body);
+    const rawBody = await context.request.text();
+
+    if (WEBHOOK_SECRET) {
+      const sigHeader = context.request.headers.get('stripe-signature');
+      if (!sigHeader) {
+        return new Response('Webhook Error: Missing stripe-signature header', {status:400});
+      }
+      const valid = await verifyStripeSignature(rawBody, sigHeader, WEBHOOK_SECRET);
+      if (!valid) {
+        return new Response('Webhook Error: Invalid signature', {status:400});
+      }
+    } else {
+      console.log('STRIPE_WEBHOOK_SECRET not set — skipping signature verification');
+    }
+
+    const event = JSON.parse(rawBody);
 
     if (event.type === 'payment_intent.succeeded') {
       const pi = event.data.object;
@@ -21,7 +36,6 @@ export async function onRequestPost(context) {
       console.log('Payment succeeded:', productName, '$' + amount);
 
       if (RESEND_API_KEY) {
-        // Notify Nelly
         const notifyRes = await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: {'Authorization': 'Bearer ' + RESEND_API_KEY, 'Content-Type': 'application/json'},
@@ -37,7 +51,6 @@ export async function onRequestPost(context) {
           console.log('Owner notification email failed:', await notifyRes.text());
         }
 
-        // Confirm with the customer, if we have their email
         if (customerEmail) {
           const customerRes = await fetch('https://api.resend.com/emails', {
             method: 'POST',
@@ -64,4 +77,45 @@ export async function onRequestPost(context) {
   } catch(err) {
     return new Response('Webhook Error: ' + err.message, {status:400});
   }
+}
+
+async function verifyStripeSignature(rawBody, sigHeader, secret) {
+  const parts = Object.fromEntries(
+    sigHeader.split(',').map(p => {
+      const [k, v] = p.split('=');
+      return [k, v];
+    })
+  );
+  const timestamp = parts.t;
+  const v1 = parts.v1;
+  if (!timestamp || !v1) return false;
+
+  const signedPayload = `${timestamp}.${rawBody}`;
+
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    'raw',
+    enc.encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  );
+  const sigBuffer = await crypto.subtle.sign('HMAC', key, enc.encode(signedPayload));
+  const expectedSig = Array.from(new Uint8Array(sigBuffer))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+
+  const age = Math.floor(Date.now() / 1000) - parseInt(timestamp, 10);
+  if (age > 300) return false;
+
+  return timingSafeEqual(expectedSig, v1);
+}
+
+function timingSafeEqual(a, b) {
+  if (a.length !== b.length) return false;
+  let result = 0;
+  for (let i = 0; i < a.length; i++) {
+    result |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return result === 0;
 }
