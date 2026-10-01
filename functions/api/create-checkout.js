@@ -16,6 +16,7 @@ export async function onRequestPost(context) {
       'cancel_url': 'https://nellycreativestudios.com/pages/boutique.html',
       'phone_number_collection[enabled]': 'true',
       'metadata[productId]': productId || '',
+      'metadata[productName]': productName || '',
     });
     if (image) params.append('line_items[0][price_data][product_data][images][]', image);
     ['US','CA','GB','AU','FR','DE','IT','ES','NL','CH','SE','NO','DK','JP','SG','HK','AE','MX'].forEach(function(country) {
