@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Photo Uploads | Nelly Creative Studios</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400;1,6..96,500;1,6..96,600;1,6..96,700&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    [hidden]{display:none!important}
+    .eu-wrap{max-width:860px;margin:0 auto}
+    .eu-card{border:1px solid var(--fog);padding:3rem;background:var(--white)}
+    .eu-card .form-group label{color:var(--navy)}
+    .eu-card input[readonly]{background:var(--cream,#f6f2ea);cursor:default}
+    .eu-note{font-size:.9rem;line-height:1.9;color:var(--navy);margin-bottom:2rem}
+    .eu-error{color:#9b2c2c;font-size:.8rem;line-height:1.6;margin:.25rem 0 1rem}
+    .eu-error:empty,.eu-summary:empty{display:none}
+    .eu-card select{cursor:pointer;padding-right:1.6rem;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%231B2A4A' stroke-width='1.5'/></svg>") no-repeat right .2rem center}
+    .eu-card select:disabled{cursor:default;opacity:.6}
+    .cta[disabled]{opacity:.45;cursor:not-allowed}
+    .eu-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;gap:.75rem 1rem;flex-wrap:wrap}
+    .eu-who-line{display:flex;align-items:center;gap:1.25rem}
+    .eu-tabs{display:flex;gap:2rem;border-bottom:1px solid var(--fog);margin-bottom:2rem;flex-wrap:wrap}
+    .eu-tab{background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;padding:.6rem 0;font:inherit;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--navy);opacity:.6;cursor:pointer}
+    .eu-tab:hover{opacity:1}
+    .eu-tab.is-active{opacity:1;color:var(--black);border-bottom-color:var(--gold)}
+    .eu-drop{position:relative;display:block;border:1px dashed var(--navy-40);padding:3rem 1.5rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;margin-bottom:1.5rem}
+    .eu-drop:hover,.eu-drop.is-over,.eu-drop:focus-within{border-color:var(--gold);background:#faf8f3}
+    .eu-drop strong{display:block;font-family:'Bodoni Moda',serif;font-style:italic;font-weight:400;font-size:1.5rem;color:var(--black);margin-bottom:.6rem}
+    .eu-drop span{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--navy)}
+    .eu-drop input{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+    .eu-summary{font-size:.8rem;letter-spacing:.04em;color:var(--navy);margin:0 0 .75rem}
+    .eu-list{list-style:none;margin:0 0 1.75rem;padding:0}
+    .eu-item{display:flex;align-items:center;gap:1rem;padding:.75rem 0;border-bottom:1px solid var(--fog)}
+    .eu-thumb{width:56px;height:56px;object-fit:cover;background:#f3f1ec;flex-shrink:0;display:block}
+    .eu-meta{flex:1;min-width:0}
+    .eu-name{font-size:.85rem;color:var(--black);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .eu-status{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--navy);margin-top:.3rem}
+    .eu-status.ok{color:var(--gold-d)}
+    .eu-status.err{color:#9b2c2c}
+    .eu-bar{height:2px;background:var(--fog);margin-top:.45rem;overflow:hidden}
+    .eu-bar i{display:block;height:100%;width:0;background:var(--gold);transition:width .15s}
+    .eu-remove{background:none;border:0;color:var(--navy);font-size:1.3rem;line-height:1;cursor:pointer;padding:.4rem .6rem}
+    .eu-remove:hover{color:var(--black)}
+    .eu-actions{display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap}
+    .eu-link{background:none;border:0;font:inherit;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--navy);cursor:pointer;text-decoration:underline;text-underline-offset:4px;padding:0;white-space:nowrap}
+    .eu-link:hover{color:var(--gold-d)}
+    /* gallery */
+    .eu-gtools{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem}
+    .eu-gtools .form-group{margin:0;flex:1;min-width:220px;max-width:420px}
+    .eu-gbtns{display:flex;gap:1.5rem;align-items:center}
+    .eu-small{padding:.85rem 1.6rem}
+    .eu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.5rem}
+    .eu-tile{position:relative;aspect-ratio:1/1;background:#f3f1ec;border:0;padding:0;cursor:pointer;overflow:hidden;display:block}
+    .eu-tile img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+    .eu-tile:hover img{transform:scale(1.04)}
+    .eu-tile .eu-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:.75rem;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);word-break:break-word}
+    .eu-empty{padding:3rem 0;text-align:center;font-size:.9rem;color:var(--navy)}
+    /* events tab */
+    /* lightbox */
+    .eu-lb{position:fixed;inset:0;z-index:3000;background:rgba(10,10,10,.95);display:flex;align-items:center;justify-content:center}
+    .eu-lb-stage{max-width:92vw;max-height:78vh;display:flex;align-items:center;justify-content:center}
+    .eu-lb-stage img{max-width:92vw;max-height:78vh;object-fit:contain;display:block}
+    .eu-lb-fb{color:#fff;font-size:.8rem;letter-spacing:.1em;text-align:center;line-height:1.9;max-width:320px}
+    .eu-lb-x,.eu-lb-nav{position:absolute;background:none;border:0;color:#fff;cursor:pointer;line-height:1;opacity:.8;padding:1rem}
+    .eu-lb-x:hover,.eu-lb-nav:hover{opacity:1}
+    .eu-lb-x{top:.5rem;right:.75rem;font-size:2.2rem}
+    .eu-lb-nav{top:50%;transform:translateY(-50%);font-size:3rem}
+    .eu-lb-prev{left:.5rem}
+    .eu-lb-next{right:.5rem}
+    .eu-lb-bar{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 1.5rem;color:rgba(255,255,255,.75);font-size:.72rem;letter-spacing:.08em}
+    .eu-lb-dl{color:var(--gold-l);text-transform:uppercase;letter-spacing:.2em;font-size:.65rem;text-decoration:underline;text-underline-offset:4px;white-space:nowrap}
+    @media(max-width:600px){
+      .eu-card{padding:1.75rem 1.25rem}
+      .eu-drop{padding:2.25rem 1rem}
+      .eu-grid{grid-template-columns:repeat(auto-fill,minmax(105px,1fr))}
+      .eu-lb-nav{font-size:2.2rem;padding:.6rem}
+    }
+  </style>
+</head>
+<body>
+<nav class="nav nav--dark">
+  <a href="/index.html" class="nav-logo"><img src="/logo.png" alt="Nelly Creative Studios" class="nav-logo-img default" fetchpriority="high" decoding="async"><img src="/logo-white.png" alt="Nelly Creative Studios" class="nav-logo-img white" loading="lazy" decoding="async"></a>
+  <ul class="nav-list">
+    <li><a href="/index.html">Home</a></li><li><a href="/pages/boutique.html">The Boutique</a></li>
+    <li><a href="/pages/bespoke.html">Bespoke</a></li><li><a href="/pages/journal.html">Journal</a></li>
+    <li><a href="/pages/about.html">About</a></li>
+    <li><a href="/pages/faq.html">FAQ</a></li>
+    <li><a href="/pages/gemstones.html">Gemstones</a></li>
+  </ul>
+  <button class="nav-burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<nav class="nav-drawer">
+  <a href="/index.html">Home</a><a href="/pages/boutique.html">The Boutique</a>
+  <a href="/pages/bespoke.html">Bespoke</a><a href="/pages/journal.html">Journal</a>
+  <a href="/pages/about.html">About</a><a href="/pages/faq.html">FAQ</a>
+  <a href="/pages/gemstones.html">Gemstones</a>
+  <a href="/pages/contact.html" class="nav-drawer-contact">Enquire →</a>
+</nav>
+
+<div class="page-hero" style="min-height:40vh">
+  <div class="page-hero__overlay" style="background:rgba(0,0,0,0.88)"></div>
+  <div class="page-hero__content">
+    <div class="label label-w">Private</div>
+    <h1>Event <em>Photos</em></h1>
+    <p>Studio team access only.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap">
+    <div class="eu-wrap">
+
+      <div id="eu-loading" class="eu-note" style="text-align:center">Checking access…</div>
+
+      <!-- BAD LINK -->
+      <div id="eu-bad" class="eu-card" style="max-width:720px;margin:0 auto" hidden>
+        <div class="label" style="margin-bottom:1.2rem">Private</div>
+        <h2 class="headline h3" style="margin-bottom:1.4rem">This link <em>isn&rsquo;t valid</em></h2>
+        <p class="eu-note">Please use the exact link you were given for your event. If you need it again, contact the studio.</p>
+      </div>
+
+      <!-- LOGIN -->
+      <div id="eu-login" class="eu-card" style="max-width:720px;margin:0 auto" hidden>
+        <div class="label" style="margin-bottom:1.2rem">Members Only</div>
+        <h2 class="headline h3" style="margin-bottom:1.4rem">Enter the <em>Password</em></h2>
+        <p class="eu-note">This page is for uploading and viewing photos from Nelly Creative Studios events. Please enter the password you were given.</p>
+        <form id="eu-login-form" autocomplete="on">
+          <div class="form-group">
+            <label for="eu-password">Password</label>
+            <input type="password" id="eu-password" name="password" autocomplete="current-password" required>
+          </div>
+          <div id="eu-login-error" class="eu-error" role="alert"></div>
+          <button type="submit" class="cta cta--dark" style="width:100%" id="eu-login-btn">Enter</button>
+        </form>
+      </div>
+
+      <!-- APP -->
+      <div id="eu-app" class="eu-card" hidden>
+        <div class="eu-top">
+          <div>
+            <div class="label" style="margin-bottom:.8rem">Studio</div>
+            <h2 class="headline h3">Event <em>Photos</em></h2>
+          </div>
+          <div class="eu-who-line">
+            <button type="button" class="eu-link" id="eu-signout">Sign out</button>
+          </div>
+        </div>
+
+        <div class="eu-tabs" role="tablist">
+          <button type="button" class="eu-tab is-active" id="eu-tab-upload" role="tab" aria-selected="true">Upload</button>
+          <button type="button" class="eu-tab" id="eu-tab-gallery" role="tab" aria-selected="false">View photos</button>
+        </div>
+
+        <!-- UPLOAD VIEW -->
+        <div id="eu-view-upload">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="eu-event">Event</label>
+              <input type="text" id="eu-event" readonly tabindex="-1" aria-readonly="true" value="">
+            </div>
+            <div class="form-group">
+              <label for="eu-who">Your name (optional)</label>
+              <input type="text" id="eu-who" maxlength="80" placeholder="Who took these?">
+            </div>
+          </div>
+
+          <label class="eu-drop" id="eu-drop" for="eu-files">
+            <strong>Choose photos</strong>
+            <span>or drag and drop &middot; JPG, PNG, WebP, HEIC &middot; up to 25&nbsp;MB each</span>
+            <input type="file" id="eu-files" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic,.heif" multiple>
+          </label>
+
+          <div id="eu-error" class="eu-error" role="alert"></div>
+          <p id="eu-summary" class="eu-summary" aria-live="polite"></p>
+          <ul id="eu-list" class="eu-list"></ul>
+
+          <div class="eu-actions">
+            <button type="button" class="cta cta--dark" id="eu-upload" disabled>Upload Photos</button>
+            <button type="button" class="eu-link" id="eu-clear" hidden>Clear finished</button>
+          </div>
+        </div>
+
+        <!-- GALLERY VIEW -->
+        <div id="eu-view-gallery" hidden>
+          <div class="eu-gtools">
+            <div class="eu-gbtns">
+              <span id="eu-gcount" class="eu-summary" style="margin:0" aria-live="polite"></span>
+              <button type="button" class="eu-link" id="eu-refresh">Refresh</button>
+              <button type="button" class="cta cta--dark eu-small" id="eu-zip" disabled>Download all</button>
+            </div>
+          </div>
+          <div id="eu-gerror" class="eu-error" role="alert"></div>
+          <div id="eu-grid" class="eu-grid"></div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div id="eu-lb" class="eu-lb" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+  <button type="button" class="eu-lb-x" id="eu-lb-close" aria-label="Close">&times;</button>
+  <button type="button" class="eu-lb-nav eu-lb-prev" id="eu-lb-prev" aria-label="Previous photo">&#8249;</button>
+  <div class="eu-lb-stage"><img id="eu-lb-img" alt=""><div id="eu-lb-fb" class="eu-lb-fb" hidden></div></div>
+  <button type="button" class="eu-lb-nav eu-lb-next" id="eu-lb-next" aria-label="Next photo">&#8250;</button>
+  <div class="eu-lb-bar"><span id="eu-lb-cap"></span><a id="eu-lb-dl" class="eu-lb-dl" download>Download</a></div>
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div><div class="footer-brand">Nelly Creative Studios</div><p class="footer-desc">Fine jewelry designed and made in New York City.</p></div>
+      <div class="footer-col"><h4>Shop</h4><ul><li><a href="/pages/boutique.html">The Boutique</a></li><li><a href="/pages/bespoke.html">Bespoke</a></li></ul></div>
+      <div class="footer-col"><h4>Studio</h4><ul><li><a href="/pages/about.html">About Nelly</a></li><li><a href="/pages/journal.html">Journal</a></li><li><a href="/pages/faq.html">FAQ</a></li>
+    <li><a href="/pages/gemstones.html">Gemstones</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="mailto:nelly@nellycreativestudios.com">nelly@nellycreativestudios.com</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Nelly Creative Studios USA</div>
+      <div class="footer-social"><a href="https://www.instagram.com/nellycreativestudios" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/nellycreativestudios" target="_blank" rel="noopener">Facebook</a></div>
+    </div>
+  </div>
+</footer>
+<script src="/js/main.js" defer></script>
+<script>
+(function () {
+  var MAX_BYTES = 25 * 1024 * 1024;
+  var CONCURRENCY = 2;
+  var OK_NAME = /\.(jpe?g|png|webp|heic|heif)$/i;
+
+  function $(id) { return document.getElementById(id); }
+  var views = { loading: $('eu-loading'), bad: $('eu-bad'), login: $('eu-login'), app: $('eu-app') };
+  function show(name) { for (var k in views) views[k].hidden = (k !== name); }
+
+  var items = [];
+  var running = false;
+  var photos = [];
+  var currentEv = null;
+  var lbIndex = -1;
+
+  /* ---------- session ---------- */
+  // The event comes from the address: /event/<link>
+  var parts = location.pathname.split('/').filter(Boolean);
+  var LINK = (parts[0] === 'event' && parts[1]) ? decodeURIComponent(parts[1]).toLowerCase() : '';
+
+  function authCall(method, body) {
+    return fetch('/api/upload-auth' + (method === 'POST' ? '' : '?event=' + encodeURIComponent(LINK)), {
+      method: method,
+      credentials: 'same-origin',
+      headers: body ? { 'Content-Type': 'application/json' } : undefined,
+      body: body ? JSON.stringify(body) : undefined
+    });
+  }
+
+  function enterApp(d) {
+    currentEv = d.event;
+    $('eu-event').value = currentEv.name;
+    show('app');
+    setView('upload');
+    refresh();
+  }
+
+  function sessionExpired() {
+    closeLb();
+    $('eu-login-error').textContent = 'Your session expired. Please sign in again.';
+    show('login');
+  }
+
+  if (!LINK) {
+    show('bad');
+  } else {
+    authCall('GET')
+      .then(function (r) { return r.status === 404 ? { bad: true } : r.json(); })
+      .then(function (d) { if (d.bad) show('bad'); else if (d.authenticated) enterApp(d); else show('login'); })
+      .catch(function () { show('login'); });
+  }
+
+  $('eu-login-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var btn = $('eu-login-btn'), err = $('eu-login-error');
+    err.textContent = '';
+    btn.disabled = true; btn.textContent = 'Checking…';
+    authCall('POST', { event: LINK, password: $('eu-password').value })
+      .then(function (r) {
+        if (r.ok) {
+          $('eu-password').value = '';
+          return r.json().then(function (d) { enterApp(d); });
+        }
+        return r.json().catch(function () { return {}; }).then(function (d) {
+          err.textContent = r.status === 404 ? 'This link is not valid.'
+            : r.status === 401 ? 'That password is not correct.'
+            : r.status === 429 ? (d.error || 'Too many attempts. Please try again later.')
+            : r.status === 500 ? 'Uploads are not set up yet. Please contact the studio.'
+            : 'Something went wrong. Please try again.';
+        });
+      })
+      .catch(function () { err.textContent = 'Could not reach the server. Please try again.'; })
+      .then(function () { btn.disabled = false; btn.textContent = 'Enter'; });
+  });
+
+  $('eu-signout').addEventListener('click', function () {
+    closeLb();
+    authCall('DELETE').catch(function () {}).then(function () { show('login'); });
+  });
+
+  /* ---------- tabs ---------- */
+  var TABS = ['upload', 'gallery'];
+  function setView(name) {
+    TABS.forEach(function (t) {
+      $('eu-view-' + t).hidden = (t !== name);
+      $('eu-tab-' + t).classList.toggle('is-active', t === name);
+      $('eu-tab-' + t).setAttribute('aria-selected', String(t === name));
+    });
+    if (name === 'gallery') loadGallery();
+  }
+  TABS.forEach(function (t) { $('eu-tab-' + t).addEventListener('click', function () { setView(t); }); });
+
+  /* ---------- remembered field ---------- */
+  try { $('eu-who').value = localStorage.getItem('ncs_who') || ''; } catch (e) {}
+  function remember() { try { localStorage.setItem('ncs_who', $('eu-who').value); } catch (e) {} }
+
+  /* =====================  EVENT LIST  ===================== */
+  function api(method, path) {
+    return fetch(path, { method: method, credentials: 'same-origin' }).then(function (r) {
+      if (r.status === 401) { sessionExpired(); throw new Error('auth'); }
+      return r.json().catch(function () { return {}; }).then(function (d) {
+        if (!r.ok) { var e = new Error(d.error || 'Request failed'); e.status = r.status; throw e; }
+        return d;
+      });
+    });
+  }
+
+  /* =====================  UPLOAD VIEW  ===================== */
+  var drop = $('eu-drop');
+  ['dragenter', 'dragover'].forEach(function (t) {
+    drop.addEventListener(t, function (e) { e.preventDefault(); drop.classList.add('is-over'); });
+  });
+  ['dragleave', 'drop'].forEach(function (t) {
+    drop.addEventListener(t, function (e) { e.preventDefault(); drop.classList.remove('is-over'); });
+  });
+  drop.addEventListener('drop', function (e) { addFiles(e.dataTransfer.files); });
+  $('eu-files').addEventListener('change', function (e) { addFiles(e.target.files); e.target.value = ''; });
+
+  function fmtSize(n) {
+    return n >= 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB';
+  }
+
+  function addFiles(fileList) {
+    Array.prototype.forEach.call(fileList, function (file) {
+      var dup = items.some(function (it) {
+        return it.file.name === file.name && it.file.size === file.size && it.file.lastModified === file.lastModified;
+      });
+      if (dup) return;
+      var looksLikeImage = (file.type && file.type.indexOf('image/') === 0) || OK_NAME.test(file.name);
+      var item = { file: file, state: 'ready', msg: 'Ready · ' + fmtSize(file.size), pct: 0 };
+      if (!looksLikeImage) { item.state = 'invalid'; item.msg = 'Not a photo'; }
+      else if (file.size > MAX_BYTES) { item.state = 'invalid'; item.msg = 'Too large (max 25 MB)'; }
+      items.push(item);
+      buildRow(item);
+      if (item.state === 'ready') thumbQueue.push(item);
+    });
+    runThumbs();
+    refresh();
+  }
+
+  function buildRow(item) {
+    var li = document.createElement('li');
+    li.className = 'eu-item';
+    var ph = document.createElement('div'); ph.className = 'eu-thumb';
+    var meta = document.createElement('div'); meta.className = 'eu-meta';
+    var name = document.createElement('div'); name.className = 'eu-name'; name.textContent = item.file.name;
+    var status = document.createElement('div'); status.className = 'eu-status';
+    var bar = document.createElement('div'); bar.className = 'eu-bar'; bar.hidden = true;
+    var fill = document.createElement('i'); bar.appendChild(fill);
+    meta.appendChild(name); meta.appendChild(status); meta.appendChild(bar);
+    var rm = document.createElement('button');
+    rm.type = 'button'; rm.className = 'eu-remove'; rm.setAttribute('aria-label', 'Remove ' + item.file.name); rm.innerHTML = '&times;';
+    rm.addEventListener('click', function () {
+      if (item.state === 'uploading') return;
+      items.splice(items.indexOf(item), 1);
+      li.remove();
+      refresh();
+    });
+    li.appendChild(ph); li.appendChild(meta); li.appendChild(rm);
+    $('eu-list').appendChild(li);
+    item.el = { li: li, thumb: ph, status: status, bar: bar, fill: fill, remove: rm };
+    paint(item);
+  }
+
+  function paint(item) {
+    var s = item.el.status;
+    s.textContent = item.msg;
+    s.className = 'eu-status' + (item.state === 'done' ? ' ok' : (item.state === 'error' || item.state === 'invalid') ? ' err' : '');
+    item.el.bar.hidden = item.state !== 'uploading';
+    item.el.fill.style.width = item.pct + '%';
+    item.el.remove.hidden = item.state === 'uploading';
+  }
+
+  /* small list thumbnails: canvas -> data: URL, so no CSP changes are needed */
+  var thumbQueue = [], thumbBusy = false;
+  function runThumbs() {
+    if (thumbBusy) return;
+    var item = thumbQueue.shift();
+    if (!item) return;
+    thumbBusy = true;
+    scaledJpeg(item.file, 112, 0.7, true).then(function (url) {
+      if (url && item.el && item.el.li.isConnected) {
+        var img = document.createElement('img');
+        img.className = 'eu-thumb'; img.alt = ''; img.src = url;
+        item.el.thumb.replaceWith(img);
+        item.el.thumb = img;
+      }
+    }).catch(function () {}).then(function () { thumbBusy = false; runThumbs(); });
+  }
+
+  /* Decode a photo and re-encode it smaller. asDataUrl=true -> data: URL string, false -> Blob.
+     Resolves null when the browser cannot decode the file (e.g. HEIC outside Safari). */
+  function scaledJpeg(file, maxSide, quality, asDataUrl) {
+    if (!window.createImageBitmap) return Promise.resolve(null);
+    return createImageBitmap(file).then(function (bmp) {
+      var scale = Math.min(1, maxSide / Math.max(bmp.width, bmp.height));
+      var c = document.createElement('canvas');
+      c.width = Math.max(1, Math.round(bmp.width * scale));
+      c.height = Math.max(1, Math.round(bmp.height * scale));
+      c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+      if (bmp.close) bmp.close();
+      if (asDataUrl) return c.toDataURL('image/jpeg', quality);
+      return new Promise(function (resolve) { c.toBlob(function (b) { resolve(b); }, 'image/jpeg', quality); });
+    }).catch(function () { return null; });
+  }
+
+  function pending() { return items.filter(function (i) { return i.state === 'ready' || i.state === 'error'; }); }
+
+  function refresh() {
+    var done = items.filter(function (i) { return i.state === 'done'; }).length;
+    var failed = items.filter(function (i) { return i.state === 'error' || i.state === 'invalid'; }).length;
+    var todo = pending().length;
+    var parts = [];
+    if (items.length) parts.push(items.length + (items.length === 1 ? ' photo' : ' photos') + ' selected');
+    if (done) parts.push(done + ' uploaded');
+    if (failed) parts.push(failed + ' need attention');
+    $('eu-summary').textContent = parts.join(' · ');
+    var btn = $('eu-upload');
+    btn.disabled = running || todo === 0 || !currentEv;
+    btn.textContent = running ? 'Uploading…' : todo ? 'Upload ' + todo + (todo === 1 ? ' Photo' : ' Photos') : 'Upload Photos';
+    $('eu-clear').hidden = done === 0;
+  }
+
+  $('eu-clear').addEventListener('click', function () {
+    items = items.filter(function (i) {
+      if (i.state === 'done') { i.el.li.remove(); return false; }
+      return true;
+    });
+    refresh();
+  });
+
+  $('eu-upload').addEventListener('click', function () {
+    var err = $('eu-error');
+    err.textContent = '';
+    remember();
+    var queue = pending();
+    var eventSlug = currentEv && currentEv.slug;
+    if (!queue.length || !eventSlug) return;
+    running = true;
+    refresh();
+    var sessionLost = false;
+
+    function next() {
+      if (sessionLost) return Promise.resolve();
+      var item = queue.shift();
+      if (!item) return Promise.resolve();
+      return uploadOne(item, eventSlug).then(function (result) {
+        if (result === 'auth') sessionLost = true;
+        return next();
+      });
+    }
+
+    var workers = [];
+    for (var i = 0; i < CONCURRENCY; i++) workers.push(next());
+    Promise.all(workers).then(function () {
+      running = false;
+      refresh();
+      if (sessionLost) {
+        $('eu-login-error').textContent = 'Your session expired. Please sign in again; your selected photos will still be here.';
+        show('login');
+      }
+    });
+  });
+
+  function uploadOne(item, eventSlug) {
+    item.state = 'uploading'; item.pct = 0; item.msg = 'Uploading…'; paint(item);
+    return scaledJpeg(item.file, 640, 0.8, false).then(function (thumbBlob) {
+      return new Promise(function (resolve) {
+        var fd = new FormData();
+        fd.append('file', item.file, item.file.name);
+        if (thumbBlob) fd.append('thumb', thumbBlob, 'thumb.jpg');
+        fd.append('uploader', $('eu-who').value.trim());
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/api/upload-photos?event=' + encodeURIComponent(eventSlug));
+        xhr.withCredentials = true;
+        xhr.upload.onprogress = function (e) {
+          if (!e.lengthComputable) return;
+          item.pct = Math.round((e.loaded / e.total) * 100);
+          item.msg = 'Uploading… ' + item.pct + '%';
+          paint(item);
+        };
+        function fail(msg) { item.state = 'error'; item.msg = msg + ' · tap Upload to retry'; paint(item); resolve('error'); }
+        xhr.onload = function () {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            item.state = 'done'; item.pct = 100; item.msg = 'Uploaded'; paint(item); resolve('ok');
+          } else if (xhr.status === 401) {
+            item.state = 'ready'; item.msg = 'Waiting · sign in again'; paint(item); resolve('auth');
+          } else {
+            var m = 'Upload failed';
+            try { m = JSON.parse(xhr.responseText).error || m; } catch (e) {}
+            if (xhr.status === 413 || xhr.status === 415) { item.state = 'invalid'; item.msg = m; paint(item); resolve('invalid'); }
+            else fail(m);
+          }
+        };
+        xhr.onerror = function () { fail('Connection problem'); };
+        xhr.ontimeout = function () { fail('Timed out'); };
+        xhr.send(fd);
+      });
+    });
+  }
+
+  window.addEventListener('beforeunload', function (e) {
+    if (running) { e.preventDefault(); e.returnValue = ''; }
+  });
+
+  /* =====================  GALLERY VIEW  ===================== */
+  function fileUrl(key, download) {
+    return '/api/upload-file?key=' + encodeURIComponent(key) + (download ? '&dl=1' : '');
+  }
+  function thumbKey(p) { return 'thumbs/' + p.key + '.jpg'; }
+  function isHeic(p) { return /\.heic$/i.test(p.key); }
+
+  function loadGallery() {
+    var err = $('eu-gerror');
+    err.textContent = '';
+    var slug = currentEv && currentEv.slug;
+    if (!slug) { photos = []; renderGrid(); $('eu-gcount').textContent = ''; return; }
+    $('eu-gcount').textContent = 'Loading…';
+    api('GET', '/api/upload-list?event=' + encodeURIComponent(slug))
+      .then(function (d) {
+        photos = d.photos || []; renderGrid();
+      })
+      .catch(function (e) {
+        if (e.message === 'auth') return;
+        photos = []; renderGrid();
+        $('eu-gcount').textContent = '';
+        err.textContent = 'Could not load the photos. Please try again.';
+      });
+  }
+  $('eu-refresh').addEventListener('click', loadGallery);
+
+  function renderGrid() {
+    var grid = $('eu-grid');
+    grid.innerHTML = '';
+    $('eu-gcount').textContent = photos.length ? photos.length + (photos.length === 1 ? ' photo' : ' photos') : '';
+    $('eu-zip').disabled = photos.length === 0;
+    if (!photos.length) {
+      var empty = document.createElement('div');
+      empty.className = 'eu-empty';
+      empty.textContent = 'No photos have been uploaded to this event yet.';
+      grid.style.display = 'block';
+      grid.appendChild(empty);
+      return;
+    }
+    grid.style.display = '';
+    photos.forEach(function (p, i) {
+      var tile = document.createElement('button');
+      tile.type = 'button'; tile.className = 'eu-tile';
+      tile.setAttribute('aria-label', 'Open ' + p.name);
+      var img = document.createElement('img');
+      img.alt = ''; img.loading = 'lazy';
+      img.onerror = function () {
+        if (!img.dataset.fb) { img.dataset.fb = '1'; img.src = fileUrl(p.key); return; } // no thumbnail: try the original
+        var ph = document.createElement('div'); ph.className = 'eu-ph'; ph.textContent = p.name;
+        img.replaceWith(ph);
+      };
+      img.src = fileUrl(thumbKey(p));
+      tile.appendChild(img);
+      tile.addEventListener('click', function () { openLb(i); });
+      grid.appendChild(tile);
+    });
+  }
+
+  /* ---------- lightbox ---------- */
+  function openLb(i) {
+    if (i < 0 || i >= photos.length) return;
+    lbIndex = i;
+    var p = photos[i];
+    var img = $('eu-lb-img'), fb = $('eu-lb-fb');
+    fb.hidden = true; img.hidden = false;
+    img.onerror = function () {
+      img.hidden = true; fb.hidden = false;
+      fb.textContent = isHeic(p) ? 'This iPhone-format photo can’t be previewed in this browser. Use Download to save it.' : 'This photo can’t be previewed. Use Download to save it.';
+    };
+    img.alt = p.name;
+    img.src = fileUrl(p.key);
+    var when = '';
+    try { when = new Date(p.uploaded).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }); } catch (e) {}
+    $('eu-lb-cap').textContent = (i + 1) + ' / ' + photos.length + '  ·  ' + p.name + (p.uploader ? '  ·  ' + p.uploader : '') + (when ? '  ·  ' + when : '');
+    $('eu-lb-dl').href = fileUrl(p.key, true);
+    $('eu-lb').hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLb() {
+    if ($('eu-lb').hidden) return;
+    $('eu-lb').hidden = true;
+    $('eu-lb-img').removeAttribute('src');
+    document.body.style.overflow = '';
+    lbIndex = -1;
+  }
+  function stepLb(d) { if (lbIndex < 0) return; openLb((lbIndex + d + photos.length) % photos.length); }
+  $('eu-lb-close').addEventListener('click', closeLb);
+  $('eu-lb-prev').addEventListener('click', function () { stepLb(-1); });
+  $('eu-lb-next').addEventListener('click', function () { stepLb(1); });
+  $('eu-lb').addEventListener('click', function (e) { if (e.target === $('eu-lb') || e.target.className === 'eu-lb-stage') closeLb(); });
+  document.addEventListener('keydown', function (e) {
+    if ($('eu-lb').hidden) return;
+    if (e.key === 'Escape') closeLb();
+    else if (e.key === 'ArrowLeft') stepLb(-1);
+    else if (e.key === 'ArrowRight') stepLb(1);
+  });
+
+  /* ---------- download everything as one .zip (built in the browser) ---------- */
+  /* zip:start */
+  function crc32Table() {
+    var t = new Uint32Array(256);
+    for (var n = 0; n < 256; n++) {
+      var c = n;
+      for (var k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+      t[n] = c >>> 0;
+    }
+    return t;
+  }
+  var CRC_T = crc32Table();
+  function crc32(u8) {
+    var c = 0xFFFFFFFF;
+    for (var i = 0; i < u8.length; i++) c = CRC_T[(c ^ u8[i]) & 0xFF] ^ (c >>> 8);
+    return (c ^ 0xFFFFFFFF) >>> 0;
+  }
+  // entries: [{ name: string, blob: Blob }] -> Promise<Blob> (an uncompressed .zip; photos are already compressed)
+  async function buildZip(entries, onProgress) {
+    var enc = new TextEncoder(), parts = [], central = [], offset = 0, now = new Date();
+    var dosTime = (now.getHours() << 11) | (now.getMinutes() << 5) | (now.getSeconds() >> 1);
+    var dosDate = ((now.getFullYear() - 1980) << 9) | ((now.getMonth() + 1) << 5) | now.getDate();
+    var cdSize = 0;
+    for (var i = 0; i < entries.length; i++) {
+      var e = entries[i];
+      var nameBytes = enc.encode(e.name);
+      var crc = crc32(new Uint8Array(await e.blob.arrayBuffer()));
+      var size = e.blob.size;
+      var lh = new DataView(new ArrayBuffer(30));
+      lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true); lh.setUint16(6, 0x0800, true); lh.setUint16(8, 0, true);
+      lh.setUint16(10, dosTime, true); lh.setUint16(12, dosDate, true); lh.setUint32(14, crc, true);
+      lh.setUint32(18, size, true); lh.setUint32(22, size, true); lh.setUint16(26, nameBytes.length, true); lh.setUint16(28, 0, true);
+      parts.push(lh.buffer, nameBytes, e.blob);
+      var ch = new DataView(new ArrayBuffer(46));
+      ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true); ch.setUint16(8, 0x0800, true); ch.setUint16(10, 0, true);
+      ch.setUint16(12, dosTime, true); ch.setUint16(14, dosDate, true); ch.setUint32(16, crc, true);
+      ch.setUint32(20, size, true); ch.setUint32(24, size, true); ch.setUint16(28, nameBytes.length, true);
+      ch.setUint16(30, 0, true); ch.setUint16(32, 0, true); ch.setUint16(34, 0, true); ch.setUint16(36, 0, true);
+      ch.setUint32(38, 0, true); ch.setUint32(42, offset, true);
+      central.push(ch.buffer, nameBytes);
+      cdSize += 46 + nameBytes.length;
+      offset += 30 + nameBytes.length + size;
+      if (onProgress) onProgress(i + 1, entries.length);
+    }
+    var end = new DataView(new ArrayBuffer(22));
+    end.setUint32(0, 0x06054b50, true); end.setUint16(4, 0, true); end.setUint16(6, 0, true);
+    end.setUint16(8, entries.length, true); end.setUint16(10, entries.length, true);
+    end.setUint32(12, cdSize, true); end.setUint32(16, offset, true); end.setUint16(20, 0, true);
+    return new Blob(parts.concat(central, [end.buffer]), { type: 'application/zip' });
+  }
+  /* zip:end */
+
+  function uniqueName(name, used) {
+    var clean = String(name || 'photo').replace(/[\\/:*?"<>|\r\n]+/g, '_');
+    if (!used[clean]) { used[clean] = 1; return clean; }
+    var dot = clean.lastIndexOf('.');
+    var base = dot > 0 ? clean.slice(0, dot) : clean, ext = dot > 0 ? clean.slice(dot) : '';
+    var n = used[clean]++;
+    var candidate;
+    do { n++; candidate = base + ' (' + n + ')' + ext; } while (used[candidate]);
+    used[candidate] = 1;
+    return candidate;
+  }
+
+  $('eu-zip').addEventListener('click', function () {
+    if (!photos.length) return;
+    var btn = $('eu-zip'), err = $('eu-gerror');
+    err.textContent = '';
+    btn.disabled = true;
+    var zipName = ((currentEv && currentEv.slug) || 'event-photos') + '.zip';
+    var list = photos.slice().reverse(); // oldest first inside the zip
+    var used = {}, entries = [], idx = 0, failed = 0, authLost = false;
+
+    function fetchNext() {
+      if (idx >= list.length || authLost) return Promise.resolve();
+      var p = list[idx++];
+      btn.textContent = 'Fetching ' + idx + '/' + list.length + '…';
+      return fetch(fileUrl(p.key), { credentials: 'same-origin' }).then(function (r) {
+        if (r.status === 401) { authLost = true; return null; }
+        if (!r.ok) throw new Error('fetch');
+        return r.blob();
+      }).then(function (blob) {
+        if (blob) entries.push({ name: uniqueName(p.name, used), blob: blob });
+      }).catch(function () { failed++; }).then(fetchNext);
+    }
+
+    fetchNext().then(function () {
+      if (authLost) { sessionExpired(); return null; }
+      if (!entries.length) throw new Error('empty');
+      btn.textContent = 'Building zip…';
+      return buildZip(entries);
+    }).then(function (zip) {
+      if (!zip) return;
+      var url = URL.createObjectURL(zip);
+      var a = document.createElement('a');
+      a.href = url; a.download = zipName;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
+      if (failed) err.textContent = failed + ' photo' + (failed === 1 ? '' : 's') + ' could not be added to the zip. Try again, or download them one at a time.';
+    }).catch(function () {
+      err.textContent = 'Could not build the zip. Please try again.';
+    }).then(function () {
+      btn.textContent = 'Download all';
+      btn.disabled = photos.length === 0;
+    });
+  });
+})();
+</script>
+</body>
+</html>

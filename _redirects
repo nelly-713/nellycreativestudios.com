@@ -1,2 +1,5 @@
 /boutique /pages/boutique.html 200
 /pages/products/gold-angel-necklace-granulation.html /pages/products/gold-angel-necklace-granulation-new.html 301
+
+/event /pages/event-uploads.html 200
+/event/* /pages/event-uploads.html 200
