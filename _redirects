@@ -3,3 +3,10 @@
 
 /event /pages/event-uploads 200
 /event/* /pages/event-uploads 200
+
+# Removed products -> boutique (added by seo-fix.py)
+/pages/products/boutique.html /pages/boutique 301
+/pages/products/boutique /pages/boutique 301
+/pages/products/gold-angel-necklace-granulation /pages/products/gold-angel-necklace-granulation-new 301
+/pages/products/silver-hammered-link-necklace.html /pages/boutique 301
+/pages/products/silver-hammered-link-necklace /pages/boutique 301
