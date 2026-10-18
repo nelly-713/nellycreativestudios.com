@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="robots" content="noindex, nofollow, noarchive">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Event Photo Uploads | Nelly Creative Studios</title>
+  <title>Private Event Photos | Nelly Creative Studios</title>
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -250,6 +250,7 @@
   /* ---------- session ---------- */
   // The event comes from the address: /event/<link>
   var parts = location.pathname.split('/').filter(Boolean);
+  var GENERIC_TITLE = document.title;
   var LINK = (parts[0] === 'event' && parts[1]) ? decodeURIComponent(parts[1]).toLowerCase() : '';
 
   function authCall(method, body) {
@@ -264,6 +265,7 @@
   function enterApp(d) {
     currentEv = d.event;
     $('eu-event').value = currentEv.name;
+    document.title = currentEv.name + ' | Nelly Creative Studios';
     show('app');
     setView('upload');
     refresh();
@@ -271,6 +273,7 @@
 
   function sessionExpired() {
     closeLb();
+    document.title = GENERIC_TITLE;
     $('eu-login-error').textContent = 'Your session expired. Please sign in again.';
     show('login');
   }
@@ -309,7 +312,7 @@
 
   $('eu-signout').addEventListener('click', function () {
     closeLb();
-    authCall('DELETE').catch(function () {}).then(function () { show('login'); });
+    authCall('DELETE').catch(function () {}).then(function () { document.title = GENERIC_TITLE; show('login'); });
   });
 
   /* ---------- tabs ---------- */
