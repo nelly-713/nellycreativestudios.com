@@ -178,7 +178,7 @@ document.querySelectorAll('.newsletter-form').forEach(form => {
   el.className = 'ncs-mega';
   var html = '<div class="ncs-mega-inner">';
   cats.forEach(function(c) {
-    html += '<a href="' + href + '" class="ncs-mega-cat" data-filter="' + c.filter + '">' +
+    html += '<a href="' + href.split('?')[0] + '?type=' + c.filter + '" class="ncs-mega-cat" data-filter="' + c.filter + '">' +
       '<div class="img"><img src="' + c.img + '" alt="' + c.name + '" loading="lazy"></div>' +
       '<span class="lbl">' + c.name + '</span></a>';
   });
@@ -200,4 +200,28 @@ document.querySelectorAll('.newsletter-form').forEach(form => {
   boutiqueLink.addEventListener('mouseleave', hide);
   el.addEventListener('mouseenter', function() { clearTimeout(timer); });
   el.addEventListener('mouseleave', hide);
+
+  // NCS MEGA FIX: on the boutique page itself the link points at the same page, so apply the filter directly
+  function onBoutique() { return /(^|\/)boutique(\.html)?\/?$/.test(location.pathname); }
+  function applyType(type) {
+    var btn = document.querySelector('[data-filter-type="' + type + '"]');
+    if (!btn) return false;
+    btn.click();
+    var bar = document.querySelector('.filter-bar');
+    if (bar && bar.scrollIntoView) bar.scrollIntoView({behavior: 'smooth', block: 'center'});
+    return true;
+  }
+  el.querySelectorAll('.ncs-mega-cat, .ncs-mega-all').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      if (!onBoutique()) return;
+      var type = a.getAttribute('data-filter') || 'all';
+      if (applyType(type)) { e.preventDefault(); el.classList.remove('open'); }
+    });
+  });
+  if (onBoutique()) {
+    window.addEventListener('load', function() {
+      var t = new URLSearchParams(location.search).get('type');
+      if (t) applyType(t.toLowerCase());
+    });
+  }
 })();
