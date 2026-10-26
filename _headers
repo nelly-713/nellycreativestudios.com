@@ -17,3 +17,13 @@
 /event/*
   X-Robots-Tag: noindex, nofollow, noarchive
   Cache-Control: no-store
+
+# CACHE (seo-pro): repeat visits load from the browser cache
+/images/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+/css/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/js/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800

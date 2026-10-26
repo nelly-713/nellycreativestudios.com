@@ -13,3 +13,5 @@
 
 /pages/products/white-gold-oval-eternity-ring-2.html /pages/products/white-gold-oval-eternity-ring 301
 /pages/products/white-gold-oval-eternity-ring-2 /pages/products/white-gold-oval-eternity-ring 301
+# Old share links
+/boutique/p/:slug /pages/products/:slug 301

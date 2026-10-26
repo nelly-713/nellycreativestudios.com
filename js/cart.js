@@ -136,7 +136,7 @@
         '    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>',
         '  </div>',
         '  <div class="cart-empty-text">Your cart is empty</div>',
-        '  <a href="/pages/boutique.html" class="cart-empty-link">Explore the Boutique</a>',
+        '  <a href="/pages/boutique" class="cart-empty-link">Explore the Boutique</a>',
         '</div>'
       ].join('');
       return;
@@ -256,7 +256,7 @@
       total: Cart.total().toFixed(2)
     });
 
-    window.location.href = '/pages/checkout.html?' + params.toString();
+    window.location.href = '/pages/checkout?' + params.toString();
   }
 
   // ── Inject cart button into nav ──
