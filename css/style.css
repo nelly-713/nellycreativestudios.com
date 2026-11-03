@@ -1806,3 +1806,7 @@ input:focus {
 .nav--dark.nav--scrolled .nav-burger span{background:var(--black)}
 /* cg-css-fix: product detail labels were white-on-white */
 .pdp-details-key{color:#555555;}
+/* cg-stars-css2: little stars instead of bullets on Celestial Garden pages */
+.pdp-spec-list.cg-stars{list-style:none;padding-left:0;}
+.pdp-spec-list.cg-stars li{position:relative;padding-left:1.5em;}
+.pdp-spec-list.cg-stars li::before{content:"\2605";position:absolute;left:0;color:#B8962E;font-size:0.85em;}
