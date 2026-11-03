@@ -215,9 +215,27 @@
 
   // ── Add to cart (replaces stripeCheckout for "Add to Cart" flow) ──
   window.addToCart = function(btn) {
+    // ncs_opts: a size/length must be chosen, and the choice travels with the cart line
+    var need = ['ring-size','bracelet-size','cg-length','cg-clasp'];
+    for (var k = 0; k < need.length; k++) {
+      var sel = document.getElementById(need[k]);
+      if (sel && !sel.value) {
+        var keep = btn.getAttribute('data-ncs-label') || btn.textContent;
+        btn.setAttribute('data-ncs-label', keep);
+        btn.textContent = 'Please choose a ' + (need[k] === 'cg-length' ? 'length' : 'size');
+        try { sel.focus(); sel.scrollIntoView({block:'center'}); } catch(e) {}
+        setTimeout(function() { btn.textContent = keep; }, 2200);
+        return;
+      }
+    }
+    var opts = [];
+    for (var n = 1; n <= 2; n++) {
+      var cn = btn.getAttribute('data-item-custom' + n + '-name'), cv = btn.getAttribute('data-item-custom' + n + '-value');
+      if (cn && cv) opts.push(cn + ': ' + cv);
+    }
     var product = {
-      id: btn.getAttribute('data-item-id'),
-      name: btn.getAttribute('data-item-name'),
+      id: btn.getAttribute('data-item-id') + (opts.length ? '|' + opts.join('|') : ''),
+      name: btn.getAttribute('data-item-name') + (opts.length ? ' \u2014 ' + opts.join(', ') : ''),
       price: btn.getAttribute('data-item-price'),
       image: btn.getAttribute('data-item-image') || ''
     };
