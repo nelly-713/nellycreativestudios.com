@@ -68,6 +68,14 @@
   </div>
 </div>
 <script>
+// Google Analytics purchase event (fires once per order)
+try {
+  var o = JSON.parse(localStorage.getItem('ncs_last_order') || 'null');
+  if (o && o.items && o.items.length && window.gtag) {
+    gtag('event','purchase',{transaction_id:'ncs-'+Date.now(),currency:'USD',value:o.value,items:o.items});
+  }
+  localStorage.removeItem('ncs_last_order');
+} catch(e) {}
 // Clear cart on successful checkout
 localStorage.removeItem('ncs_cart');
 </script>

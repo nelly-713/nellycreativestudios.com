@@ -608,6 +608,7 @@
   }
 
   function updateTotals() {
+    try { localStorage.setItem('ncs_last_order', JSON.stringify({value:cartTotal(),items:cartItems.map(function(i){return {item_id:i.id,item_name:i.name,price:i.price,quantity:(isCart?i.qty:qty)};})})); } catch(e) {}
     document.getElementById('summary-subtotal').textContent = fmt(cartTotal());
     document.getElementById('summary-total').textContent = fmt(cartTotal());
     if (!isCart) {

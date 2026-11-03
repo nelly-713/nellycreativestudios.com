@@ -224,6 +224,7 @@
 
     Cart.load();
     Cart.add(product);
+    try { if (window.gtag) gtag('event','add_to_cart',{currency:'USD',value:parseFloat(product.price),items:[{item_id:product.id,item_name:product.name,price:parseFloat(product.price),quantity:1}]}); } catch(e) {}
 
     // Button feedback
     var originalText = btn.textContent;
@@ -246,6 +247,7 @@
     Cart.load();
     if (Cart.items.length === 0) return;
 
+    try { if (window.gtag) gtag('event','begin_checkout',{currency:'USD',value:Cart.total(),items:Cart.items.map(function(i){return {item_id:i.id,item_name:i.name,price:i.price,quantity:i.qty};})}); } catch(e) {}
     var btn = document.getElementById('cart-checkout-btn');
     btn.disabled = true;
     btn.textContent = 'Loading...';
@@ -303,5 +305,15 @@
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') closeCart();
     });
+  });
+})();
+
+// Google Analytics: view_item on product pages that have an Add to Cart button
+(function(){
+  document.addEventListener('DOMContentLoaded', function(){
+    try {
+      var b=document.querySelector('button[data-item-id][onclick*="addToCart"]');
+      if (b && window.gtag) gtag('event','view_item',{currency:'USD',value:parseFloat(b.getAttribute('data-item-price')),items:[{item_id:b.getAttribute('data-item-id'),item_name:b.getAttribute('data-item-name'),price:parseFloat(b.getAttribute('data-item-price'))}]});
+    } catch(e) {}
   });
 })();
