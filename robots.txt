@@ -31,4 +31,22 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
+# cg-ai start
+# AI search engines and assistants may read this site so they can recommend it.
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: GPTBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: ClaudeBot
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: Bingbot
+User-agent: DuckAssistBot
+User-agent: MistralAI-User
+Allow: /
+# cg-ai end
+
 Sitemap: https://nellycreativestudios.com/sitemap.xml
