@@ -1810,3 +1810,7 @@ input:focus {
 .pdp-spec-list.cg-stars{list-style:none;padding-left:0;}
 .pdp-spec-list.cg-stars li{position:relative;padding-left:1.5em;}
 .pdp-spec-list.cg-stars li::before{content:"\2605";position:absolute;left:0;color:#B8962E;font-size:0.85em;}
+
+/* cg-wordmark: brand name on dark (transparent) headers, where the logo image is hidden */
+.nav--dark:not(.nav--scrolled) .nav-logo::after{content:"Nelly Creative Studios";color:var(--gold);font-family:'Bodoni Moda',serif;font-size:0.95rem;letter-spacing:0.3em;text-transform:uppercase;white-space:nowrap}
+@media (max-width:900px){.nav--dark:not(.nav--scrolled) .nav-logo::after{font-size:0.72rem;letter-spacing:0.2em}}

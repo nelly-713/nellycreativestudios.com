@@ -44,8 +44,6 @@
     <li><a href="../">Home</a></li><li><a href="boutique">The Boutique</a></li>
     <li><a href="bespoke">Bespoke</a></li><li><a href="journal">Journal</a></li>
     <li><a href="about">About</a></li>
-    <li><a href="faq">FAQ</a></li>
-    <li><a href="gemstones">Gemstones</a></li>
   </ul>
   
   <button class="nav-burger" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -170,6 +168,8 @@
     // Pre-fill message
     var textarea = document.querySelector('textarea');
     if(textarea) textarea.value = 'Hello,\n\nI am interested in enquiring about the ' + piece + '.\n\n';
+    var details = params.get('details'); // cg-birth
+    if(textarea && details) textarea.value += details + '\n\n';
   }
 })();
 </script>
