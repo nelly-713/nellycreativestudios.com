@@ -19,3 +19,7 @@
 /pages/products/white-gold-oval-eternity-ring-2 /pages/products/white-gold-oval-eternity-ring 301
 # Old share links
 /boutique/p/:slug /pages/products/:slug 301
+/pages/products/22k-gold-granulation-hex-nut-bracelet.html /pages/boutique 301
+/pages/products/22k-gold-granulation-hex-nut-bracelet /pages/boutique 301
+/pages/products/classic-old-mine-cushion-1-7ct-diamond-earrings.html /pages/boutique 301
+/pages/products/classic-old-mine-cushion-1-7ct-diamond-earrings /pages/boutique 301
