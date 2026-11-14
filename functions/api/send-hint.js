@@ -5,15 +5,26 @@ export async function onRequestPost(context) {
 
   try {
     const data = await context.request.json();
-    const recipientName = data['recipient-name'] || '';
-    const recipientEmail = data['recipient-email'] || '';
-    const productName = data['product-name'] || 'a beautiful piece';
-    const productUrl = data['product-url'] || 'https://nellycreativestudios.com/pages/boutique.html';
-    const message = data['message'] || '';
+    // cg-hint-safe: show typed text as plain text, and only ever link to this site
+    const esc = (v) => String(v).replace(/[&<>"']/g, (ch) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    const clip = (v, n) => String(v || '').slice(0, n);
+    const recipientName = esc(clip(data['recipient-name'], 80));
+    const recipientEmail = clip(data['recipient-email'], 200).trim();
+    const productName = esc(clip(data['product-name'], 200)) || 'a beautiful piece';
+    let productUrl = 'https://nellycreativestudios.com/pages/boutique';
+    try {
+      const u = new URL(String(data['product-url'] || ''));
+      if (u.protocol === 'https:' && (u.hostname === 'nellycreativestudios.com' || u.hostname === 'www.nellycreativestudios.com')) productUrl = 'https://nellycreativestudios.com' + u.pathname;
+    } catch (e) { /* keep the boutique link */ }
+    const message = esc(clip(data['message'], 1000)).replace(/\n/g, '<br>');
+    const messageText = clip(data['message'], 1000);
+    const nameText = clip(data['recipient-name'], 80);
+    const productText = clip(data['product-name'], 200) || 'a beautiful piece';
 
-    if (!recipientEmail) return new Response('Missing recipient email', {status:400});
+    if (!/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(recipientEmail)) return new Response('Missing recipient email', {status:400});
 
     const greeting = recipientName ? 'Hi ' + recipientName + ',' : 'Hi there,';
+    const greetingText = nameText ? 'Hi ' + nameText + ',' : 'Hi there,';
     const personalNote = message
       ? '<p style="font-size:16px;line-height:1.8;color:#1B2A4A;margin:0 0 24px">' + message + '</p>'
       : '<p style="font-size:16px;line-height:1.8;color:#1B2A4A;margin:0 0 24px">Someone thought of you and wanted to share this piece from Nelly Creative Studios.</p>';
@@ -28,7 +39,7 @@ export async function onRequestPost(context) {
         to: [recipientEmail],
         reply_to: FROM_EMAIL,
         subject: 'Someone has their eye on something special for you',
-        text: greeting + '\n\n' + (message || 'Someone thought of you.') + '\n\n' + productName + '\n' + productUrl,
+        text: greetingText + '\n\n' + (messageText || 'Someone thought of you.') + '\n\n' + productText + '\n' + productUrl,
         html: htmlBody
       })
     });
@@ -45,8 +56,8 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         from: `Nelly Creative Studios Website <${FROM_EMAIL}>`,
         to: [FROM_EMAIL],
-        subject: 'A hint was sent — ' + productName,
-        text: `A "hint" was sent via the website.\n\nRecipient: ${recipientName || '(no name given)'} <${recipientEmail}>\nPiece: ${productName}\nLink: ${productUrl}\nNote: ${message || '(none)'}`
+        subject: 'A hint was sent — ' + productText,
+        text: `A "hint" was sent via the website.\n\nRecipient: ${nameText || '(no name given)'} <${recipientEmail}>\nPiece: ${productText}\nLink: ${productUrl}\nNote: ${messageText || '(none)'}`
       })
     }).catch(function() { /* recipient email already sent; don't fail the request over the internal copy */ });
 

@@ -1814,3 +1814,7 @@ input:focus {
 /* cg-wordmark: brand name on dark (transparent) headers, where the logo image is hidden */
 .nav--dark:not(.nav--scrolled) .nav-logo::after{content:"Nelly Creative Studios";color:var(--gold);font-family:'Bodoni Moda',serif;font-size:0.95rem;letter-spacing:0.3em;text-transform:uppercase;white-space:nowrap}
 @media (max-width:900px){.nav--dark:not(.nav--scrolled) .nav-logo::after{font-size:0.72rem;letter-spacing:0.2em}}
+
+/* cg-hint: Drop a Hint confirmation, hidden until a hint is sent */
+.hint-modal-success{display:none;margin-top:1rem;font-family:'Jost',sans-serif;font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold,#B8962E);text-align:center}
+.hint-modal-success.is-error{color:#8a3b2e;letter-spacing:.08em;text-transform:none;font-size:.85rem}
