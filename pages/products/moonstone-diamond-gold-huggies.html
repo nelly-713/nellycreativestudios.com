@@ -14,7 +14,7 @@
   <link rel="canonical" href="https://nellycreativestudios.com/pages/products/moonstone-diamond-gold-huggies">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400;1,6..96,500;1,6..96,600;1,6..96,700&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/style.css?v=20261115a">
   <meta property="og:type" content="product">
   <meta property="og:title" content="Moonstone Diamond Gold Huggies | Nelly Creative Studios">
   <meta property="og:description" content="Moonstone Diamond Gold Huggies: natural Moonstone, natural white diamonds. Handmade in Manhattan from recycled metal. Complimentary shipping.">
@@ -135,6 +135,8 @@
     <li><a href="../bespoke">Bespoke</a></li>
     <li><a href="../journal">Journal</a></li>
     <li><a href="../about">About</a></li>
+    <li><a href="../faq">FAQ</a></li>
+    <li><a href="../gemstones">Gemstones</a></li>
   </ul>
   <button class="nav-burger" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
@@ -180,7 +182,7 @@
           <div class="pdp-details-row"><span class="pdp-details-key">Craftsmanship</span><span class="pdp-details-val">Ready to ship</span></div>
           <div class="pdp-details-row"><span class="pdp-details-key">Metal Sourcing</span><span class="pdp-details-val">Recycled metals · Responsibly sourced</span></div>
         </div>
-        <button class="cta cta--dark" onclick="addToCart(this)" class="pdp-add-to-cart"
+        <button class="cta cta--dark pdp-add-to-cart" onclick="addToCart(this)"
           data-item-id="moonstone-diamond-gold-huggies"
           data-item-name="Moonstone Diamond Gold Huggies"
           data-item-price="2170.00"
@@ -257,7 +259,7 @@
                   </div>
                 </div>
                 <button type="submit" class="hint-submit">Send via Nelly Creative Studios</button>
-                <div id="hint-sent-confirm" class="hint-modal-success" role="status">Hint sent</div>
+                <div id="hint-sent-confirm" class="hint-modal-success" role="status" style="display:none">Hint sent</div>
               </form>
             </div>
           </div>
@@ -271,7 +273,7 @@
   <div class="wrap">
     <div class="pdp-related-head">
       <div>
-        <div class="label label-w" class="u-mb-half">You may also like</div>
+        <div class="label label-w u-mb-half">You may also like</div>
         <h2 class="pdp-related-title">Related <em>Pieces</em></h2>
       </div>
       <a href="../boutique" class="discover discover--w">← Back to The Boutique</a>
@@ -344,5 +346,6 @@ function hintCopy(btn){var d=getHintMsg();navigator.clipboard.writeText(d.msg).t
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal)modal.style.display='none';});
 })();
 </script>
+<script>/* cg-lift */(function(){['hint-modal','img-lightbox'].forEach(function(id){var e=document.getElementById(id);if(e&&e.parentNode!==document.body)document.body.appendChild(e);});})();</script>
 </body>
 </html>

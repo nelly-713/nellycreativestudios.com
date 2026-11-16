@@ -27,7 +27,7 @@
   <meta name="twitter:image" content="https://nellycreativestudios.com/images/fine-jewelry-trends-nelly-creative-studios.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400;1,6..96,500;1,6..96,600;1,6..96,700&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=20261115a">
 <!-- Snipcart -->
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-024K8H0KNK"></script>
@@ -38,10 +38,19 @@
   gtag('config', 'G-024K8H0KNK');
 </script>
 <style id="cg-home">
-.hero__bg img{opacity:1;filter:none}
-.hero__vignette{background:linear-gradient(to right,rgba(0,0,0,.82) 0%,rgba(0,0,0,.45) 38%,rgba(0,0,0,0) 70%),linear-gradient(to top,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 40%)}
-@media (max-width:900px){.hero__vignette{background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.55) 55%,rgba(0,0,0,.25) 100%)}}
-.hero__sub{color:rgba(255,255,255,.82)}
+.hero{background:#fefefe}
+.hero__bg{left:auto;right:4vw;width:min(54vw,780px)}
+.hero__bg img{opacity:1;filter:none;object-fit:contain;transform:none!important}
+.hero__vignette{display:none}
+.hero__label{color:rgba(10,10,10,.5)}
+.hero__label::before{background:rgba(10,10,10,.25)}
+.hero__sub{color:#3d3d3d}
+.hero__link{color:var(--black);border-color:rgba(10,10,10,.3)}
+.hero__link:hover{color:var(--gold);border-color:var(--gold)}
+.hero__scroll-txt{color:rgba(10,10,10,.35)}
+.hero__scroll-line{background:rgba(10,10,10,.12)}
+.hero__scroll-line::after{background:rgba(10,10,10,.45)}
+@media (max-width:900px){.hero__bg{left:0;right:0;width:100%;height:210px;top:96px}}
 .cg-trust{background:var(--black,#0a0a0a);border-top:1px solid rgba(184,150,46,.25);border-bottom:1px solid rgba(184,150,46,.25)}
 .cg-trust ul{list-style:none;margin:0 auto;padding:1.6rem 1.5rem;max-width:1320px;display:grid;grid-template-columns:repeat(5,1fr);gap:1.5rem;text-align:center}
 .cg-trust li{font-family:'Jost',sans-serif;font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.78);line-height:1.7}
@@ -152,7 +161,7 @@
 <body>
 
 <!-- NAV -->
-<nav class="nav nav--dark">
+<nav class="nav nav--light">
   <a href="./" class="nav-logo"><img src="logo.png" alt="Nelly Creative Studios" class="nav-logo-img default" fetchpriority="high" decoding="async"><img src="logo-white.png" alt="Nelly Creative Studios" class="nav-logo-img white" loading="lazy" decoding="async"></a>
   <ul class="nav-list">
     <li><a href="./" class="active">Home</a></li>
@@ -160,6 +169,8 @@
     <li><a href="pages/bespoke">Bespoke</a></li>
     <li><a href="pages/journal">Journal</a></li>
     <li><a href="pages/about">About</a></li>
+    <li><a href="pages/faq">FAQ</a></li>
+    <li><a href="pages/gemstones">Gemstones</a></li>
   </ul>
   
   <button class="nav-burger" aria-label="Menu">
@@ -180,7 +191,7 @@
 <!-- HERO — full-bleed, text anchored bottom-left -->
 <section class="hero">
   <div class="hero__bg">
-    <img src="images/old-mine-diamond-platinum-solitaire-necklace-worn.jpg" alt="Old mine diamond platinum solitaire necklace, handmade in New York City by Nelly Creative Studios" style="object-position:center 35%" fetchpriority="high" decoding="async">
+    <img src="images/fine-jewelry-trends-nelly-creative-studios.jpg" alt="Pair of cushion cut emeralds at Nelly Creative Studios, fine jewelry handmade in New York City" style="object-position:center center" fetchpriority="high" decoding="async">
   </div>
   <div class="hero__vignette"></div>
   <div class="hero__content">
@@ -190,7 +201,7 @@
       for a life<br>
       <em>of love</em>
     </h1>
-    <p class="hero__sub">Old mine diamonds, rare gemstones and ancient 22k gold granulation, made by hand in our New York City studio</p>
+    <p class="hero__sub">Old mine diamonds, rare gemstones and ancient 22k gold granulation, made by hand in our Manhattan studio</p>
     <div class="hero__links">
       <a href="pages/boutique" class="hero__link">Discover the Boutique</a>
       <a href="pages/bespoke" class="hero__link">Explore Bespoke</a>

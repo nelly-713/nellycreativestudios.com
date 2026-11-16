@@ -1818,3 +1818,47 @@ input:focus {
 /* cg-hint: Drop a Hint confirmation, hidden until a hint is sent */
 .hint-modal-success{display:none;margin-top:1rem;font-family:'Jost',sans-serif;font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold,#B8962E);text-align:center}
 .hint-modal-success.is-error{color:#8a3b2e;letter-spacing:.08em;text-transform:none;font-size:.85rem}
+
+/* cg-journal-desc */
+.editorial-card__body p{color:rgba(255,255,255,.68)!important}
+
+/* cg-pdp: product page parts that had no styles */
+.hint-modal-panel .hint-modal-close{color:#8a8a8a;top:.9rem;right:1rem;font-size:1.6rem}
+.hint-modal-overlay{display:none;position:fixed;inset:0;z-index:1000;background:rgba(10,10,10,.62);align-items:center;justify-content:center;padding:1.25rem}
+.hint-modal-panel{position:relative;background:#fff;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;padding:2.6rem 2.25rem 2.25rem;text-align:left}
+.pdp-field-label,.pdp-eyebrow{font-family:'Jost',sans-serif;font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin:0 0 .7rem}
+.pdp-eyebrow{margin-top:1.6rem}
+.pdp-tagline{font-family:'Bodoni Moda',serif;font-style:italic;font-weight:400;font-size:1.75rem;line-height:1.15;color:var(--black);margin:0 0 .45rem}
+.hint-modal-subtitle{font-size:.92rem;line-height:1.6;color:#5a5a5a;margin:0 0 1.5rem}
+.hint-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}
+.hint-grid-3 .hint-send-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.45rem;width:100%;padding:1rem .5rem}
+.hint-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1rem}
+.hint-divider{border-top:1px solid #e8e8e8;margin-top:1.8rem;padding-top:1.5rem}
+.pdp-finepoint{font-size:.8rem;line-height:1.6;color:#777;margin:.8rem 0 0}
+@media (max-width:560px){.hint-grid-2{grid-template-columns:1fr}.hint-modal-panel{padding:2.4rem 1.4rem 1.6rem}}
+.is-hidden{display:none!important}
+.u-mt-1{margin-top:1rem}.u-mb-1-5{margin-bottom:1.5rem}.u-mb-half{margin-bottom:.5rem}.u-my-1-5{margin:1.5rem 0}
+.lightbox{display:none;position:fixed;inset:0;z-index:1100;background:rgba(10,10,10,.93);align-items:center;justify-content:center;padding:2rem;cursor:zoom-out}
+.lightbox-img{max-width:92vw;max-height:88vh;object-fit:contain;display:block}
+.pdp-thumb-img{width:100%;height:100%;object-fit:cover;display:block}
+.pdp-action-row{display:flex;align-items:center;flex-wrap:wrap;gap:.6rem;margin-top:1.6rem}
+.qty-control,.variant-pill{display:inline-flex;align-items:center;gap:.45rem;background:transparent;border:1px solid #e0e0e0;padding:.5rem .8rem;font-family:'Jost',sans-serif;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--navy);cursor:pointer;transition:border-color .2s,color .2s}
+.qty-control:hover,.variant-pill:hover{border-color:var(--gold);color:var(--gold)}
+.pdp-stock-msg{opacity:0;transition:opacity .3s;font-family:'Jost',sans-serif;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.section-eyebrow,.engrave-section-label{display:flex;align-items:center;gap:1rem;font-family:'Jost',sans-serif;font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:var(--black);margin:0 0 1rem}
+.section-rule{flex:1;height:1px;background:#e6e6e6}
+.variant-btn{font-family:'Jost',sans-serif;font-size:.68rem;letter-spacing:.12em;padding:.55rem 1rem;border:1px solid var(--fog,#e0e0e0);background:transparent;color:var(--navy);cursor:pointer}
+.engrave-variant-row{display:flex;flex-wrap:wrap;gap:.5rem}
+.engrave-helper-bot,.engrave-helper-top{font-size:.8rem;line-height:1.6;color:#777;margin:.7rem 0 0}
+.engrave-toggle-area{display:none;margin-top:.9rem}
+.engrave-input{width:100%;padding:.85rem 1rem;border:1px solid var(--fog,#e0e0e0);font-family:'Jost',sans-serif;font-size:.9rem;color:var(--navy);background:#fff;outline:none}
+.field-error{display:none;color:#8a3b2e;font-size:.82rem;margin:.7rem 0 0}
+.pdp-body,.pdp-body-tight{font-size:.95rem;line-height:1.85;color:var(--navy);margin:0 0 1.1rem}
+.pdp-related-section{background:var(--black);padding:5rem 0}
+.article-footer{margin-top:3.5rem;padding-top:2rem;border-top:1px solid #e6e6e6}
+.faq-list{list-style:none;margin:0;padding:0}
+
+/* cg-about: opening quote on the About page */
+.about-quote{margin:2.2rem 0 2.6rem;padding:0 0 0 1.6rem;border-left:1px solid var(--gold)}
+.about-editorial .about-quote p,.about-quote p{font-family:'Bodoni Moda',serif;font-style:italic;font-weight:400;font-size:clamp(1.5rem,2.6vw,2.1rem);line-height:1.3;color:var(--black);margin:0 0 1rem}
+.about-editorial .about-quote cite,.about-quote cite{font-family:'Jost',sans-serif;font-style:normal;font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
