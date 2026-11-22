@@ -13,6 +13,7 @@
     load: function() {
       try {
         this.items = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+        this.items.forEach(function(i) { i.qty = 1; }); // cg-qty-one
       } catch(e) {
         this.items = [];
       }
@@ -25,7 +26,7 @@
     add: function(product) {
       var existing = this.items.find(function(i) { return i.id === product.id; });
       if (existing) {
-        existing.qty = Math.min(10, existing.qty + 1);
+        existing.qty = 1;
       } else {
         this.items.push({
           id: product.id,
@@ -46,7 +47,7 @@
     updateQty: function(id, delta) {
       var item = this.items.find(function(i) { return i.id === id; });
       if (!item) return;
-      item.qty = Math.max(1, Math.min(10, item.qty + delta));
+      item.qty = 1;
       this.save();
     },
 
@@ -66,7 +67,7 @@
 
   // ── Format price ──
   function fmt(n) {
-    return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
   }
 
   // ── Inject cart drawer HTML ──
@@ -151,7 +152,7 @@
         '  <div class="cart-item-details">',
         '    <div class="cart-item-name">' + item.name + '</div>',
         '    <div class="cart-item-price">' + fmt(item.price * item.qty) + '</div>',
-        '    <div class="cart-item-qty">',
+        '    <div class="cart-item-qty" style="display:none">',
         '      <button class="cart-item-qty-btn" data-id="' + item.id + '" data-delta="-1">−</button>',
         '      <div class="cart-item-qty-val">' + item.qty + '</div>',
         '      <button class="cart-item-qty-btn" data-id="' + item.id + '" data-delta="1">+</button>',

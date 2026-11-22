@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="robots" content="noindex, nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Checkout — Nelly Creative Studios</title>
+  <title>Checkout | Nelly Creative Studios</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
@@ -442,8 +442,8 @@
       </div>
       <div style="flex:1">
         <div class="summary-product-name" id="summary-name">Loading...</div>
-        <div class="summary-product-note">Handcrafted in New York City<br>Ready-to-ship pieces ship in 1–3 business days</div>
-        <div class="qty-selector">
+        <div class="summary-product-note">Handmade in our Manhattan studio<br>Ready-to-ship pieces ship in 1–3 business days</div>
+        <div class="qty-selector" style="display:none">
           <button class="qty-btn" onclick="updateQty(-1)" type="button">−</button>
           <div class="qty-value" id="qty-display">1</div>
           <button class="qty-btn" onclick="updateQty(1)" type="button">+</button>
@@ -462,7 +462,7 @@
     </div>
 
     <div class="summary-promise">
-      <p><strong>Our promise to you.</strong> Every piece is made by hand in New York City using the finest ethically sourced materials. If you're not completely satisfied, we'll make it right.</p>
+      <p><strong>Our promise to you.</strong> Every piece is made by hand in our Manhattan studio from recycled gold and platinum and natural stones. If you're not completely satisfied, we'll make it right.</p>
     </div>
   </div>
 
@@ -600,7 +600,7 @@
   let clientSecret = '';
   let stripeInstance, cardElement;
 
-  const fmt = (n) => '$' + n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+  const fmt = (n) => '$' + n.toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:2});
 
   function cartTotal() {
     if (isCart) return cartItems.reduce(function(s,i){ return s + i.price * i.qty; }, 0);
